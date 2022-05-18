@@ -8,7 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TemplateApi.Domain\TemplateApi.Domain.csproj" />
+    <ProjectReference Include="..\TemplateApi.Infra\TemplateApi.Infra.csproj" />
   </ItemGroup>
 
 </Project>

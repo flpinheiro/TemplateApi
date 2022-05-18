@@ -10,10 +10,6 @@ namespace TemplateApi.Domain.Interfaces.Repositories
         TModel? GetById(Key id);
         IEnumerable<TModel> GetAll();
         IEnumerable<TModel> Get(Expression<Func<TModel, bool>> predicate);
-
-        void Add(TModel model);
-        void Update(TModel model);
-        void Delete(TModel model);
     }
 
     public interface IBasicRepositoryAsync<TModel, Key>
@@ -23,9 +19,14 @@ namespace TemplateApi.Domain.Interfaces.Repositories
         Task<TModel?> GetByIdAsync(Key id);
         Task<IEnumerable<TModel>> GetAllAsync();
         Task<IEnumerable<TModel>> GetAsync(Expression<Func<TModel, bool>> predicate);
+    }
 
-        Task AddAsync(TModel model);
-        Task UpdateAsync(TModel model);
-        Task DeleteAsync(TModel model);
+    public interface IBasicWriteRepository<TModel, Key>
+        where TModel : BasicDal<Key>
+        where Key : IEquatable<Key>
+    {
+        void Add(TModel model);
+        void Update(TModel model);
+        void Delete(TModel model);
     }
 }
