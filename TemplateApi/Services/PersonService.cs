@@ -24,6 +24,7 @@ namespace TemplateApi.Services
                 var model = _mapper.Map<Person>(person);
                 person.Id = _uow.PersonRepository.Add(model);
                 await _uow.SaveAsync();
+                if(person.Name == "string") throw new Exception();
                 return person;
             }
             catch (Exception)
