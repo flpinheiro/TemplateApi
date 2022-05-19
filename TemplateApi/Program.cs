@@ -1,6 +1,6 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using TemplateApi;
+using TemplateApi.Configurations;
 using TemplateApi.Infra.Configurations;
 using TemplateApi.Infra.Context;
 
@@ -15,6 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddInfraConfiguration(builder.Configuration);
+builder.Services.AddServiceConfiguration();
 
 //Mapper.AssertConfigurationIsValid();
 

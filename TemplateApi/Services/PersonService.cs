@@ -36,29 +36,61 @@ namespace TemplateApi.Services
             }
         }
 
-        public Task DeletePerson(string id)
+        public async Task DeletePerson(string id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var person = await _uow.PersonRepository.GetByIdAsync(id);
+                if (person == null) throw new Exception("not exist");
+                var model = _mapper.Map<Person>(person);
+                _uow.PersonRepository.Delete(model);
+                _uow.Save();
+            }
+            catch (Exception)
+            {
+                _uow.RollBack();
+                throw;
+            }
+            finally
+            {
+                _uow.Commit();
+            }
         }
 
-        public Task<IEnumerable<PersonDto>> GetAllPerson()
+        public async Task<IEnumerable<PersonDto>> GetAllPerson()
         {
-            throw new NotImplementedException();
+            
+            return _mapper.Map<IEnumerable<PersonDto>>( await _uow.PersonRepository.GetAllAsync());
         }
 
-        public Task<PersonDto> GetPersonById(string id)
+        public async Task<PersonDto> GetPersonById(string id)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<PersonDto>(await _uow.PersonRepository.GetByIdAsync(id));
         }
 
-        public Task<IEnumerable<PersonDto>> GetPersonByName(string name)
+        public async Task<IEnumerable<PersonDto>> GetPersonByName(string name)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetAsync(a=> a.Name.Equals(name)));
         }
 
-        public Task UpdatePerson(string id, PersonDto person)
+        public async Task UpdatePerson(string id, PersonDto person)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (await _uow.PersonRepository.GetByIdAsync(id) == null) throw new Exception("not exist");
+                var model = _mapper.Map<Person>(person);
+                _uow.PersonRepository.Update(model);
+                _uow.Save();
+            }
+            catch (Exception)
+            {
+                _uow.RollBack();
+                throw;
+            }
+            finally
+            {
+                _uow.Commit();
+            }
         }
     }
 }
