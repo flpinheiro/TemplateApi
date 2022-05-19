@@ -15,6 +15,6 @@ namespace TemplateApi.Domain.Models.Dto
         [Required]
         public string? SurName { get; set; }
         [Required]
-        public DateTime BirthDay { get; set; }
+        public DateOnly BirthDay { get; set; } = new DateOnly();
     }
 }

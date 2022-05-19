@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -13,10 +12,10 @@ namespace TemplateApi.Infra.Context.Migrations
                 name: "Person",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "char(70)", unicode: false, fixedLength: true, maxLength: 70, nullable: false),
+                    id = table.Column<string>(type: "char(36)", unicode: false, fixedLength: true, maxLength: 36, nullable: false),
                     name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     sur_name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    birth_day = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    birth_day = table.Column<string>(type: "char(10)", unicode: false, fixedLength: true, maxLength: 10, nullable: false)
                 },
                 constraints: table =>
                 {

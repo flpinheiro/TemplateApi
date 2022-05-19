@@ -17,13 +17,14 @@ namespace TemplateApi.Services
             _mapper = mapper;
         }
 
-        public async Task AddPerson(PersonDto person)
+        public async Task<PersonDto> AddPerson(PersonDto person)
         {
             try
             {
                 var model = _mapper.Map<Person>(person);
-                _uow.PersonRepository.Add(model);
+                person.Id = _uow.PersonRepository.Add(model);
                 await _uow.SaveAsync();
+                return person;
             }
             catch (Exception)
             {
@@ -59,7 +60,6 @@ namespace TemplateApi.Services
 
         public async Task<IEnumerable<PersonDto>> GetAllPerson()
         {
-            
             return _mapper.Map<IEnumerable<PersonDto>>( await _uow.PersonRepository.GetAllAsync());
         }
 
@@ -77,8 +77,9 @@ namespace TemplateApi.Services
         {
             try
             {
-                if (await _uow.PersonRepository.GetByIdAsync(id) == null) throw new Exception("not exist");
+                if (!await _uow.PersonRepository.AnyAsync(id)) throw new Exception("not exist");
                 var model = _mapper.Map<Person>(person);
+                model.Id = id;
                 _uow.PersonRepository.Update(model);
                 _uow.Save();
             }

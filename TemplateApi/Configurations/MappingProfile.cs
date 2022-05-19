@@ -8,7 +8,10 @@ namespace TemplateApi.Configurations
     {
         public MappingProfile()
         {
-            CreateMap<Person, PersonDto>().ReverseMap();
+            CreateMap<Person, PersonDto>()
+                .ForMember(x => x.BirthDay, y=> y.MapFrom(src => DateOnly.Parse(src.BirthDay)))
+                .ReverseMap()
+                .ForMember(x => x.BirthDay , y=> y.MapFrom(src=> src.BirthDay.ToShortDateString()));
         }
     }
 }

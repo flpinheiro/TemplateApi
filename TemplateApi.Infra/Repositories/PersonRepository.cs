@@ -19,11 +19,12 @@ namespace TemplateApi.Infra.Repositories
         public async Task<IEnumerable<Person>> GetAsync(Expression<Func<Person, bool>> predicate) => await _context.People?.Where(predicate).ToListAsync() ?? new List<Person>();
         public Person? GetById(string id) => _context.People?.FirstOrDefault(x => x.Id == id);
         public async Task<Person?> GetByIdAsync(string id) => await _context.People?.FirstOrDefaultAsync(x => x.Id == id);
-        public void Add(Person model)
+        public string Add(Person model)
         {
-            if (string.IsNullOrWhiteSpace(model.Id)) model.Id = Guid.NewGuid().ToString();
+            model.Id = Guid.NewGuid().ToString();
             _context.Entry(model).State = EntityState.Added;
             _context.People?.Add(model);
+            return model.Id;
         }
         public void Update(Person model)
         {
@@ -34,6 +35,16 @@ namespace TemplateApi.Infra.Repositories
         {
             _context.Entry(model).State = EntityState.Deleted;
             _context.People?.Remove(model);
+        }
+
+        public bool Any(string id)
+        {
+            return _context.People?.Any(p => p.Id.Equals(id))??false;
+        }
+
+        async Task<bool> IBasicRepositoryAsync<Person, string>.AnyAsync(string id)
+        {
+            return await _context.People.AnyAsync(p => p.Id.Equals(id));
         }
     }
 }

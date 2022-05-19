@@ -10,6 +10,6 @@ namespace TemplateApi.Domain.Models.Dal
     {
         public string? Name { get; set; }
         public string? SurName { get; set; }
-        public DateTime BirthDay { get; set; }
+        public string? BirthDay { get; set; }
     }
 }
