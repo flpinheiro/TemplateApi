@@ -39,7 +39,7 @@ namespace TemplateApi.Infra.Repositories
 
         public bool Any(string id)
         {
-            return _context.People?.Any(p => p.Id.Equals(id))??false;
+            return _context.People?.Any(p => p.Id.Equals(id)) ?? false;
         }
 
         async Task<bool> IBasicRepositoryAsync<Person, string>.AnyAsync(string id)

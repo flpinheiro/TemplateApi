@@ -1,6 +1,6 @@
 ﻿namespace TemplateApi.Domain.Interfaces.Repositories
 {
-    public interface IUnitOfWork: IDisposable
+    public interface IUnitOfWork : IDisposable
     {
         IPersonRepository PersonRepository { get; }
 

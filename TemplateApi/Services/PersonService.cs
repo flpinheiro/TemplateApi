@@ -24,7 +24,7 @@ namespace TemplateApi.Services
                 var model = _mapper.Map<Person>(person);
                 person.Id = _uow.PersonRepository.Add(model);
                 await _uow.SaveAsync();
-                if(person.Name == "string") throw new Exception();
+                if (person.Name == "string") throw new Exception();
                 return person;
             }
             catch (Exception)
@@ -61,7 +61,7 @@ namespace TemplateApi.Services
 
         public async Task<IEnumerable<PersonDto>> GetAllPerson()
         {
-            return _mapper.Map<IEnumerable<PersonDto>>( await _uow.PersonRepository.GetAllAsync());
+            return _mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetAllAsync());
         }
 
         public async Task<PersonDto> GetPersonById(string id)
@@ -71,7 +71,7 @@ namespace TemplateApi.Services
 
         public async Task<IEnumerable<PersonDto>> GetPersonByName(string name)
         {
-            return _mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetAsync(a=> a.Name.Equals(name)));
+            return _mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetAsync(a => a.Name.Equals(name)));
         }
 
         public async Task UpdatePerson(string id, PersonDto person)

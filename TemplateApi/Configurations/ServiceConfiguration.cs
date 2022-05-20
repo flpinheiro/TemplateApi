@@ -5,7 +5,7 @@ namespace TemplateApi.Configurations
 {
     public static class ServiceConfiguration
     {
-        public static void AddServiceConfiguration(this IServiceCollection services) 
+        public static void AddServiceConfiguration(this IServiceCollection services)
         {
             services.AddScoped<IPersonService, PersonService>();
         }
