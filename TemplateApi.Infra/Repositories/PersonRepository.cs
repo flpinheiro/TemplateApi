@@ -10,13 +10,13 @@ namespace TemplateApi.Infra.Repositories
         private readonly TemplateApiContext _context;
         public PersonRepository(TemplateApiContext context)
             => _context = context ?? throw new ArgumentNullException("TemplateApiContext");
-        public async Task<IEnumerable<Person>> GetAllAsync() => await _context.People?.ToListAsync() ?? new List<Person>();
-        public async Task<Person?> GetByIdAsync(string id) => await _context.People?.FirstOrDefaultAsync(x => x.Id == id);
+        public async Task<IEnumerable<Person>> GetAllAsync() => await _context.People.ToListAsync() ?? new List<Person>();
+        public async Task<Person?> GetByIdAsync(string id) => await _context.People.FirstOrDefaultAsync(x => x.Id == id);
         public async Task<IEnumerable<Person>> GetByNameAsync(string name)
-            => await _context.People?
-            .Where(p => p.Name.ToUpper().Contains(name.ToUpper()) || p.SurName.ToUpper().Contains(name.ToUpper()))
+            => await _context.People
+            .Where(p => p.Name != null && p.Name.ToUpper().Contains(name.ToUpper()) || p.SurName != null && p.SurName.ToUpper().Contains(name.ToUpper()))
             .ToListAsync() ?? new List<Person>();
-        public async Task<bool> AnyAsync(string id) => await _context.People.AnyAsync(p => p.Id.Equals(id));
+        public async Task<bool> AnyAsync(string id) => await _context.People.AnyAsync(p => p.Id != null && p.Id.Equals(id));
         public string Add(Person model)
         {
             model.Id = Guid.NewGuid().ToString();
@@ -34,7 +34,5 @@ namespace TemplateApi.Infra.Repositories
             _context.Entry(model).State = EntityState.Deleted;
             _context.People?.Remove(model);
         }
-
-
     }
 }

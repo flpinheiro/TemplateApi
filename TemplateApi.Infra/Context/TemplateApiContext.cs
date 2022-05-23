@@ -6,10 +6,11 @@ namespace TemplateApi.Infra.Context
 {
     public class TemplateApiContext : DbContext
     {
-        public DbSet<Person>? People { get; set; }
+        public DbSet<Person> People { get; set; }
 
         public TemplateApiContext(DbContextOptions<TemplateApiContext> options) : base(options)
         {
+            People = Set<Person>();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
