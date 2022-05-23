@@ -11,7 +11,7 @@ namespace TemplateApi.Controllers
         private readonly IPersonService _service;
         public PersonController(IPersonService service)
         {
-            _service = service;
+            _service = service ?? throw new ArgumentNullException("IPersonService");
         }
 
         [HttpGet]
@@ -21,9 +21,14 @@ namespace TemplateApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<PersonDto>> GetPerson(string id)
+        public async Task<ActionResult<PersonDto>> GetPerson([FromRoute] string id)
         {
             return Ok(await _service.GetPersonById(id));
+        }
+        [HttpGet("Name/{name}")]
+        public async Task<ActionResult<IEnumerable<PersonDto>>> GetPersonByName([FromRoute] string name)
+        {
+            return Ok(await _service.GetPersonByName(name));
         }
 
         [HttpPost]

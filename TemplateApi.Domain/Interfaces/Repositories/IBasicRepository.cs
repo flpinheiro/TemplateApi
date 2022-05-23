@@ -11,22 +11,10 @@ namespace TemplateApi.Domain.Interfaces.Repositories
         IEnumerable<TModel> GetAll();
         IEnumerable<TModel> Get(Expression<Func<TModel, bool>> predicate);
         bool Any(Key id);
-    }
-
-    public interface IBasicRepositoryAsync<TModel, Key>
-        where TModel : BasicDal<Key>
-        where Key : IEquatable<Key>
-    {
         Task<TModel?> GetByIdAsync(Key id);
         Task<IEnumerable<TModel>> GetAllAsync();
         Task<IEnumerable<TModel>> GetAsync(Expression<Func<TModel, bool>> predicate);
         Task<bool> AnyAsync(Key id);
-    }
-
-    public interface IBasicWriteRepository<TModel, Key>
-        where TModel : BasicDal<Key>
-        where Key : IEquatable<Key>
-    {
         string Add(TModel model);
         void Update(TModel model);
         void Delete(TModel model);

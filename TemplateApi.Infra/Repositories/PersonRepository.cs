@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Domain.Models.Dal;
 using TemplateApi.Infra.Context;
@@ -10,15 +9,14 @@ namespace TemplateApi.Infra.Repositories
     {
         private readonly TemplateApiContext _context;
         public PersonRepository(TemplateApiContext context)
-        {
-            _context = context;
-        }
-        public IEnumerable<Person> Get(Expression<Func<Person, bool>> predicate) => _context.People?.Where(predicate).ToList() ?? new List<Person>();
-        public IEnumerable<Person> GetAll() => _context.People?.ToList() ?? new List<Person>();
+            => _context = context ?? throw new ArgumentNullException("TemplateApiContext");
         public async Task<IEnumerable<Person>> GetAllAsync() => await _context.People?.ToListAsync() ?? new List<Person>();
-        public async Task<IEnumerable<Person>> GetAsync(Expression<Func<Person, bool>> predicate) => await _context.People?.Where(predicate).ToListAsync() ?? new List<Person>();
-        public Person? GetById(string id) => _context.People?.FirstOrDefault(x => x.Id == id);
         public async Task<Person?> GetByIdAsync(string id) => await _context.People?.FirstOrDefaultAsync(x => x.Id == id);
+        public async Task<IEnumerable<Person>> GetByNameAsync(string name)
+            => await _context.People?
+            .Where(p => p.Name.ToUpper().Contains(name.ToUpper()) || p.SurName.ToUpper().Contains(name.ToUpper()))
+            .ToListAsync() ?? new List<Person>();
+        public async Task<bool> AnyAsync(string id) => await _context.People.AnyAsync(p => p.Id.Equals(id));
         public string Add(Person model)
         {
             model.Id = Guid.NewGuid().ToString();
@@ -37,14 +35,6 @@ namespace TemplateApi.Infra.Repositories
             _context.People?.Remove(model);
         }
 
-        public bool Any(string id)
-        {
-            return _context.People?.Any(p => p.Id.Equals(id)) ?? false;
-        }
 
-        async Task<bool> IBasicRepositoryAsync<Person, string>.AnyAsync(string id)
-        {
-            return await _context.People.AnyAsync(p => p.Id.Equals(id));
-        }
     }
 }

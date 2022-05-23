@@ -13,8 +13,8 @@ namespace TemplateApi.Services
 
         public PersonService(IUnitOfWork uow, IMapper mapper)
         {
-            _uow = uow;
-            _mapper = mapper;
+            _uow = uow ?? throw new ArgumentNullException("IUnitOfWork");
+            _mapper = mapper ?? throw new ArgumentNullException("AutoMapper");
         }
 
         public async Task<PersonDto> AddPerson(PersonDto person)
@@ -71,7 +71,7 @@ namespace TemplateApi.Services
 
         public async Task<IEnumerable<PersonDto>> GetPersonByName(string name)
         {
-            return _mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetAsync(a => a.Name.Equals(name)));
+            return _mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetByNameAsync(name));
         }
 
         public async Task UpdatePerson(string id, PersonDto person)
