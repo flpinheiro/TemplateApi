@@ -15,7 +15,7 @@ namespace TemplateApi.Domain.Interfaces.Repositories
         Task<IEnumerable<TModel>> GetAllAsync();
         Task<IEnumerable<TModel>> GetAsync(Expression<Func<TModel, bool>> predicate);
         Task<bool> AnyAsync(Key id);
-        string Add(TModel model);
+        Key? Add(TModel model);
         void Update(TModel model);
         void Delete(TModel model);
     }
