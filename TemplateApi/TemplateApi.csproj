@@ -18,6 +18,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\TemplateApi.CrossCutting\TemplateApi.CrossCutting.csproj" />
 		<ProjectReference Include="..\TemplateApi.Domain\TemplateApi.Domain.csproj" />
 		<ProjectReference Include="..\TemplateApi.Infra\TemplateApi.Infra.csproj" />
 	</ItemGroup>

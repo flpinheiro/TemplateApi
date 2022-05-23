@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 using TemplateApi.Configurations;
+using TemplateApi.CrossCutting.Utils;
 using TemplateApi.Infra.Configurations;
-using TemplateApi.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 

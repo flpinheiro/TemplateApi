@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace TemplateApi.Utils
+namespace TemplateApi.CrossCutting.Utils
 {
     public sealed class DateOnlyJsonConverter : JsonConverter<DateOnly>
     {

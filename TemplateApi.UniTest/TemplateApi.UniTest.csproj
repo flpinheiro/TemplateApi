@@ -18,9 +18,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+	  <PackageReference Include="Moq" Version="4.18.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TemplateApi.CrossCutting\TemplateApi.CrossCutting.csproj" />
     <ProjectReference Include="..\TemplateApi.Domain\TemplateApi.Domain.csproj" />
     <ProjectReference Include="..\TemplateApi.Infra\TemplateApi.Infra.csproj" />
     <ProjectReference Include="..\TemplateApi\TemplateApi.csproj" />
