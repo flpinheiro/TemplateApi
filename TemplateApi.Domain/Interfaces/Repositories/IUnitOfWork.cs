@@ -6,7 +6,6 @@
 
         void Save();
         Task SaveAsync();
-        void Commit();
         void RollBack();
     }
 }

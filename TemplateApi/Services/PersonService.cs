@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using TemplateApi.CrossCutting.Exceptions;
 using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dal;
@@ -32,10 +33,6 @@ namespace TemplateApi.Services
                 _uow.RollBack();
                 throw;
             }
-            finally
-            {
-                _uow.Commit();
-            }
         }
 
         public async Task DeletePerson(string id)
@@ -43,7 +40,7 @@ namespace TemplateApi.Services
             try
             {
                 var person = await _uow.PersonRepository.GetByIdAsync(id);
-                if (person == null) throw new Exception("not exist");
+                if (person == null) throw new PersonNotFoundException();
                 var model = _mapper.Map<Person>(person);
                 _uow.PersonRepository.Delete(model);
                 _uow.Save();
@@ -52,10 +49,6 @@ namespace TemplateApi.Services
             {
                 _uow.RollBack();
                 throw;
-            }
-            finally
-            {
-                _uow.Commit();
             }
         }
 
@@ -78,7 +71,7 @@ namespace TemplateApi.Services
         {
             try
             {
-                if (!await _uow.PersonRepository.AnyAsync(id)) throw new Exception("not exist");
+                if (!await _uow.PersonRepository.AnyAsync(id)) throw new PersonNotFoundException();
                 var model = _mapper.Map<Person>(person);
                 model.Id = id;
                 _uow.PersonRepository.Update(model);
@@ -89,10 +82,7 @@ namespace TemplateApi.Services
                 _uow.RollBack();
                 throw;
             }
-            finally
-            {
-                _uow.Commit();
-            }
+
         }
     }
 }

@@ -28,29 +28,32 @@ namespace TemplateApi.Infra
 
         public void Dispose()
         {
+            try
+            {
+                if (_transaction != null) _transaction.Commit();
+            }
+            catch (Exception) { }
+            if (_transaction != null) _transaction?.Dispose();
+            _context.Dispose();
 
-            _transaction?.Dispose();
-            _context?.Dispose();
         }
 
         public void Save()
         {
             _context.SaveChanges();
+            //if (_transaction != null) _transaction.Commit();
         }
 
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
-        }
-
-        public void Commit()
-        {
-            _transaction?.Commit();
+            //
+            //if (_transaction != null) await _transaction.CommitAsync();
         }
 
         public void RollBack()
         {
-            _transaction?.Rollback();
+            if (_transaction != null) _transaction.Rollback();
         }
     }
 }
