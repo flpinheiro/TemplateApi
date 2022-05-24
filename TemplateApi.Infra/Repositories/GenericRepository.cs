@@ -12,7 +12,7 @@ namespace TemplateApi.Infra.Repositories
 
         public GenericRepository(TemplateApiContext context)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException("TemplateApiContext");
             _dbSet = context.Set<TEntity>();
         }
 

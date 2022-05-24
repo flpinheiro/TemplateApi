@@ -1,9 +1,9 @@
+using Serilog;
 using System.Text.Json.Serialization;
 using TemplateApi.Configurations;
 using TemplateApi.CrossCutting.Middlewares;
 using TemplateApi.CrossCutting.Utils;
 using TemplateApi.Infra.Configurations;
-using Serilog;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -30,7 +30,7 @@ try
         }); ;
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerDocument();
+    builder.Services.AddSwaggerDocument(x => x.Title = "Template Api");
     builder.Services.AddAutoMapper(typeof(MappingProfile));
 
     builder.Services.AddInfraConfiguration(builder.Configuration);

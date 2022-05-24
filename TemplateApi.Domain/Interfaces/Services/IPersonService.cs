@@ -10,7 +10,7 @@ namespace TemplateApi.Domain.Interfaces.Services
 
         Task<PersonDto> AddPerson(PersonDto person);
         Task UpdatePerson(string id, PersonDto person);
-        Task DeletePerson(string id);
+        Task<PersonDto> DeletePerson(string id);
 
     }
 }

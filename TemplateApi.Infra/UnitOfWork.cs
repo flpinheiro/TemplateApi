@@ -12,7 +12,7 @@ namespace TemplateApi.Infra
 
         public UnitOfWork(TemplateApiContext context)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException("TemplateApiContext");
             _transaction = _context.Database.BeginTransaction();
         }
 

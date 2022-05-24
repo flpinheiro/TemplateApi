@@ -14,14 +14,14 @@ namespace TemplateApi.Infra.Repositories
         private readonly DbSet<TModel> _dbSet;
         public BasicRepository(TemplateApiContext context)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException("TemplateApiContext");
             _dbSet = context.Set<TModel>();
         }
         public Key? Add(TModel model)
         {
             _context.Entry(model).State = EntityState.Added;
             _dbSet.Add(model);
-            return model.Id ;
+            return model.Id;
         }
 
         public bool Any(Key id)

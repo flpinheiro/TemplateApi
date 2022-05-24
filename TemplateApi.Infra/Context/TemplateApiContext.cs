@@ -11,6 +11,7 @@ namespace TemplateApi.Infra.Context
 
         public TemplateApiContext(DbContextOptions<TemplateApiContext> options) : base(options)
         {
+            if (options == null) throw new ArgumentNullException(nameof(options));
             People = Set<Person>();
         }
 
@@ -50,12 +51,13 @@ namespace TemplateApi.Infra.Context
 
             foreach (var item in ChangeTracker.Entries<IAuditable>().Where(e => e.State == EntityState.Added))
             {
-                item.Property(u => u.CreateDate).CurrentValue = now;
+                item.Property(u => u.LastUpdate).CurrentValue = now;
             }
 
             foreach (var item in ChangeTracker.Entries<IAuditable>().Where(e => e.State == EntityState.Modified))
             {
-                item.Property(u => u.UpdateDate).CurrentValue = now;
+                item.Property(u => u.LastUpdate).CurrentValue = now;
+                item.Property(u => u.IsUpdated).CurrentValue = true;
             }
         }
         #endregion

@@ -16,8 +16,8 @@ namespace TemplateApi.Infra.Context.Mappings
             builder.Property(x => x.Name).IsRequired().HasMaxLength(250).HasColumnName("name").IsUnicode();
             builder.Property(x => x.SurName).IsRequired().HasMaxLength(250).HasColumnName("sur_name").IsUnicode();
             builder.Property(x => x.BirthDay).IsRequired().HasColumnName("birth_day").IsUnicode(false).IsFixedLength().HasMaxLength(10);
-            builder.Property(x => x.CreateDate).IsRequired().HasColumnName("create_date");
-            builder.Property(x => x.UpdateDate).IsRequired(false).HasColumnName("update_date");
+            builder.Property(x => x.LastUpdate).IsRequired().HasColumnName("last_update_date");
+            builder.Property(x => x.IsUpdated).IsRequired().HasColumnName("is_updated").HasDefaultValue(false);
         }
     }
 }

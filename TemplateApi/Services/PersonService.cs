@@ -35,15 +35,16 @@ namespace TemplateApi.Services
             }
         }
 
-        public async Task DeletePerson(string id)
+        public async Task<PersonDto> DeletePerson(string id)
         {
             try
             {
                 var person = await _uow.PersonRepository.GetByIdAsync(id);
                 if (person == null) throw new PersonNotFoundException();
-                var model = _mapper.Map<Person>(person);
-                _uow.PersonRepository.Delete(model);
+                //var model = _mapper.Map<Person>(person);
+                _uow.PersonRepository.Delete(person);
                 _uow.Save();
+                return _mapper.Map<PersonDto>(person);
             }
             catch (Exception)
             {

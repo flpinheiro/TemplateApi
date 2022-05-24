@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Net;
-using System.Net.Mime;
 using System.Text.Json;
 using TemplateApi.CrossCutting.Constants;
 using TemplateApi.CrossCutting.Exceptions;
