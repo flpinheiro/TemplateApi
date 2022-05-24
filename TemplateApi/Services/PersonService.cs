@@ -5,85 +5,81 @@ using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dal;
 using TemplateApi.Domain.Models.Dto;
 
-namespace TemplateApi.Services
+namespace TemplateApi.Services;
+public class PersonService : IPersonService
 {
-    public class PersonService : IPersonService
+    private readonly IUnitOfWork _uow;
+    private readonly IMapper _mapper;
+
+    public PersonService(IUnitOfWork uow, IMapper mapper)
     {
-        private readonly IUnitOfWork _uow;
-        private readonly IMapper _mapper;
+        _uow = uow ?? throw new ArgumentNullException("IUnitOfWork");
+        _mapper = mapper ?? throw new ArgumentNullException("AutoMapper");
+    }
 
-        public PersonService(IUnitOfWork uow, IMapper mapper)
+    public async Task<PersonDto> AddPerson(PersonDto person)
+    {
+        try
         {
-            _uow = uow ?? throw new ArgumentNullException("IUnitOfWork");
-            _mapper = mapper ?? throw new ArgumentNullException("AutoMapper");
+            var model = _mapper.Map<Person>(person);
+            person.Id = _uow.PersonRepository.Add(model);
+            await _uow.SaveAsync();
+            if (person.Name == "string") throw new Exception("String name exception");
+            return person;
         }
-
-        public async Task<PersonDto> AddPerson(PersonDto person)
+        catch (Exception)
         {
-            try
-            {
-                var model = _mapper.Map<Person>(person);
-                person.Id = _uow.PersonRepository.Add(model);
-                await _uow.SaveAsync();
-                if (person.Name == "string") throw new Exception();
-                return person;
-            }
-            catch (Exception)
-            {
-                _uow.RollBack();
-                throw;
-            }
+            _uow.RollBack();
+            throw;
         }
+    }
 
-        public async Task<PersonDto> DeletePerson(string id)
+    public async Task<PersonDto> DeletePerson(string id)
+    {
+        try
         {
-            try
-            {
-                var person = await _uow.PersonRepository.GetByIdAsync(id);
-                if (person == null) throw new PersonNotFoundException();
-                //var model = _mapper.Map<Person>(person);
-                _uow.PersonRepository.Delete(person);
-                _uow.Save();
-                return _mapper.Map<PersonDto>(person);
-            }
-            catch (Exception)
-            {
-                _uow.RollBack();
-                throw;
-            }
+            var person = await _uow.PersonRepository.GetByIdAsync(id);
+            if (person == null) throw new PersonNotFoundException();
+            _uow.PersonRepository.Delete(person);
+            await _uow.SaveAsync();
+            return _mapper.Map<PersonDto>(person);
         }
-
-        public async Task<IEnumerable<PersonDto>> GetAllPerson()
+        catch (Exception)
         {
-            return _mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetAllAsync());
+            _uow.RollBack();
+            throw;
         }
+    }
 
-        public async Task<PersonDto> GetPersonById(string id)
+    public async Task<IEnumerable<PersonDto>> GetAllPerson()
+    {
+        return _mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetAllAsync());
+    }
+
+    public async Task<PersonDto> GetPersonById(string id)
+    {
+        return _mapper.Map<PersonDto>(await _uow.PersonRepository.GetByIdAsync(id));
+    }
+
+    public async Task<IEnumerable<PersonDto>> GetPersonByName(string name)
+    {
+        return _mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetByNameAsync(name));
+    }
+
+    public async Task UpdatePerson(string id, PersonDto person)
+    {
+        try
         {
-            return _mapper.Map<PersonDto>(await _uow.PersonRepository.GetByIdAsync(id));
+            if (!await _uow.PersonRepository.AnyAsync(id)) throw new PersonNotFoundException();
+            var model = _mapper.Map<Person>(person);
+            model.Id = id;
+            _uow.PersonRepository.Update(model);
+            await _uow.SaveAsync();
         }
-
-        public async Task<IEnumerable<PersonDto>> GetPersonByName(string name)
+        catch (Exception)
         {
-            return _mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetByNameAsync(name));
-        }
-
-        public async Task UpdatePerson(string id, PersonDto person)
-        {
-            try
-            {
-                if (!await _uow.PersonRepository.AnyAsync(id)) throw new PersonNotFoundException();
-                var model = _mapper.Map<Person>(person);
-                model.Id = id;
-                _uow.PersonRepository.Update(model);
-                _uow.Save();
-            }
-            catch (Exception)
-            {
-                _uow.RollBack();
-                throw;
-            }
-
+            _uow.RollBack();
+            throw;
         }
     }
 }

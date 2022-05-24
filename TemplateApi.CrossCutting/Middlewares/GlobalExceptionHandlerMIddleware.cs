@@ -36,6 +36,7 @@ public class GlobalExceptionHandlerMIddleware
     {
         context.Response.ContentType = ContentTypeConstants.JsonType;
         var response = context.Response;
+        var request = context.Request;
 
         var errorResponse = new ErrorResponse(exception);
         switch (exception)
@@ -57,7 +58,7 @@ public class GlobalExceptionHandlerMIddleware
                 errorResponse.Message = "Internal Server errors. Check Logs!";
                 break;
         }
-        _logger.LogError(exception.Message);
+        _logger.LogError(exception.Message, request);
         var result = JsonSerializer.Serialize(errorResponse);
         await context.Response.WriteAsync(result);
     }

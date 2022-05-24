@@ -1,11 +1,11 @@
-﻿namespace TemplateApi.Domain.Interfaces.Repositories
-{
-    public interface IUnitOfWork : IDisposable
-    {
-        IPersonRepository PersonRepository { get; }
+﻿namespace TemplateApi.Domain.Interfaces.Repositories;
 
-        void Save();
-        Task SaveAsync();
-        void RollBack();
-    }
+public interface IUnitOfWork : IDisposable
+{
+    IPersonRepository PersonRepository { get; }
+
+    void Save();
+    Task SaveAsync();
+    void RollBack();
 }
+

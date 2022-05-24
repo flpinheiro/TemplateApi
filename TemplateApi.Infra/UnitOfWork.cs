@@ -3,57 +3,54 @@ using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Infra.Context;
 using TemplateApi.Infra.Repositories;
 
-namespace TemplateApi.Infra
+namespace TemplateApi.Infra;
+
+public class UnitOfWork : IUnitOfWork
 {
-    public class UnitOfWork : IUnitOfWork
+    private readonly TemplateApiContext _context;
+    private readonly IDbContextTransaction? _transaction;
+    private bool _isRollBacked = false;
+
+    public UnitOfWork(TemplateApiContext context)
     {
-        private readonly TemplateApiContext _context;
-        private readonly IDbContextTransaction? _transaction;
+        _context = context ?? throw new ArgumentNullException("TemplateApiContext");
+        _transaction = _context.Database.BeginTransaction();
+    }
 
-        public UnitOfWork(TemplateApiContext context)
+    private IPersonRepository? _personRepository;
+    public IPersonRepository PersonRepository
+    {
+        get
         {
-            _context = context ?? throw new ArgumentNullException("TemplateApiContext");
-            _transaction = _context.Database.BeginTransaction();
-        }
-
-        private IPersonRepository? _personRepository;
-        public IPersonRepository PersonRepository
-        {
-            get
-            {
-                if (_personRepository == null) _personRepository = new PersonRepository(_context);
-                return _personRepository;
-            }
-        }
-
-        public void Dispose()
-        {
-            try
-            {
-                if (_transaction != null) _transaction.Commit();
-            }
-            catch (Exception) { }
-            if (_transaction != null) _transaction?.Dispose();
-            _context.Dispose();
-
-        }
-
-        public void Save()
-        {
-            _context.SaveChanges();
-            //if (_transaction != null) _transaction.Commit();
-        }
-
-        public async Task SaveAsync()
-        {
-            await _context.SaveChangesAsync();
-            //
-            //if (_transaction != null) await _transaction.CommitAsync();
-        }
-
-        public void RollBack()
-        {
-            if (_transaction != null) _transaction.Rollback();
+            if (_personRepository == null) _personRepository = new PersonRepository(_context);
+            return _personRepository;
         }
     }
+
+    public void Dispose()
+    {
+        if (_transaction != null)
+        {
+            if (!_isRollBacked) _transaction.Commit();
+             _transaction.Dispose();
+        }
+        _context.Dispose();
+    }
+
+    public void Save()
+    {
+        _context.SaveChanges();
+    }
+
+    public async Task SaveAsync()
+    {
+        await _context.SaveChangesAsync();
+    }
+
+    public void RollBack()
+    {
+        if (_transaction != null) _transaction.Rollback();
+        _isRollBacked = true;
+    }
 }
+
