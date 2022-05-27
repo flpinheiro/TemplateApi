@@ -6,7 +6,7 @@ using TemplateApi.Infra.Context;
 
 namespace TemplateApi.Infra.Repositories
 {
-    public class BasicRepository<TModel, Key> : IBasicRepository<TModel, Key>
+    internal class BasicRepository<TModel, Key> : IBasicRepository<TModel, Key>
         where TModel : BasicDal<Key>
         where Key : IEquatable<Key>
     {

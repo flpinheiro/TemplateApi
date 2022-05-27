@@ -5,7 +5,7 @@ using TemplateApi.Infra.Context;
 
 namespace TemplateApi.Infra.Repositories
 {
-    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
+    internal class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         private readonly TemplateApiContext _context;
         private readonly DbSet<TEntity> _dbSet;

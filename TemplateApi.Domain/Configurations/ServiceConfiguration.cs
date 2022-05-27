@@ -1,7 +1,8 @@
-﻿using TemplateApi.Domain.Interfaces.Services;
-using TemplateApi.Services;
+﻿using Microsoft.Extensions.DependencyInjection;
+using TemplateApi.Domain.Interfaces.Services;
+using TemplateApi.Domain.Services;
 
-namespace TemplateApi.Configurations
+namespace TemplateApi.Domain.Configurations
 {
     public static class ServiceConfiguration
     {

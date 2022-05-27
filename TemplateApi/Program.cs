@@ -1,8 +1,8 @@
 using Serilog;
 using System.Text.Json.Serialization;
-using TemplateApi.Configurations;
 using TemplateApi.CrossCutting.Middlewares;
 using TemplateApi.CrossCutting.Utils;
+using TemplateApi.Domain.Configurations;
 using TemplateApi.Infra.Configurations;
 
 Log.Logger = new LoggerConfiguration()

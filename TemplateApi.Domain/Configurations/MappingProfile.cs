@@ -2,7 +2,7 @@
 using TemplateApi.Domain.Models.Dal;
 using TemplateApi.Domain.Models.Dto;
 
-namespace TemplateApi.Configurations
+namespace TemplateApi.Domain.Configurations
 {
     public class MappingProfile : Profile
     {

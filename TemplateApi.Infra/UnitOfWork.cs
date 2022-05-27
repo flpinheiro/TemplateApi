@@ -1,20 +1,24 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore.Storage;
+using Serilog;
 using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Infra.Context;
 using TemplateApi.Infra.Repositories;
 
 namespace TemplateApi.Infra;
 
-public class UnitOfWork : IUnitOfWork
+internal class UnitOfWork : IUnitOfWork
 {
     private readonly TemplateApiContext _context;
     private readonly IDbContextTransaction? _transaction;
     private bool _isRollBacked = false;
 
-    public UnitOfWork(TemplateApiContext context)
+    public UnitOfWork(TemplateApiContext context, IMapper mapper, ILogger logger)
     {
         _context = context ?? throw new ArgumentNullException("TemplateApiContext");
+        Mapper = mapper ?? throw new ArgumentNullException("IMapper");
         _transaction = _context.Database.BeginTransaction();
+        Logger = logger;
     }
 
     private IPersonRepository? _personRepository;
@@ -26,13 +30,15 @@ public class UnitOfWork : IUnitOfWork
             return _personRepository;
         }
     }
+    public IMapper Mapper { get; }
+    public ILogger Logger { get; }
 
     public void Dispose()
     {
         if (_transaction != null)
         {
             if (!_isRollBacked) _transaction.Commit();
-             _transaction.Dispose();
+            _transaction.Dispose();
         }
         _context.Dispose();
     }

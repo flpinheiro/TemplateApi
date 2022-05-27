@@ -10,4 +10,10 @@
     <ProjectReference Include="..\TemplateApi.CrossCutting\TemplateApi.CrossCutting.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="11.0.0" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+		<PackageReference Include="Serilog" Version="2.11.0" />
+	</ItemGroup>
+
 </Project>
