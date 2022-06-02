@@ -21,7 +21,7 @@ internal class PersonService : IPersonService
             var model = _uow.Mapper.Map<Person>(person);
             person.Id = _uow.PersonRepository.Add(model);
             await _uow.SaveAsync();
-            if (person.Name == "string") throw new PersonNotFoundException();
+            if (person.Name == "string") throw new Exception("String is not an acetabble name for a person");
             return person;
         }
         catch (Exception ex)
