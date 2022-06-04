@@ -2,13 +2,14 @@
 using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Text.Json;
+using System.Web.Mvc;
 using TemplateApi.CrossCutting.Constants;
 using TemplateApi.CrossCutting.Exceptions;
 using TemplateApi.CrossCutting.Models;
 
 namespace TemplateApi.CrossCutting.Middlewares;
 
-public class GlobalExceptionHandlerMIddleware
+public class GlobalExceptionHandlerMIddleware: Controller
 {
     private readonly RequestDelegate _next;
     private readonly ILogger<GlobalExceptionHandlerMIddleware> _logger;

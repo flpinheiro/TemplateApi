@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dto;
 
@@ -6,6 +7,7 @@ namespace TemplateApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Consumes(MediaTypeNames.Application.Json)]
 public class PersonController : Controller
 {
     private readonly IPersonService _service;
@@ -15,29 +17,33 @@ public class PersonController : Controller
     }
 
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<PersonDto>>> GetAll()
     {
         return Ok(await _service.GetAllPerson());
     }
-
     [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<PersonDto>> GetPerson([FromRoute] string id)
     {
         return Ok(await _service.GetPersonById(id));
     }
     [HttpGet("Name/{name}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<PersonDto>>> GetPersonByName([FromRoute] string name)
     {
         return Ok(await _service.GetPersonByName(name));
     }
-
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult<PersonDto>> Create([FromBody] PersonDto person)
     {
-        return Ok(await _service.AddPerson(person));
+        await _service.AddPerson(person);
+        return CreatedAtAction(nameof(Create), new { id = person.Id }, person);
     }
 
     [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<PersonDto>> Edit([FromRoute] string id, [FromBody] PersonDto person)
     {
         await _service.UpdatePerson(id, person);
@@ -45,6 +51,7 @@ public class PersonController : Controller
     }
 
     [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<PersonDto>> Delete([FromRoute] string id)
     {
         var person = await _service.DeletePerson(id);

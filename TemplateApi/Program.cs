@@ -5,6 +5,7 @@ using TemplateApi.CrossCutting.Utils;
 using TemplateApi.Domain.Configurations;
 using TemplateApi.Infra.Configurations;
 
+[assembly: System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateBootstrapLogger();
