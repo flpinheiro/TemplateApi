@@ -5,7 +5,7 @@ using TemplateApi.Domain.Models.Dal;
 using TemplateApi.Domain.Models.Dto;
 
 namespace TemplateApi.Domain.Services;
-internal class PersonService : IPersonService
+public class PersonService : IPersonService
 {
     private readonly IUnitOfWork _uow;
 

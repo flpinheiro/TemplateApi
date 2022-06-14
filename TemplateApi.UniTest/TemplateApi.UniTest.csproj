@@ -33,7 +33,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Api\Services\" />
 		<Folder Include="Infra\Repositories\" />
 	</ItemGroup>
 

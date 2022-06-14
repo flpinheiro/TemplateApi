@@ -7,7 +7,7 @@ using TemplateApi.Infra.Repositories;
 
 namespace TemplateApi.Infra;
 
-internal class UnitOfWork : IUnitOfWork
+public class UnitOfWork : IUnitOfWork
 {
     private readonly TemplateApiContext _context;
     private readonly IDbContextTransaction? _transaction;
