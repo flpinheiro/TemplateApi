@@ -19,6 +19,16 @@ namespace TemplateApi.UniTest.Utils
             LastUpdate = DateTime.Now,
         };
 
-        public static IEnumerable<Person> People = new List<Person> { Person };
+        private static Person _person = new Person
+        {
+            BirthDay = "1968-12-21",
+            Name = "Testered",
+            SurName = "Test",
+            Id = "Testered-Test",
+            IsUpdated = false,
+            LastUpdate = DateTime.Now,
+        };
+
+        public static IEnumerable<Person> People = new List<Person> { Person, _person };
     }
 }

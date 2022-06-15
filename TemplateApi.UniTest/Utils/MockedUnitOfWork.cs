@@ -18,7 +18,6 @@ namespace TemplateApi.UniTest.Utils
         public readonly Mock<IPersonRepository> MockPersonRepository;
         private readonly Mock<ILogger> MockLogger;
 
-        private readonly IUnitOfWork _unitOfWork;
         public MockedUnitOfWork()
         {
             MockPersonRepository = new Mock<IPersonRepository>();
@@ -41,10 +40,6 @@ namespace TemplateApi.UniTest.Utils
             MockLogger.Setup(x => x.Information(It.IsAny<string>())).Verifiable();
             MockLogger.Setup(x => x.Warning(It.IsAny<string>())).Verifiable();
 
-            var context = new Mock<TemplateApiContext>();
-//            context.Setup(x=> x.Database.BeginTransaction()).Returns()
-
-            _unitOfWork = new UnitOfWork(context.Object, _mapper, Logger);
         }
         public IPersonRepository PersonRepository => MockPersonRepository.Object;
 
@@ -55,22 +50,22 @@ namespace TemplateApi.UniTest.Utils
 
         public void Dispose()
         {
-            _unitOfWork.Dispose();
+
         }
 
         public void RollBack()
         {
-            _unitOfWork.RollBack();
+
         }
 
         public void Save()
         {
-            _unitOfWork.Save();
+
         }
 
         public async Task SaveAsync()
         {
-            await _unitOfWork.SaveAsync();
+
         }
     }
 }

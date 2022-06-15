@@ -73,7 +73,7 @@ namespace TemplateApi.UniTest.Api.Controllers
         [Fact]
         public async Task GetPersonByName_ShouldReturnPersonList()
         {
-            var returnList = _people.Where(a => a.Name!= null && a.Name.Equals(_personDto.Name)).ToList();
+            var returnList = _people.Where(a => a.Name != null && a.Name.Equals(_personDto.Name)).ToList();
             _service.Setup(x => x.GetPersonByName(It.IsAny<string>())).ReturnsAsync(returnList).Verifiable();
             var result = await _controller.GetPersonByName("");
 
@@ -96,10 +96,12 @@ namespace TemplateApi.UniTest.Api.Controllers
             Assert.Equal(_personDto, model);
         }
 
+
+
         [Fact]
         public async void UpdatePerson_ShouldReturn200()
         {
-            var result = await _controller.Edit("",_personDto);
+            var result = await _controller.Edit("", _personDto);
 
             var okObject = result.Result as OkObjectResult;
             Assert.Equal(StatusCodes.Status200OK, okObject?.StatusCode);
