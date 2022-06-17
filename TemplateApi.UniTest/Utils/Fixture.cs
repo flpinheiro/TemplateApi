@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TemplateApi.Domain.Models.Dal;
+using TemplateApi.Domain.Models.Dto;
 
 namespace TemplateApi.UniTest.Utils
 {
@@ -30,5 +31,15 @@ namespace TemplateApi.UniTest.Utils
         };
 
         public static IEnumerable<Person> People = new List<Person> { Person, _person };
+
+        public static PersonDto PersonDto = new PersonDto()
+        {
+            BirthDay = new DateOnly(1985, 5, 1),
+            Name = "test",
+            SurName = "tested",
+            Id = "test_id"
+        };
+
+        public static IEnumerable<PersonDto> PeopleDto = new List<PersonDto> { PersonDto };
     }
 }

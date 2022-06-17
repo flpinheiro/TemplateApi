@@ -8,36 +8,26 @@ using System.Threading.Tasks;
 using TemplateApi.Controllers;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dto;
+using TemplateApi.UniTest.Utils;
 using Xunit;
 
 namespace TemplateApi.UniTest.Api.Controllers
 {
     public class PersonControllerTest
     {
-        private readonly Mock<IPersonService> _service;
-        private readonly PersonDto _personDto;
-        private readonly IList<PersonDto> _people;
+        private readonly Mock<IPersonService> mock;
         private readonly PersonController _controller;
 
         public PersonControllerTest()
         {
-            _service = new Mock<IPersonService>();
-            _controller = new PersonController(_service.Object);
-            _personDto = new PersonDto()
-            {
-                BirthDay = new DateOnly(1985, 5, 1),
-                Name = "test",
-                SurName = "tested",
-                Id = "test_id"
-            };
-            _people = new List<PersonDto>() { _personDto, new PersonDto() };
+            mock = new Mock<IPersonService>();
+            _controller = new PersonController(mock.Object);
 
-
-            _service.Setup(x => x.GetAllPerson()).ReturnsAsync(_people).Verifiable();
-            _service.Setup(x => x.GetPersonById(It.IsAny<string>())).ReturnsAsync(_personDto).Verifiable();
-            _service.Setup(x => x.AddPerson(It.IsAny<PersonDto>())).ReturnsAsync(_personDto).Verifiable();
-            _service.Setup(x => x.UpdatePerson(It.IsAny<string>(), It.IsAny<PersonDto>())).Verifiable();
-            _service.Setup(x => x.DeletePerson(It.IsAny<string>())).ReturnsAsync(_personDto).Verifiable();
+            mock.SetGetAllPeron();
+            mock.SetGetPersonById();
+            mock.SetAddPerson();
+            mock.SetUpdatePerson();
+            mock.SetDeletePerson();
         }
 
         [Fact]
@@ -55,7 +45,8 @@ namespace TemplateApi.UniTest.Api.Controllers
             Assert.Equal(StatusCodes.Status200OK, okObject?.StatusCode);
             var model = okObject?.Value;
             Assert.IsAssignableFrom<IEnumerable<PersonDto>>(model);
-            Assert.Equal(_people, model);
+            Assert.Equal(Fixture.PeopleDto, model);
+            mock.VerifyGetAllPerson();
         }
 
         [Fact]
@@ -67,14 +58,15 @@ namespace TemplateApi.UniTest.Api.Controllers
             Assert.Equal(StatusCodes.Status200OK, okObject?.StatusCode);
             var model = okObject?.Value;
             Assert.IsAssignableFrom<PersonDto>(model);
-            Assert.Equal(_personDto, model);
+            Assert.Equal(Fixture.PersonDto, model);
+            mock.VerifyGetPersonById();
         }
 
         [Fact]
         public async Task GetPersonByName_ShouldReturnPersonList()
         {
-            var returnList = _people.Where(a => a.Name != null && a.Name.Equals(_personDto.Name)).ToList();
-            _service.Setup(x => x.GetPersonByName(It.IsAny<string>())).ReturnsAsync(returnList).Verifiable();
+            var returnList = Fixture.PeopleDto.Where(a => a.Name != null && a.Name.Equals(Fixture.PersonDto.Name)).ToList();
+            mock.SetGetPersonByName(returnList);
             var result = await _controller.GetPersonByName("");
 
             var okObject = result.Result as OkObjectResult;
@@ -82,18 +74,20 @@ namespace TemplateApi.UniTest.Api.Controllers
             var model = okObject?.Value;
             Assert.IsAssignableFrom<IEnumerable<PersonDto>>(model);
             Assert.Equal(returnList, model);
+            mock.VerifyGetPersonByName();
         }
 
         [Fact]
         public async void AddPerson_ShouldReturn201()
         {
-            var result = await _controller.Create(_personDto);
+            var result = await _controller.Create(Fixture.PersonDto);
 
             var createdAtActionResult = result.Result as CreatedAtActionResult;
             Assert.Equal(StatusCodes.Status201Created, createdAtActionResult?.StatusCode);
             var model = createdAtActionResult?.Value;
             Assert.IsAssignableFrom<PersonDto>(model);
-            Assert.Equal(_personDto, model);
+            Assert.Equal(Fixture.PersonDto, model);
+            mock.VerifyAddPerson();
         }
 
 
@@ -101,13 +95,14 @@ namespace TemplateApi.UniTest.Api.Controllers
         [Fact]
         public async void UpdatePerson_ShouldReturn200()
         {
-            var result = await _controller.Edit("", _personDto);
+            var result = await _controller.Edit("", Fixture.PersonDto);
 
             var okObject = result.Result as OkObjectResult;
             Assert.Equal(StatusCodes.Status200OK, okObject?.StatusCode);
             var model = okObject?.Value;
             Assert.IsAssignableFrom<PersonDto>(model);
-            Assert.Equal(_personDto, model);
+            Assert.Equal(Fixture.PersonDto, model);
+            mock.VerifyUpdatePerson();
         }
 
         [Fact]
@@ -119,7 +114,8 @@ namespace TemplateApi.UniTest.Api.Controllers
             Assert.Equal(StatusCodes.Status200OK, okObject?.StatusCode);
             var model = okObject?.Value;
             Assert.IsAssignableFrom<PersonDto>(model);
-            Assert.Equal(_personDto, model);
+            Assert.Equal(Fixture.PersonDto, model);
+            mock.VerifyDeletePerson();
         }
     }
 }
