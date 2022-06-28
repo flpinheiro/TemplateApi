@@ -23,6 +23,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.5" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -30,10 +31,6 @@
 		<ProjectReference Include="..\TemplateApi.Domain\TemplateApi.Domain.csproj" />
 		<ProjectReference Include="..\TemplateApi.Infra\TemplateApi.Infra.csproj" />
 		<ProjectReference Include="..\TemplateApi\TemplateApi.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Infra\Repositories\" />
 	</ItemGroup>
 
 </Project>

@@ -23,22 +23,9 @@ namespace TemplateApi.UniTest.Utils
             MockPersonRepository = new Mock<IPersonRepository>();
             MockLogger = new Mock<ILogger>();
 
+            if (_mapper == null) _mapper = MockedIMapperExtensions.CreateIMapper();
 
-            if (_mapper == null)
-            {
-                var mappingConfig = new MapperConfiguration(mc =>
-                {
-                    mc.AddProfile(new MappingProfile());
-                });
-                IMapper mapper = mappingConfig.CreateMapper();
-                _mapper = mapper;
-            }
-
-            MockLogger.Setup(x => x.Debug(It.IsAny<string>())).Verifiable();
-            MockLogger.Setup(x => x.Error(It.IsAny<string>())).Verifiable();
-            MockLogger.Setup(x => x.Fatal(It.IsAny<string>())).Verifiable();
-            MockLogger.Setup(x => x.Information(It.IsAny<string>())).Verifiable();
-            MockLogger.Setup(x => x.Warning(It.IsAny<string>())).Verifiable();
+            MockLogger.SetLogger();
 
         }
         public IPersonRepository PersonRepository => MockPersonRepository.Object;

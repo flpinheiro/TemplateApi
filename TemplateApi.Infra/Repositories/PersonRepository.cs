@@ -5,7 +5,7 @@ using TemplateApi.Infra.Context;
 
 namespace TemplateApi.Infra.Repositories;
 
-internal class PersonRepository : IPersonRepository
+public class PersonRepository : IPersonRepository
 {
     private readonly TemplateApiContext _context;
     public PersonRepository(TemplateApiContext context)

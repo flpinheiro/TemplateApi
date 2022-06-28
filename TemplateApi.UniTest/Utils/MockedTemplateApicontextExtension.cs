@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.EntityFrameworkCore;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,21 @@ namespace TemplateApi.UniTest.Utils
     internal static class MockedTemplateApicontextExtension
     {
         //Mock<TemplateApiContext>
+
+        public static TemplateApiContext CreateTempleateApiContextInMemory()
+        {
+            var option = new DbContextOptionsBuilder<TemplateApiContext>()
+                .UseInMemoryDatabase(databaseName: "Test1")
+                .Options;
+
+            return new TemplateApiContext(option);
+        }
+
+        public static void Seed(this TemplateApiContext context)
+        {
+            context.People.AddRange(Fixture.People);
+            context.SaveChanges();
+        }
 
         public static void SetSaveChanges(this Mock<TemplateApiContext> mock)
             => mock.Setup(x => x.SaveChanges()).Verifiable();
