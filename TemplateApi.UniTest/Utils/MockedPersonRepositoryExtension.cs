@@ -1,9 +1,5 @@
 ﻿using Moq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Domain.Models.Dal;
 
@@ -31,7 +27,7 @@ namespace TemplateApi.UniTest.Utils
             => mock.Setup(x => x.GetByNameAsync(It.IsAny<string>())).ReturnsAsync(Fixture.People).Verifiable();
 
         public static void VerifyGetByNameAsync(this Mock<IPersonRepository> mock)
-            => mock.Verify(x => x.GetByNameAsync(It.IsAny<string>()), Times.Once); 
+            => mock.Verify(x => x.GetByNameAsync(It.IsAny<string>()), Times.Once);
         #endregion
 
         #region any
@@ -39,7 +35,7 @@ namespace TemplateApi.UniTest.Utils
     => mock.Setup(x => x.AnyAsync(It.IsAny<string>())).ReturnsAsync(any).Verifiable();
 
         public static void VerifyAnyAsync(this Mock<IPersonRepository> mock)
-            => mock.Verify(x => x.AnyAsync(It.IsAny<string>()), Times.Once); 
+            => mock.Verify(x => x.AnyAsync(It.IsAny<string>()), Times.Once);
         #endregion
 
         #region add
@@ -50,7 +46,7 @@ namespace TemplateApi.UniTest.Utils
             => mock.Verify(x => x.Add(It.IsAny<Person>()), Times.Once);
 
         public static void SetAddThrowException<TException>(this Mock<IPersonRepository> mock) where TException : Exception, new()
-            => mock.Setup(x => x.Add(It.IsAny<Person>())).Throws<TException>().Verifiable(); 
+            => mock.Setup(x => x.Add(It.IsAny<Person>())).Throws<TException>().Verifiable();
         #endregion
 
         #region update
@@ -61,7 +57,7 @@ namespace TemplateApi.UniTest.Utils
             => mock.Verify(x => x.Update(It.IsAny<Person>()), Times.Once);
 
         public static void SetUpdateThrowException<TException>(this Mock<IPersonRepository> mock) where TException : Exception, new()
-            => mock.Setup(x => x.Update(It.IsAny<Person>())).Throws<TException>().Verifiable(); 
+            => mock.Setup(x => x.Update(It.IsAny<Person>())).Throws<TException>().Verifiable();
         #endregion
 
         #region delete
@@ -72,7 +68,7 @@ namespace TemplateApi.UniTest.Utils
             => mock.Verify(x => x.Delete(It.IsAny<Person>()), Times.Once);
 
         public static void SetDeleteThrowException<TException>(this Mock<IPersonRepository> mock) where TException : Exception, new()
-            => mock.Setup(x => x.Delete(It.IsAny<Person>())).Throws<TException>().Verifiable(); 
+            => mock.Setup(x => x.Delete(It.IsAny<Person>())).Throws<TException>().Verifiable();
         #endregion
     }
 }

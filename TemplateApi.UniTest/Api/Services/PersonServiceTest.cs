@@ -28,7 +28,7 @@ namespace TemplateApi.UniTest.Api.Services
         }
 
         [Fact]
-        public async void Should_GetPersonById_return_Person() 
+        public async void Should_GetPersonById_return_Person()
         {
             _unitOfWork.MockPersonRepository.SetGetByIdAsync();
 
@@ -90,7 +90,7 @@ namespace TemplateApi.UniTest.Api.Services
         public async void Should_Add_throw_exception()
         {
             _unitOfWork.MockPersonRepository.SetAddThrowException<Exception>();
-            await Assert.ThrowsAsync<Exception>(async () => await _service.AddPerson( new PersonDto()));
+            await Assert.ThrowsAsync<Exception>(async () => await _service.AddPerson(new PersonDto()));
             _unitOfWork.MockPersonRepository.VerifyAdd();
         }
 
@@ -100,7 +100,7 @@ namespace TemplateApi.UniTest.Api.Services
             _unitOfWork.MockPersonRepository.SetAnyAsync();
             _unitOfWork.MockPersonRepository.SetUpdate();
 
-            await _service.UpdatePerson("",new Domain.Models.Dto.PersonDto());
+            await _service.UpdatePerson("", new Domain.Models.Dto.PersonDto());
 
             _unitOfWork.MockPersonRepository.VerifyUpdate();
             _unitOfWork.MockPersonRepository.VerifyAnyAsync();
@@ -112,7 +112,7 @@ namespace TemplateApi.UniTest.Api.Services
         {
             _unitOfWork.MockPersonRepository.SetAnyAsync();
             _unitOfWork.MockPersonRepository.SetUpdateThrowException<Exception>();
-            await Assert.ThrowsAsync<Exception>(async () => await _service.UpdatePerson("",new PersonDto()));
+            await Assert.ThrowsAsync<Exception>(async () => await _service.UpdatePerson("", new PersonDto()));
             _unitOfWork.MockPersonRepository.VerifyUpdate();
             _unitOfWork.MockPersonRepository.VerifyAnyAsync();
         }
@@ -129,7 +129,7 @@ namespace TemplateApi.UniTest.Api.Services
         [Fact]
         public async void Should_Delete_return_ok()
         {
-   
+
             _unitOfWork.MockPersonRepository.SetDelete();
             _unitOfWork.MockPersonRepository.SetGetByIdAsync();
 

@@ -1,9 +1,5 @@
 ﻿using Moq;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dto;
 
@@ -33,7 +29,7 @@ namespace TemplateApi.UniTest.Utils
         public static void SetGetPersonByName(this Mock<IPersonService> mock)
     => mock.Setup(x => x.GetPersonByName(It.IsAny<string>())).ReturnsAsync(Fixture.PeopleDto).Verifiable();
 
-        public static void SetGetPersonByName(this Mock<IPersonService> mock,IEnumerable< PersonDto> people)
+        public static void SetGetPersonByName(this Mock<IPersonService> mock, IEnumerable<PersonDto> people)
             => mock.Setup(x => x.GetPersonByName(It.IsAny<string>())).ReturnsAsync(people).Verifiable();
 
         public static void VerifyGetPersonByName(this Mock<IPersonService> mock)

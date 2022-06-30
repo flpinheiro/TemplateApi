@@ -15,16 +15,10 @@ public class TemplateApiContext : DbContext
         People = Set<Person>();
     }
 
-    public TemplateApiContext(): base()
-    {
-        People = Set<Person>();
-    }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new PersonMap());
-
         base.OnModelCreating(modelBuilder);
+        modelBuilder.ApplyConfiguration(new PersonMap());
     }
 
     #region Override SaveChanges

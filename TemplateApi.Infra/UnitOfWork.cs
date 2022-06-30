@@ -15,9 +15,9 @@ public class UnitOfWork : IUnitOfWork
 
     public UnitOfWork(TemplateApiContext context, IMapper mapper, ILogger logger)
     {
-        Logger = logger ?? throw new ArgumentNullException(nameof(ILogger)); ;
         _context = context ?? throw new ArgumentNullException(nameof(TemplateApiContext));
         Mapper = mapper ?? throw new ArgumentNullException(nameof(IMapper));
+        Logger = logger ?? throw new ArgumentNullException(nameof(ILogger));
         _transaction = _context.Database.BeginTransaction();
         Logger.Debug($"Begin Trasaction: {_transaction.TransactionId}", _transaction);
     }

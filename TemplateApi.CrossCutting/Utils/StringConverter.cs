@@ -4,6 +4,7 @@ namespace TemplateApi.CrossCutting.Utils
 {
     public static class StringConverter
     {
+
         /// <summary>
         /// Formata um cep para o padrão brasileito 
         /// </summary>
@@ -62,9 +63,8 @@ namespace TemplateApi.CrossCutting.Utils
         /// <param name="capitalSocial"></param>
         /// <returns></returns>
         public static string FormatMoney(this string capitalSocial)
-        {
-            return $"R$ {Convert.ToDecimal(capitalSocial.OnlyNumber()):#.00}";
-        }
+            => $"R$ {Convert.ToDecimal(capitalSocial.OnlyNumber()):#.00}";
+
 
         /// <summary>
         /// remove todos os caracteres não numerico da string
@@ -72,10 +72,8 @@ namespace TemplateApi.CrossCutting.Utils
         /// <param name="str">string</param>
         /// <returns></returns>
         public static string OnlyNumber(this string str)
-        {
-            var digitsOnly = new Regex(@"[^\d]");
-            return digitsOnly.Replace(str, "");
-        }
+            => Regex.Replace(str, @"[^\d]", string.Empty);
+
 
         /// <summary>
         /// remove all white space from a string
@@ -83,9 +81,8 @@ namespace TemplateApi.CrossCutting.Utils
         /// <param name="str"></param>
         /// <returns></returns>
         public static string RemoveAllWhiteSpace(this string str)
-        {
-            return Regex.Replace(str, @"\s+", "");
-        }
+            => Regex.Replace(str, @"\s+", "");
+
     }
 }
 

@@ -1,9 +1,14 @@
-﻿namespace TemplateApi.CrossCutting.Validators
+﻿using System.Text.RegularExpressions;
+
+namespace TemplateApi.CrossCutting.Validators
 {
     public static class CPFValidator
     {
+        public const string CPFFormatRegex = @"/^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/gm";
+        public static Regex CPFRegex { get; } = new Regex(CPFFormatRegex);
         public static bool IsValid(string cpf)
         {
+            if (!Regex.IsMatch(cpf, CPFFormatRegex)) return false;
             int[] multiplicador1 = new int[9] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
             int[] multiplicador2 = new int[10] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
 

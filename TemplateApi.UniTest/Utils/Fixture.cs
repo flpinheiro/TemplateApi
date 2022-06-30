@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TemplateApi.Domain.Models.Dal;
 using TemplateApi.Domain.Models.Dto;
 
@@ -17,7 +14,7 @@ namespace TemplateApi.UniTest.Utils
             SurName = "Tested",
             Id = "Tester-Tested",
             IsUpdated = false,
-            LastUpdate = DateTime.Now,
+            LastUpdate = DateTime.UtcNow,
         };
 
         private static Person _person = new Person
@@ -27,7 +24,7 @@ namespace TemplateApi.UniTest.Utils
             SurName = "Test",
             Id = "Testered-Test",
             IsUpdated = false,
-            LastUpdate = DateTime.Now,
+            LastUpdate = DateTime.UtcNow,
         };
 
         public static IEnumerable<Person> People = new List<Person> { Person, _person };

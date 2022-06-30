@@ -1,15 +1,9 @@
 ﻿using AutoMapper;
 using Moq;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using TemplateApi.Domain.Configurations;
 using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Infra;
-using TemplateApi.Infra.Context;
 
 namespace TemplateApi.UniTest.Utils
 {
@@ -17,15 +11,19 @@ namespace TemplateApi.UniTest.Utils
     {
         public readonly Mock<IPersonRepository> MockPersonRepository;
         private readonly Mock<ILogger> MockLogger;
+        private readonly IUnitOfWork _unitOfWork;
 
         public MockedUnitOfWork()
         {
+            var context = MockedTemplateApicontextExtension.CreateTempleateApiContextInMemory();
             MockPersonRepository = new Mock<IPersonRepository>();
             MockLogger = new Mock<ILogger>();
 
             if (_mapper == null) _mapper = MockedIMapperExtensions.CreateIMapper();
 
             MockLogger.SetLogger();
+
+            _unitOfWork = new UnitOfWork(context, _mapper, MockLogger.Object);
 
         }
         public IPersonRepository PersonRepository => MockPersonRepository.Object;
@@ -37,22 +35,22 @@ namespace TemplateApi.UniTest.Utils
 
         public void Dispose()
         {
-
+            _unitOfWork.Dispose();
         }
 
         public void RollBack()
         {
-
+            _unitOfWork.RollBack();
         }
 
         public void Save()
         {
-
+            _unitOfWork.Save();
         }
 
         public async Task SaveAsync()
         {
-
+            await _unitOfWork.SaveAsync();
         }
     }
 }

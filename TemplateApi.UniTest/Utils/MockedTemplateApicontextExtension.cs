@@ -1,25 +1,30 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TemplateApi.Domain.Models.Dal;
 using TemplateApi.Infra.Context;
 
 namespace TemplateApi.UniTest.Utils
 {
     internal static class MockedTemplateApicontextExtension
     {
-        //Mock<TemplateApiContext>
+        public const string InMemoryConnectionString = "DataSource=:memory:";
 
         public static TemplateApiContext CreateTempleateApiContextInMemory()
         {
+            var _connection = new SqliteConnection(InMemoryConnectionString);
+            _connection.Open();
+
             var option = new DbContextOptionsBuilder<TemplateApiContext>()
-                .UseInMemoryDatabase(databaseName: "Test1")
+                .UseSqlite(_connection)
                 .Options;
 
-            return new TemplateApiContext(option);
+            var context = new MockedTemplateApiContext(option);
+            context.Database.EnsureCreated();
+            //context.Seed();
+
+            return context;
         }
 
         public static void Seed(this TemplateApiContext context)
@@ -40,4 +45,27 @@ namespace TemplateApi.UniTest.Utils
         public static void VerifySaveChangesAsync(this Mock<TemplateApiContext> mock)
             => mock.Verify(x => x.SaveChangesAsync(default), Times.Once);
     }
+
+    internal class MockedTemplateApiContext : TemplateApiContext
+    {
+        public MockedTemplateApiContext(DbContextOptions<TemplateApiContext> options) : base(options)
+        {
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfiguration(new PersonSeed());
+        }
+
+        private class PersonSeed : IEntityTypeConfiguration<Person>
+        {
+            public void Configure(EntityTypeBuilder<Person> builder)
+            {
+                builder.HasData(Fixture.People);
+            }
+        }
+    }
+
+
 }
