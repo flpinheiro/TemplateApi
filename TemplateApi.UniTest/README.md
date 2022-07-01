@@ -46,6 +46,10 @@ Ao acionar a opção Run Code Coverage o relatório de cobertura de testes será
 
 Já ao manter ativada a opção Toggle Code Coverage Highlighting trechos de código validados serão destacados em verde, ao passo que linhas de código não testadas aparecerão em vermelho:
 
+## cli
+
+		dotnet test -s .\CodeCoverage.runsettings  --blame --blame-crash -c Debug -c "Code Coverage"
+
 
 ## References
 

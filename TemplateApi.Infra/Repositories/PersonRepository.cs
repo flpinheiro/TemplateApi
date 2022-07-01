@@ -9,7 +9,7 @@ internal class PersonRepository : IPersonRepository
 {
     private readonly TemplateApiContext _context;
     public PersonRepository(TemplateApiContext context)
-        => _context = context ?? throw new ArgumentNullException("TemplateApiContext");
+        => _context = context;
 
     public async Task<IEnumerable<Person>> GetAllAsync() => await _context.People.ToListAsync();
     public async Task<Person?> GetByIdAsync(string id) => await _context.People.FirstOrDefaultAsync(x => x.Id == id);
