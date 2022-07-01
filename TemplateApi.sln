@@ -11,7 +11,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemplateApi.Infra", "Templa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemplateApi.UniTest", "TemplateApi.UniTest\TemplateApi.UniTest.csproj", "{130FF514-0B24-4701-9F76-BF3D1E941F74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TemplateApi.CrossCutting", "TemplateApi.CrossCutting\TemplateApi.CrossCutting.csproj", "{79BD678E-A54B-4823-B372-4ED637709DEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemplateApi.CrossCutting", "TemplateApi.CrossCutting\TemplateApi.CrossCutting.csproj", "{79BD678E-A54B-4823-B372-4ED637709DEC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B628B39F-EABD-4B9D-A9DC-5A21477DF5FD}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		CodeCoverage.runsettings = CodeCoverage.runsettings
+		testEnvironments.json = testEnvironments.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

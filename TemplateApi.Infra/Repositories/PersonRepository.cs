@@ -10,7 +10,8 @@ internal class PersonRepository : IPersonRepository
     private readonly TemplateApiContext _context;
     public PersonRepository(TemplateApiContext context)
         => _context = context ?? throw new ArgumentNullException("TemplateApiContext");
-    public async Task<IEnumerable<Person>> GetAllAsync() => await _context.People.ToListAsync() ?? new List<Person>();
+
+    public async Task<IEnumerable<Person>> GetAllAsync() => await _context.People.ToListAsync();
     public async Task<Person?> GetByIdAsync(string id) => await _context.People.FirstOrDefaultAsync(x => x.Id == id);
     public async Task<IEnumerable<Person>> GetByNameAsync(string name)
         => await _context.People
@@ -21,18 +22,18 @@ internal class PersonRepository : IPersonRepository
     {
         model.Id = Guid.NewGuid().ToString();
         _context.Entry(model).State = EntityState.Added;
-        _context.People?.Add(model);
+        _context.People.Add(model);
         return model.Id;
     }
     public void Update(Person model)
     {
         _context.Entry(model).State = EntityState.Modified;
-        _context.People?.Update(model);
+        _context.People.Update(model);
     }
     public void Delete(Person model)
     {
         _context.Entry(model).State = EntityState.Deleted;
-        _context.People?.Remove(model);
+        _context.People.Remove(model);
     }
 }
 
