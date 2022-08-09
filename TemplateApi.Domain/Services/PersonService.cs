@@ -13,11 +13,12 @@ public class PersonService : IPersonService
         => _uow = uow ?? throw new ArgumentNullException("IUnitOfWork");
 
 
-    public async Task<PersonDto> AddPerson(PersonDto person)
+    public async Task<PersonDto> AddPerson(AddPersonDto addPErson)
     {
         try
         {
-            _uow.Logger.Debug("Add Person", person);
+            _uow.Logger.Debug("Add Person", addPErson);
+            var person = _uow.Mapper.Map<PersonDto>(addPErson);
             var model = _uow.Mapper.Map<Person>(person);
             person.Id = _uow.PersonRepository.Add(model);
             await _uow.SaveAsync();

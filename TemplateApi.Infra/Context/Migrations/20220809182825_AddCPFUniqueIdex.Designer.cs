@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TemplateApi.Infra.Context;
 
@@ -11,9 +12,10 @@ using TemplateApi.Infra.Context;
 namespace TemplateApi.Infra.Context.Migrations
 {
     [DbContext(typeof(TemplateApiContext))]
-    partial class TemplateApiContextModelSnapshot : ModelSnapshot
+    [Migration("20220809182825_AddCPFUniqueIdex")]
+    partial class AddCPFUniqueIdex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,9 +43,11 @@ namespace TemplateApi.Infra.Context.Migrations
 
                     b.Property<string>("CPF")
                         .IsRequired()
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(11)
                         .IsUnicode(false)
                         .HasColumnType("char(11)")
+                        .HasDefaultValue("00000000000")
                         .HasColumnName("cpf")
                         .IsFixedLength();
 

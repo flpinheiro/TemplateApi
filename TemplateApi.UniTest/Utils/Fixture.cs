@@ -15,6 +15,7 @@ namespace TemplateApi.UniTest.Utils
             Id = "Tester-Tested",
             IsUpdated = false,
             LastUpdate = DateTime.UtcNow,
+            CPF = "87246002022",
         };
 
         private static Person _person = new Person
@@ -25,6 +26,7 @@ namespace TemplateApi.UniTest.Utils
             Id = "Testered-Test",
             IsUpdated = false,
             LastUpdate = DateTime.UtcNow,
+            CPF = "59143964095",
         };
 
         public static IEnumerable<Person> People = new List<Person> { Person, _person };
@@ -34,7 +36,16 @@ namespace TemplateApi.UniTest.Utils
             BirthDay = new DateOnly(1985, 5, 1),
             Name = "test",
             SurName = "tested",
-            Id = "test_id"
+            Id = "test_id",
+            CPF = "59143964095",
+        };
+
+        public static AddPersonDto AddPersonDto = new AddPersonDto
+        {
+            BirthDay = new DateOnly(1985, 5, 1),
+            Name = "test",
+            SurName = "tested",
+            CPF = "59143964095",
         };
 
         public static IEnumerable<PersonDto> PeopleDto = new List<PersonDto> { PersonDto };

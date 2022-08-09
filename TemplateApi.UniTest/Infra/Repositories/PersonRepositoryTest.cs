@@ -7,7 +7,6 @@ using TemplateApi.Domain.Models.Dal;
 using TemplateApi.Infra;
 using TemplateApi.Infra.Context;
 using TemplateApi.UniTest.Utils;
-using Xunit;
 
 namespace TemplateApi.UniTest.Infra.Repositories
 {
@@ -92,7 +91,8 @@ namespace TemplateApi.UniTest.Infra.Repositories
                 Id = "Add",
                 BirthDay = (new DateOnly()).ToShortDateString(),
                 Name = "Add-name",
-                SurName = "Add-surname"
+                SurName = "Add-surname",
+                CPF = "34024804090",
             };
             _unitOfWork.PersonRepository.Add(person);
             _unitOfWork.Save();

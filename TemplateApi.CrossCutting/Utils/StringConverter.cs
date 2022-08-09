@@ -15,6 +15,7 @@ namespace TemplateApi.CrossCutting.Utils
             var cepFormat = cep.OnlyNumber();
             return cepFormat.Length == 8 ? Convert.ToUInt64(cepFormat).ToString(@"00\.000\-000") : cepFormat;
         }
+
         /// <summary>
         /// Formata um numero de telefone para o padrão brasileito
         /// </summary>
@@ -36,6 +37,7 @@ namespace TemplateApi.CrossCutting.Utils
 
             return ret;
         }
+
         /// <summary>
         /// Formata uma string no padrão yyyMMdd para <see cref="DateTime"/>
         /// </summary>
@@ -57,6 +59,7 @@ namespace TemplateApi.CrossCutting.Utils
                 return null;
             }
         }
+
         /// <summary>
         /// Formata uma string numeria para padrão de dinheiro. Deconsidera centavos. 
         /// </summary>
@@ -65,7 +68,6 @@ namespace TemplateApi.CrossCutting.Utils
         public static string FormatMoney(this string capitalSocial)
             => $"R$ {Convert.ToDecimal(capitalSocial.OnlyNumber()):#.00}";
 
-
         /// <summary>
         /// remove todos os caracteres não numerico da string
         /// </summary>
@@ -73,7 +75,6 @@ namespace TemplateApi.CrossCutting.Utils
         /// <returns></returns>
         public static string OnlyNumber(this string str)
             => Regex.Replace(str, @"[^\d]", string.Empty);
-
 
         /// <summary>
         /// remove all white space from a string

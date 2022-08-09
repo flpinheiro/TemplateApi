@@ -5,7 +5,6 @@ using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dto;
 using TemplateApi.Domain.Services;
 using TemplateApi.UniTest.Utils;
-using Xunit;
 
 namespace TemplateApi.UniTest.Api.Services
 {
@@ -71,7 +70,7 @@ namespace TemplateApi.UniTest.Api.Services
         {
             _unitOfWork.MockPersonRepository.SetAdd();
 
-            var person = await _service.AddPerson(new Domain.Models.Dto.PersonDto());
+            var person = await _service.AddPerson(Fixture.AddPersonDto);
 
             Assert.NotNull(person);
             Assert.Equal(Fixture.Person.Id, person.Id);

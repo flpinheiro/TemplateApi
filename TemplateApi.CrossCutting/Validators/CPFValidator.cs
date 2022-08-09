@@ -1,14 +1,25 @@
 ﻿using System.Text.RegularExpressions;
+using TemplateApi.CrossCutting.Utils;
 
 namespace TemplateApi.CrossCutting.Validators
 {
     public static class CPFValidator
     {
-        public const string CPFFormatRegex = @"/^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/gm";
-        public static Regex CPFRegex { get; } = new Regex(CPFFormatRegex);
-        public static bool IsValid(string cpf)
+        public const int Size = 11;
+        public static Regex CPFRegex { get; } = new Regex(@"^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$");
+        /// <summary>
+        /// Formata um cpf para o padrão brasileito 
+        /// </summary>
+        /// <param name="cpf"></param>
+        /// <returns></returns>
+        public static string ToCPFFormat(this string cpf)
         {
-            if (!Regex.IsMatch(cpf, CPFFormatRegex)) return false;
+            if (!CPFRegex.IsMatch(cpf)) throw new ArgumentException("Not a valid Cpf");
+            return Convert.ToUInt64(cpf.OnlyNumber()).ToString(@"000\.000\.000\-00");
+        }
+        public static bool IsValidCpf(this string cpf)
+        {
+            if (string.IsNullOrEmpty(cpf) || !CPFRegex.IsMatch(cpf)) return false;
             int[] multiplicador1 = new int[9] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
             int[] multiplicador2 = new int[10] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
 

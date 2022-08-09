@@ -7,6 +7,7 @@ namespace TemplateApi.Domain.Models.Dal
         public string? Name { get; set; }
         public string? SurName { get; set; }
         public string? BirthDay { get; set; }
+        public string? CPF { get; set; }
         public DateTime LastUpdate { get; set; }
         public bool IsUpdated { get; set; } = false;
     }

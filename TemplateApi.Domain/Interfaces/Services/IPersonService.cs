@@ -8,7 +8,7 @@ namespace TemplateApi.Domain.Interfaces.Services
         Task<IEnumerable<PersonDto>> GetPersonByName(string name);
         Task<IEnumerable<PersonDto>> GetAllPerson();
 
-        Task<PersonDto> AddPerson(PersonDto person);
+        Task<PersonDto> AddPerson(AddPersonDto person);
         Task UpdatePerson(string id, PersonDto person);
         Task<PersonDto> DeletePerson(string id);
 

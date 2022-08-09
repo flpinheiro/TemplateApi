@@ -5,16 +5,16 @@ namespace TemplateApi.CrossCutting.Validators
 {
     public static class CNPJValidator
     {
-        public const string CNPJFormatRegex = @"/^\d{2}\.?\d{3}\.?\d{3}\/?\d{4}\-?\d{2}$/gm";
-        public static Regex CNPJRegex { get; } = new Regex(CNPJFormatRegex);
-        public static string Format(string cnpj)
+        public const int Size = 14;
+        public static Regex CNPJRegex { get; } = new Regex(@"^\d{2}\.?\d{3}\.?\d{3}\/?\d{4}\-?\d{2}$");
+        public static string ToCNPJFormat(this string cnpj)
         {
-            if (!Regex.IsMatch(cnpj, CNPJFormatRegex)) throw new ArgumentException("that is not a cnpj");
-            return Convert.ToUInt64(cnpj.OnlyNumber()).ToString(@"00\.000\.000\/000\-00");
+            if (!CNPJRegex.IsMatch(cnpj)) throw new ArgumentException("that is not a cnpj");
+            return Convert.ToUInt64(cnpj.OnlyNumber()).ToString(@"00\.000\.000\/0000\-00");
         }
-        public static bool IsValid(string cnpj)
+        public static bool IsValidCNPJ(this string cnpj)
         {
-            if (!Regex.IsMatch(cnpj, CNPJFormatRegex)) return false;
+            if (string.IsNullOrEmpty(cnpj) || !CNPJRegex.IsMatch(cnpj)) return false;
             int[] multiplicador1 = new int[12] { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
             int[] multiplicador2 = new int[13] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
 

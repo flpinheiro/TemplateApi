@@ -9,7 +9,6 @@ using TemplateApi.Controllers;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dto;
 using TemplateApi.UniTest.Utils;
-using Xunit;
 
 namespace TemplateApi.UniTest.Api.Controllers
 {

@@ -36,10 +36,10 @@ public class PersonController : Controller
     }
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<ActionResult<PersonDto>> Create([FromBody] PersonDto person)
+    public async Task<ActionResult<PersonDto>> Create([FromBody] AddPersonDto addPerson)
     {
-        await _service.AddPerson(person);
-        return CreatedAtAction(nameof(Create), new { id = person.Id }, person);
+        var personDto = await _service.AddPerson(addPerson);
+        return CreatedAtAction(nameof(Create), new { id = personDto.Id }, addPerson);
     }
 
     [HttpPut("{id}")]
