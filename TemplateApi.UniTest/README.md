@@ -48,7 +48,7 @@ Já ao manter ativada a opção Toggle Code Coverage Highlighting trechos de có
 
 ## cli
 
-		dotnet test -s .\CodeCoverage.runsettings  --blame --blame-crash -c Debug -c "Code Coverage"
+		dotnet test -s .\CodeCoverage.runsettings  --blame --blame-crash -c Debug --verbosity minimal --collect:"XPlat Code Coverage"
 
 
 ## References
