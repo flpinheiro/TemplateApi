@@ -14,7 +14,7 @@ namespace TemplateApi.Domain.Interfaces.Repositories
         void Delete(Person model);
         Task<IEnumerable<Person>> GetByNameAsync(string name, Pagination pagination);
         Task<IEnumerable<Person>> GetAllAsync(Pagination pagination);
-        Task<PaginationResponse> CountAllAsync(Pagination pagination);
-        Task<PaginationResponse> CountByNameAsync(string name, Pagination pagination);
+        PaginationResponse CountAll(Pagination pagination);
+        PaginationResponse CountByName(string name, Pagination pagination);
     }
 }

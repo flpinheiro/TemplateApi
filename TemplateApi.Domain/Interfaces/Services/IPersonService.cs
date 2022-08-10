@@ -20,5 +20,7 @@ namespace TemplateApi.Domain.Interfaces.Services
         FileStreamResult ExportToExcel(IEnumerable<PersonDto> people);
         Task<IEnumerable<PersonDto>> GetPersonByName(string name, Pagination pagination);
         Task<IEnumerable<PersonDto>> GetAllPerson(Pagination pagination);
+        PaginationResponse CountAllPerson(Pagination pagination);
+        PaginationResponse CountPersonByName(string name, Pagination pagination);
     }
 }

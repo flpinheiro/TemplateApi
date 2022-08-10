@@ -68,6 +68,7 @@ public class PersonService : IPersonService
         _uow.Logger.Debug("get all person");
         return _uow.Mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetAllAsync(pagination));
     }
+    public PaginationResponse CountAllPerson(Pagination pagination) => _uow.PersonRepository.CountAll(pagination);
 
     public async Task<PersonDto> GetPersonById(string id)
     {
@@ -86,6 +87,7 @@ public class PersonService : IPersonService
         _uow.Logger.Debug("Get person by name");
         return _uow.Mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetByNameAsync(name, pagination));
     }
+    public PaginationResponse CountPersonByName(string name, Pagination pagination) => _uow.PersonRepository.CountByName(name, pagination);
 
     public async Task UpdatePerson(string id, PersonDto person)
     {
@@ -109,7 +111,7 @@ public class PersonService : IPersonService
     public Microsoft.AspNetCore.Mvc.FileStreamResult ExportToExcel(IEnumerable<PersonDto> people)
     {
         var table = new DataTable("People");
-        
+
         var name = new DataColumn("name");
         var surname = new DataColumn("Surname");
         var birthDay = new DataColumn("Birth Day");

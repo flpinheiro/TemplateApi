@@ -24,6 +24,12 @@ public class PersonController : Controller
     {
         return Ok(await _service.GetAllPerson(pagination));
     }
+    [HttpGet("Count")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public ActionResult<PaginationResponse> CountAll([FromQuery] Pagination pagination)
+    {
+        return Ok(_service.CountAllPerson(pagination));
+    }
     [HttpGet("ExportToExcel")]
     [Produces(ExcelExtensions.ContentType)]
     public async Task<FileStreamResult> ExporttoExcelAll()
@@ -48,6 +54,11 @@ public class PersonController : Controller
     public async Task<ActionResult<IEnumerable<PersonDto>>> GetPersonByName([FromRoute] string name, [FromQuery] Pagination pagination)
     {
         return Ok(await _service.GetPersonByName(name, pagination));
+    }
+    [HttpGet("Name/{name}/Count")]
+    public ActionResult<PaginationResponse> CountPersonByName([FromRoute] string name, [FromQuery] Pagination pagination)
+    {
+        return Ok( _service.CountPersonByName(name, pagination));
     }
 
     [HttpPost]
