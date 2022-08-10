@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using TemplateApi.CrossCutting.Extensions;
 using TemplateApi.CrossCutting.Models;
@@ -13,9 +14,11 @@ namespace TemplateApi.Controllers;
 public class PersonController : Controller
 {
     private readonly IPersonService _service;
-    public PersonController(IPersonService service)
+    private readonly IValidator<AddPersonDto> _validator;
+    public PersonController(IPersonService service, IValidator<AddPersonDto> validator)
     {
         _service = service ?? throw new ArgumentNullException("IPersonService");
+        _validator = validator;
     }
 
     [HttpGet]
@@ -65,7 +68,7 @@ public class PersonController : Controller
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult<PersonDto>> Create([FromBody] AddPersonDto addPerson)
     {
-        var validate = _service.Validator.Validate(addPerson);
+        var validate = _validator.Validate(addPerson);
         if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
 
         var personDto = await _service.AddPerson(addPerson);
@@ -76,7 +79,7 @@ public class PersonController : Controller
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<PersonDto>> Edit([FromRoute] string id, [FromBody] PersonDto person)
     {
-        var validate = _service.Validator.Validate(person);
+        var validate = _validator.Validate(person);
         if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
 
         await _service.UpdatePerson(id, person);

@@ -12,8 +12,6 @@ namespace TemplateApi.Domain.Services;
 public class PersonService : IPersonService
 {
     private readonly IUnitOfWork _uow;
-    public PersonDtoValidation ValidationRules { get; } = new PersonDtoValidation();
-    public IValidator<AddPersonDto> Validator { get; } = new PersonDtoValidation();
 
     public PersonService(IUnitOfWork uow)
         => _uow = uow ?? throw new ArgumentNullException("IUnitOfWork");

@@ -7,9 +7,6 @@ namespace TemplateApi.Domain.Interfaces.Services
 {
     public interface IPersonService
     {
-        PersonDtoValidation ValidationRules { get; }
-        IValidator<AddPersonDto> Validator { get; }
-
         Task<PersonDto> GetPersonById(string id);
         Task<IEnumerable<PersonDto>> GetPersonByName(string name);
         Task<IEnumerable<PersonDto>> GetAllPerson();

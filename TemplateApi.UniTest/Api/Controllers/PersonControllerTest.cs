@@ -22,8 +22,9 @@ namespace TemplateApi.UniTest.Api.Controllers
 
         public PersonControllerTest()
         {
+            var validator = new PersonDtoValidation();
             mock = new Mock<IPersonService>();
-            _controller = new PersonController(mock.Object);
+            _controller = new PersonController(mock.Object, validator);
 
             mock.SetGetAllPeron();
             mock.SetGetPersonById();
@@ -36,7 +37,7 @@ namespace TemplateApi.UniTest.Api.Controllers
         [Fact]
         public void Constructor_shouldReturnException()
         {
-            Assert.Throws<ArgumentNullException>(() => new PersonController(null));
+            Assert.Throws<ArgumentNullException>(() => new PersonController(null, null));
         }
 
         [Fact]
@@ -94,6 +95,24 @@ namespace TemplateApi.UniTest.Api.Controllers
         }
 
         [Fact]
+        public async void AddPerson_ShouldReturn400()
+        {
+            var person = new PersonDto()
+            {
+                Name = null,
+                SurName = null,
+                // BirthDay = null,
+                CPF = null,
+            };
+            var result = await _controller.Create(person);
+            var badResponseResult = result.Result as BadRequestObjectResult;
+            Assert.NotNull(badResponseResult);
+            Assert.Equal(400, badResponseResult?.StatusCode);
+            var values = badResponseResult?.Value as IEnumerable<object>;
+            Assert.NotEmpty(values);
+        }
+
+        [Fact]
         public async void UpdatePerson_ShouldReturn200()
         {
             var result = await _controller.Edit("", Fixture.PersonDto);
@@ -104,6 +123,25 @@ namespace TemplateApi.UniTest.Api.Controllers
             Assert.IsAssignableFrom<PersonDto>(model);
             Assert.Equal(Fixture.PersonDto, model);
             mock.VerifyUpdatePerson();
+        }
+
+        [Fact]
+        public async void UpdatePerson_ShouldReturn400()
+        {
+            var person = new PersonDto()
+            {
+                Name = null,
+                SurName = null,
+                // BirthDay = null,
+                CPF = null,
+            };
+
+            var result = await _controller.Edit("", person);
+            var badResponseResult = result.Result as BadRequestObjectResult;
+            Assert.NotNull(badResponseResult);
+            Assert.Equal(400, badResponseResult?.StatusCode);
+            var values = badResponseResult?.Value as IEnumerable<object>;
+            Assert.NotEmpty(values);
         }
 
         [Fact]
