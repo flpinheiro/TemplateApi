@@ -1,5 +1,7 @@
-﻿using Moq;
+﻿using Microsoft.AspNetCore.Mvc;
+using Moq;
 using System.Collections.Generic;
+using System.IO;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dto;
 
@@ -51,5 +53,12 @@ namespace TemplateApi.UniTest.Utils
 
         public static void VerifyDeletePerson(this Mock<IPersonService> mock)
             => mock.Verify(x => x.DeletePerson(It.IsAny<string>()), Times.Once);
+
+        public static void SetExportToExcel(this Mock<IPersonService> mock)
+            => mock.Setup(x => x.ExportToExcel(It.IsAny<IEnumerable<PersonDto>>()))
+            .Returns(new FileStreamResult(new MemoryStream(), "text/csv")).Verifiable();
+
+        public static void VerifyExportToExcel(this Mock<IPersonService> mock)
+            => mock.Verify(x => x.ExportToExcel(It.IsAny<IEnumerable<PersonDto>>()), Times.Once);
     }
 }

@@ -124,7 +124,6 @@ namespace TemplateApi.UniTest.Api.Services
             _unitOfWork.MockPersonRepository.VerifyAnyAsync();
         }
 
-
         [Fact]
         public async void Should_Delete_return_ok()
         {
@@ -157,6 +156,13 @@ namespace TemplateApi.UniTest.Api.Services
             _unitOfWork.MockPersonRepository.SetGetByIdAsync(null);
             await Assert.ThrowsAsync<PersonNotFoundException>(async () => await _service.DeletePerson(""));
             _unitOfWork.MockPersonRepository.VerifyGetByIdAsync();
+        }
+
+        [Fact]
+        public void Should_ExportToExcel_produces_file()
+        {
+            var file = _service.ExportToExcel(Fixture.PeopleDto);
+            Assert.NotNull(file);
         }
 
     }

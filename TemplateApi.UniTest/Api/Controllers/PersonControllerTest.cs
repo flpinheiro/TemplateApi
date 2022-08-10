@@ -27,6 +27,7 @@ namespace TemplateApi.UniTest.Api.Controllers
             mock.SetAddPerson();
             mock.SetUpdatePerson();
             mock.SetDeletePerson();
+            mock.SetExportToExcel();
         }
 
         [Fact]
@@ -89,8 +90,6 @@ namespace TemplateApi.UniTest.Api.Controllers
             mock.VerifyAddPerson();
         }
 
-
-
         [Fact]
         public async void UpdatePerson_ShouldReturn200()
         {
@@ -115,6 +114,26 @@ namespace TemplateApi.UniTest.Api.Controllers
             Assert.IsAssignableFrom<PersonDto>(model);
             Assert.Equal(Fixture.PersonDto, model);
             mock.VerifyDeletePerson();
+        }
+
+        [Fact]
+        public async void ExportToExcelAll_ShouldReturnFile()
+        {
+            var file = await _controller.ExporttoExcelAll();
+
+            Assert.NotNull(file);
+            mock.VerifyGetAllPerson();
+            mock.VerifyExportToExcel();
+        }
+
+        [Fact]
+        public async void ExportToExcelByName_ShouldReturnFile()
+        {
+            var file = await _controller.ExportoExcelByName("test");
+
+            Assert.NotNull(file);
+            mock.VerifyGetPersonByName();
+            mock.VerifyExportToExcel();
         }
     }
 }
