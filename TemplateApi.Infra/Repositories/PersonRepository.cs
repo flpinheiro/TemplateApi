@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Domain.Models.Dal;
 using TemplateApi.Infra.Context;
@@ -11,11 +12,19 @@ internal class PersonRepository : IPersonRepository
     public PersonRepository(TemplateApiContext context)
         => _context = context;
 
-    public async Task<IEnumerable<Person>> GetAllAsync() => await _context.People.ToListAsync();
+    public async Task<IEnumerable<Person>> GetAllAsync() 
+        => await _context.People.ToListAsync();
+    public async Task<IEnumerable<Person>> GetAllAsync(Pagination pagination) 
+        => await _context.People.GetPaginated(pagination).ToListAsync();
     public async Task<Person?> GetByIdAsync(string id) => await _context.People.FirstOrDefaultAsync(x => x.Id == id);
     public async Task<IEnumerable<Person>> GetByNameAsync(string name)
         => await _context.People
         .Where(p => p.Name != null && p.Name.ToUpper().Contains(name.ToUpper()) || p.SurName != null && p.SurName.ToUpper().Contains(name.ToUpper()))
+        .ToListAsync() ?? new List<Person>();
+    public async Task<IEnumerable<Person>> GetByNameAsync(string name, Pagination pagination)
+        => await _context.People
+        .Where(p => p.Name != null && p.Name.ToUpper().Contains(name.ToUpper()) || p.SurName != null && p.SurName.ToUpper().Contains(name.ToUpper()))
+        .GetPaginated(pagination)
         .ToListAsync() ?? new List<Person>();
     public async Task<bool> AnyAsync(string id) => await _context.People.AnyAsync(p => p.Id != null && p.Id.Equals(id));
     public string Add(Person model)

@@ -1,4 +1,5 @@
-﻿using TemplateApi.Domain.Models.Dal;
+﻿using TemplateApi.CrossCutting.Models;
+using TemplateApi.Domain.Models.Dal;
 
 namespace TemplateApi.Domain.Interfaces.Repositories
 {
@@ -11,5 +12,7 @@ namespace TemplateApi.Domain.Interfaces.Repositories
         string Add(Person model);
         void Update(Person model);
         void Delete(Person model);
+        Task<IEnumerable<Person>> GetByNameAsync(string name, Pagination pagination);
+        Task<IEnumerable<Person>> GetAllAsync(Pagination pagination);
     }
 }

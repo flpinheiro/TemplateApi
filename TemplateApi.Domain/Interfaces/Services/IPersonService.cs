@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Models.Dto;
 
 namespace TemplateApi.Domain.Interfaces.Services
@@ -13,5 +14,7 @@ namespace TemplateApi.Domain.Interfaces.Services
         Task UpdatePerson(string id, PersonDto person);
         Task<PersonDto> DeletePerson(string id);
         FileStreamResult ExportToExcel(IEnumerable<PersonDto> people);
+        Task<IEnumerable<PersonDto>> GetPersonByName(string name, Pagination pagination);
+        Task<IEnumerable<PersonDto>> GetAllPerson(Pagination pagination);
     }
 }

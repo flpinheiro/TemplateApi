@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using TemplateApi.CrossCutting.Exceptions;
 using TemplateApi.CrossCutting.Extensions;
+using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dal;
@@ -59,6 +60,12 @@ public class PersonService : IPersonService
         return _uow.Mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetAllAsync());
     }
 
+    public async Task<IEnumerable<PersonDto>> GetAllPerson(Pagination pagination)
+    {
+        _uow.Logger.Debug("get all person");
+        return _uow.Mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetAllAsync(pagination));
+    }
+
     public async Task<PersonDto> GetPersonById(string id)
     {
         _uow.Logger.Debug("Get person by id");
@@ -69,6 +76,12 @@ public class PersonService : IPersonService
     {
         _uow.Logger.Debug("Get person by name");
         return _uow.Mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetByNameAsync(name));
+    }
+
+    public async Task<IEnumerable<PersonDto>> GetPersonByName(string name, Pagination pagination)
+    {
+        _uow.Logger.Debug("Get person by name");
+        return _uow.Mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetByNameAsync(name, pagination));
     }
 
     public async Task UpdatePerson(string id, PersonDto person)

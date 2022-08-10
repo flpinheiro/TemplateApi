@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
+using TemplateApi.CrossCutting.Extensions;
+using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dto;
 
@@ -18,11 +20,12 @@ public class PersonController : Controller
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<PersonDto>>> GetAll()
+    public async Task<ActionResult<IEnumerable<PersonDto>>> GetAll([FromQuery] Pagination pagination)
     {
-        return Ok(await _service.GetAllPerson());
+        return Ok(await _service.GetAllPerson(pagination));
     }
     [HttpGet("ExportToExcel")]
+    [Produces(ExcelExtensions.ContentType)]
     public async Task<FileStreamResult> ExporttoExcelAll()
     {
         var people = await _service.GetAllPerson();
@@ -35,15 +38,16 @@ public class PersonController : Controller
         return Ok(await _service.GetPersonById(id));
     }
     [HttpGet("Name/{name}/ExportToExcel")]
+    [Produces(ExcelExtensions.ContentType)]
     public async Task<FileStreamResult> ExportoExcelByName([FromRoute] string name)
     {
         var people = await _service.GetPersonByName(name);
         return _service.ExportToExcel(people);
     }
     [HttpGet("Name/{name}")]
-    public async Task<ActionResult<IEnumerable<PersonDto>>> GetPersonByName([FromRoute] string name)
+    public async Task<ActionResult<IEnumerable<PersonDto>>> GetPersonByName([FromRoute] string name, [FromQuery] Pagination pagination)
     {
-        return Ok(await _service.GetPersonByName(name));
+        return Ok(await _service.GetPersonByName(name, pagination));
     }
 
     [HttpPost]
