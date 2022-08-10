@@ -1,5 +1,6 @@
 ﻿using Moq;
 using System;
+using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Domain.Models.Dal;
 
@@ -9,10 +10,15 @@ namespace TemplateApi.UniTest.Utils
     {
         #region get
         public static void SetGetAllAsync(this Mock<IPersonRepository> mock)
-            => mock.Setup(x => x.GetAllAsync()).ReturnsAsync(Fixture.People).Verifiable();
+        {
+            mock.Setup(x => x.GetAllAsync(It.IsAny<Pagination>())).ReturnsAsync(Fixture.People).Verifiable();
 
+            mock.Setup(x => x.GetAllAsync()).ReturnsAsync(Fixture.People).Verifiable();
+        }
         public static void VerifyGetAllAsync(this Mock<IPersonRepository> mock)
             => mock.Verify(x => x.GetAllAsync(), Times.Once);
+        public static void VerifyGetAllAsyncPaginated(this Mock<IPersonRepository> mock)
+            => mock.Verify(x => x.GetAllAsync(It.IsAny<Pagination>()), Times.Once);
 
         public static void SetGetByIdAsync(this Mock<IPersonRepository> mock)
     => mock.Setup(x => x.GetByIdAsync(It.IsAny<string>())).ReturnsAsync(Fixture.Person).Verifiable();
@@ -24,10 +30,16 @@ namespace TemplateApi.UniTest.Utils
             => mock.Verify(x => x.GetByIdAsync(It.IsAny<string>()), Times.Once);
 
         public static void SetGetByNameAsync(this Mock<IPersonRepository> mock)
-            => mock.Setup(x => x.GetByNameAsync(It.IsAny<string>())).ReturnsAsync(Fixture.People).Verifiable();
+        {
+            mock.Setup(x => x.GetByNameAsync(It.IsAny<string>(), It.IsAny<Pagination>())).ReturnsAsync(Fixture.People).Verifiable();
 
+            mock.Setup(x => x.GetByNameAsync(It.IsAny<string>())).ReturnsAsync(Fixture.People).Verifiable();
+        }
         public static void VerifyGetByNameAsync(this Mock<IPersonRepository> mock)
             => mock.Verify(x => x.GetByNameAsync(It.IsAny<string>()), Times.Once);
+
+        public static void VerifyGetByNamePaginatedAsync(this Mock<IPersonRepository> mock)
+            => mock.Verify(x => x.GetByNameAsync(It.IsAny<string>(), It.IsAny<Pagination>()), Times.Once);
         #endregion
 
         #region any

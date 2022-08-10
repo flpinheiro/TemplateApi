@@ -11,7 +11,7 @@ public class TemplateApiContext : DbContext
 
     public TemplateApiContext(DbContextOptions<TemplateApiContext> options) : base(options)
     {
-        if (options == null) throw new ArgumentNullException(nameof(options));
+        //if (options == null) throw new ArgumentNullException(nameof(options));
         People = Set<Person>();
     }
 

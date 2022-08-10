@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
@@ -138,3 +140,4 @@ namespace TemplateApi.UniTest.Api.Controllers
         }
     }
 }
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.

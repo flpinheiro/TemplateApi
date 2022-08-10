@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+using Moq;
 using Serilog;
 using System;
 using System.Linq;
@@ -35,9 +36,12 @@ namespace TemplateApi.UniTest.Infra.Repositories
         [Fact]
         public void UnitOfWorkConstructorTest()
         {
+            Assert.Throws<ArgumentNullException>(() => new TemplateApiContext(null));
             Assert.Throws<ArgumentNullException>(() => new UnitOfWork(null, null, null));
             Assert.Throws<ArgumentNullException>(() => new UnitOfWork(_context, null, null));
+#pragma warning disable CS8604 // Possible null reference argument.
             Assert.Throws<ArgumentNullException>(() => new UnitOfWork(_context, _mapper, null));
+#pragma warning restore CS8604 // Possible null reference argument.
             Assert.NotNull(_unitOfWork.Mapper);
         }
 
@@ -45,6 +49,15 @@ namespace TemplateApi.UniTest.Infra.Repositories
         public async void GetAllAsyncTest()
         {
             var people = await _unitOfWork.PersonRepository.GetAllAsync();
+
+            Assert.NotNull(people);
+            Assert.Equal(Fixture.People.Count(), people.Count());
+        }
+
+        [Fact]
+        public async void GetAllPaginatedAsyncTest()
+        {
+            var people = await _unitOfWork.PersonRepository.GetAllAsync(new TemplateApi.CrossCutting.Models.Pagination());
 
             Assert.NotNull(people);
             Assert.Equal(Fixture.People.Count(), people.Count());
@@ -66,14 +79,16 @@ namespace TemplateApi.UniTest.Infra.Repositories
         [Fact]
         public async void GetPersonByNameTest()
         {
-            var name = Fixture.Person.Name;
+            var name = Fixture.Person.Name ?? string.Empty;
             var people = await _unitOfWork.PersonRepository.GetByNameAsync(name);
             Assert.NotNull(people);
-            //foreach (var item in people)
-            //{
-            //    var names = new string[] { item.Name, item.SurName };
-            //    Assert.Contains(name, names);
-            //}
+        }
+        [Fact]
+        public async void GetPersonByNamePaginatedTest()
+        {
+            var name = Fixture.Person.Name ?? string.Empty;
+            var people = await _unitOfWork.PersonRepository.GetByNameAsync(name, new TemplateApi.CrossCutting.Models.Pagination());
+            Assert.NotNull(people);
         }
 
         [Fact]
@@ -130,3 +145,4 @@ namespace TemplateApi.UniTest.Infra.Repositories
         }
     }
 }
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.

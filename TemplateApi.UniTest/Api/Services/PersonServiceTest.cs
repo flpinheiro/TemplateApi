@@ -1,4 +1,6 @@
-﻿using System;
+﻿#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+
+using System;
 using System.Linq;
 using TemplateApi.CrossCutting.Exceptions;
 using TemplateApi.Domain.Interfaces.Services;
@@ -54,6 +56,18 @@ namespace TemplateApi.UniTest.Api.Services
         }
 
         [Fact]
+        public async void Should_GetAllPersonPaginated_Return_People_list()
+        {
+            _unitOfWork.MockPersonRepository.SetGetAllAsync();
+
+            var people = await _service.GetAllPerson(new TemplateApi.CrossCutting.Models.Pagination());
+
+            Assert.NotNull(people);
+            Assert.Equal(people.Count(), Fixture.People.Count());
+            _unitOfWork.MockPersonRepository.VerifyGetAllAsyncPaginated();
+        }
+
+        [Fact]
         public async void Should_GetByNameAsync_Return_People_list()
         {
             _unitOfWork.MockPersonRepository.SetGetByNameAsync();
@@ -63,6 +77,18 @@ namespace TemplateApi.UniTest.Api.Services
             Assert.NotNull(people);
             Assert.Equal(people.Count(), Fixture.People.Count());
             _unitOfWork.MockPersonRepository.VerifyGetByNameAsync();
+        }
+
+        [Fact]
+        public async void Should_GetByNamePaginatedAsync_Return_People_list()
+        {
+            _unitOfWork.MockPersonRepository.SetGetByNameAsync();
+
+            var people = await _service.GetPersonByName("", new TemplateApi.CrossCutting.Models.Pagination());
+
+            Assert.NotNull(people);
+            Assert.Equal(people.Count(), Fixture.People.Count());
+            _unitOfWork.MockPersonRepository.VerifyGetByNamePaginatedAsync();
         }
 
         [Fact]
@@ -167,3 +193,4 @@ namespace TemplateApi.UniTest.Api.Services
 
     }
 }
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
