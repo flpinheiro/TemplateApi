@@ -1,9 +1,9 @@
 using Serilog;
 using System.Text.Json.Serialization;
-using TemplateApi.CrossCutting.Middlewares;
 using TemplateApi.CrossCutting.Utils;
 using TemplateApi.Domain.Configurations;
 using TemplateApi.Infra.Configurations;
+using TemplateApi.Middlewares;
 
 [assembly: System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 Log.Logger = new LoggerConfiguration()

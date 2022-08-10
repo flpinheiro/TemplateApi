@@ -1,14 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Text.Json;
 using TemplateApi.CrossCutting.Constants;
 using TemplateApi.CrossCutting.Exceptions;
 using TemplateApi.CrossCutting.Models;
 
-namespace TemplateApi.CrossCutting.Middlewares;
+namespace TemplateApi.Middlewares;
 
 public class GlobalExceptionHandlerMIddleware : Controller
 {
