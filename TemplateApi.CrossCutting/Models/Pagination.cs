@@ -6,6 +6,8 @@
         public int Page { get; set; } = 1;
     }
 
+    public record PaginationResponse(int Pages, int Total);
+
     public static class PaginationExtensions
     {
         public static IQueryable<T> GetPaginated<T>(this IQueryable<T> query, Pagination pagination)

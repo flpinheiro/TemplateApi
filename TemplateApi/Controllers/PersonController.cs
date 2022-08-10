@@ -54,6 +54,9 @@ public class PersonController : Controller
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult<PersonDto>> Create([FromBody] AddPersonDto addPerson)
     {
+        var validate = _service.Validator.Validate(addPerson);
+        if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
+
         var personDto = await _service.AddPerson(addPerson);
         return CreatedAtAction(nameof(Create), new { id = personDto.Id }, addPerson);
     }
@@ -62,6 +65,9 @@ public class PersonController : Controller
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<PersonDto>> Edit([FromRoute] string id, [FromBody] PersonDto person)
     {
+        var validate = _service.Validator.Validate(person);
+        if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
+
         await _service.UpdatePerson(id, person);
         return Ok(person);
     }
