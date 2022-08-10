@@ -22,18 +22,30 @@ public class PersonController : Controller
     {
         return Ok(await _service.GetAllPerson());
     }
+    [HttpGet("ExportToExcel")]
+    public async Task<FileStreamResult> ExporttoExcelAll()
+    {
+        var people = await _service.GetAllPerson();
+        return _service.ExportToExcel(people);
+    }
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<PersonDto>> GetPerson([FromRoute] string id)
     {
         return Ok(await _service.GetPersonById(id));
     }
+    [HttpGet("Name/{name}/ExportToExcel")]
+    public async Task<FileStreamResult> ExportoExcelByName([FromRoute] string name)
+    {
+        var people = await _service.GetPersonByName(name);
+        return _service.ExportToExcel(people);
+    }
     [HttpGet("Name/{name}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<PersonDto>>> GetPersonByName([FromRoute] string name)
     {
         return Ok(await _service.GetPersonByName(name));
     }
+
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult<PersonDto>> Create([FromBody] AddPersonDto addPerson)

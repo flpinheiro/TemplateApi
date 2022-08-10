@@ -1,4 +1,6 @@
-﻿using TemplateApi.CrossCutting.Exceptions;
+﻿using System.Data;
+using TemplateApi.CrossCutting.Exceptions;
+using TemplateApi.CrossCutting.Extensions;
 using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dal;
@@ -11,7 +13,6 @@ public class PersonService : IPersonService
 
     public PersonService(IUnitOfWork uow)
         => _uow = uow ?? throw new ArgumentNullException("IUnitOfWork");
-
 
     public async Task<PersonDto> AddPerson(AddPersonDto addPErson)
     {
@@ -87,5 +88,34 @@ public class PersonService : IPersonService
             _uow.RollBack();
             throw;
         }
+    }
+
+    public Microsoft.AspNetCore.Mvc.FileStreamResult ExportToExcel(IEnumerable<PersonDto> people)
+    {
+        var table = new DataTable("People");
+        
+        var name = new DataColumn("name");
+        var surname = new DataColumn("Surname");
+        var birthDay = new DataColumn("Birth Day");
+        var cpf = new DataColumn("CPF");
+
+        table.Columns.Add(name);
+        table.Columns.Add(surname);
+        table.Columns.Add(birthDay);
+        table.Columns.Add(cpf);
+
+        foreach (var person in people)
+        {
+            var row = table.NewRow();
+
+            row[name] = person.Name;
+            row[surname] = person.SurName;
+            row[birthDay] = person.BirthDay;
+            row[cpf] = person.CPF;
+
+            table.Rows.Add(row);
+        }
+
+        return table.DeliverExcelFile($"people {DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss")}");
     }
 }
