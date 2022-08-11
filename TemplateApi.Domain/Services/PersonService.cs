@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using System.Data;
+﻿using System.Data;
 using TemplateApi.CrossCutting.Exceptions;
 using TemplateApi.CrossCutting.Extensions;
 using TemplateApi.CrossCutting.Models;

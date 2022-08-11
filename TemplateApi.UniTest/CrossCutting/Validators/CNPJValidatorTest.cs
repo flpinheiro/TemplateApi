@@ -1,7 +1,7 @@
 ﻿using System;
 using TemplateApi.CrossCutting.Validators;
 
-namespace TemplateApi.UniTest.CrossCutting
+namespace TemplateApi.UniTest.CrossCutting.Validators
 {
     public class CNPJValidatorTest
     {
@@ -17,7 +17,7 @@ namespace TemplateApi.UniTest.CrossCutting
 
         public void IsValid_should_check_if_is_a_valid_cnpj(string CNPJ, bool isValid)
         {
-            var result = CNPJValidator.IsValidCNPJ(CNPJ);
+            var result = CNPJ.IsValidCNPJ();
             Assert.Equal(isValid, result);
         }
 
@@ -27,7 +27,7 @@ namespace TemplateApi.UniTest.CrossCutting
         [InlineData("43980138000107", "43.980.138/0001-07")]
         public void ToCNPJFormat_should_return_Formated_CNPJ(string CNPJ, string formated)
         {
-            var result = CNPJValidator.ToCNPJFormat(CNPJ);
+            var result = CNPJ.ToCNPJFormat();
             Assert.Equal(formated, result);
         }
 
@@ -38,7 +38,7 @@ namespace TemplateApi.UniTest.CrossCutting
         [InlineData("teste")]
         public void ToCNPJFormat_should_throw_ArgumentException(string invalidCNPJ)
         {
-            Assert.Throws<ArgumentException>(() => CNPJValidator.ToCNPJFormat(invalidCNPJ));
+            Assert.Throws<ArgumentException>(() => invalidCNPJ.ToCNPJFormat());
         }
     }
 }

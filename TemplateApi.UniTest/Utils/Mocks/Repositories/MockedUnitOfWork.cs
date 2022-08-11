@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Infra;
 
-namespace TemplateApi.UniTest.Utils
+namespace TemplateApi.UniTest.Utils.Mocks.Repositories
 {
     internal class MockedUnitOfWork : IUnitOfWork
     {

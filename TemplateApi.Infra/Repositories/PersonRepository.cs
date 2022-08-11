@@ -18,7 +18,7 @@ internal class PersonRepository : IPersonRepository
     public async Task<IEnumerable<Person>> GetAllAsync(Pagination pagination)
         => await GetAll().GetPaginated(pagination).ToListAsync();
     public PaginationResponse CountAll(Pagination pagination) => GetAll().Paginate(pagination);
-    
+
     public async Task<Person?> GetByIdAsync(string id) => await _context.People.FirstOrDefaultAsync(x => x.Id == id);
     private IQueryable<Person> GetByName(string name)
         => GetAll()

@@ -4,8 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Moq;
 using TemplateApi.Domain.Models.Dal;
 using TemplateApi.Infra.Context;
+using TemplateApi.UniTest.Utils.Fixtures;
 
-namespace TemplateApi.UniTest.Utils
+namespace TemplateApi.UniTest.Utils.Mocks.Repositories
 {
     internal static class MockedTemplateApicontextExtension
     {

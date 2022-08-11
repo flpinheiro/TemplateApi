@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using TemplateApi.Domain.Configurations;
 
-namespace TemplateApi.UniTest.Utils;
+namespace TemplateApi.UniTest.Utils.Mocks;
 internal static class MockedIMapperExtensions
 {
     public static IMapper CreateIMapper()

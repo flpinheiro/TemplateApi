@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TemplateApi.Domain.Models.Dal;
 using TemplateApi.Domain.Models.Dto;
 
-namespace TemplateApi.UniTest.Utils
+namespace TemplateApi.UniTest.Utils.Fixtures
 {
     internal static class Fixture
     {

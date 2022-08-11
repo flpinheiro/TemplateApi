@@ -61,7 +61,7 @@ public class PersonController : Controller
     [HttpGet("Name/{name}/Count")]
     public ActionResult<PaginationResponse> CountPersonByName([FromRoute] string name, [FromQuery] Pagination pagination)
     {
-        return Ok( _service.CountPersonByName(name, pagination));
+        return Ok(_service.CountPersonByName(name, pagination));
     }
 
     [HttpPost]

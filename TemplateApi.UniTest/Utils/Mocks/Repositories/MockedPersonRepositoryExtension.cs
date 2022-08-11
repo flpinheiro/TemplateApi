@@ -3,8 +3,9 @@ using System;
 using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Domain.Models.Dal;
+using TemplateApi.UniTest.Utils.Fixtures;
 
-namespace TemplateApi.UniTest.Utils
+namespace TemplateApi.UniTest.Utils.Mocks.Repositories
 {
     internal static class MockedPersonRepositoryExtension
     {

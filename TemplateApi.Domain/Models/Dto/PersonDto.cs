@@ -22,14 +22,14 @@ namespace TemplateApi.Domain.Models.Dto
         public DateOnly BirthDay { get; set; } = new DateOnly();
     }
 
-    public class PersonDtoValidation : AbstractValidator<AddPersonDto> 
+    public class PersonDtoValidation : AbstractValidator<AddPersonDto>
     {
         public PersonDtoValidation()
         {
             RuleFor(a => a.Name).NotNull().NotEmpty();
-            RuleFor(a=> a.SurName).NotNull().NotEmpty();
+            RuleFor(a => a.SurName).NotNull().NotEmpty();
             RuleFor(a => a.CPF).NotNull().NotEmpty().Must(cpf => !string.IsNullOrEmpty(cpf) && cpf.IsValidCpf());
-            RuleFor(a=> a.BirthDay).NotNull().NotEmpty();
+            RuleFor(a => a.BirthDay).NotNull().NotEmpty();
         }
     }
 }

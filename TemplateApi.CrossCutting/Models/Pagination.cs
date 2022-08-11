@@ -6,7 +6,7 @@
         public int Page { get; set; } = 1;
     }
 
-    public record PaginationResponse(int Pages,int Total);
+    public record PaginationResponse(int Pages, int Total);
 
     public static class PaginationResponseExtensions
     {
@@ -14,7 +14,7 @@
             where T : class
         {
             var total = query.Count();
-            var pages = (int) Math.Ceiling((decimal)total / pagination.PageSize);
+            var pages = (int)Math.Ceiling((decimal)total / pagination.PageSize);
 
             return new PaginationResponse(pages, total);
         }

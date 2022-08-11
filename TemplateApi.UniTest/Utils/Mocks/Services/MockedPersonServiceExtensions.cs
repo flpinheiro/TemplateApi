@@ -5,8 +5,9 @@ using System.IO;
 using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dto;
+using TemplateApi.UniTest.Utils.Fixtures;
 
-namespace TemplateApi.UniTest.Utils
+namespace TemplateApi.UniTest.Utils.Mocks.Services
 {
     internal static class MockedPersonServiceExtensions
     {
@@ -18,15 +19,15 @@ namespace TemplateApi.UniTest.Utils
         }
 
         public static void SetGetAllPeron(this Mock<IPersonService> mock, IEnumerable<PersonDto> people)
-        { 
+        {
             mock.Setup(x => x.GetAllPerson()).ReturnsAsync(people).Verifiable();
             mock.Setup(x => x.GetAllPerson(It.IsAny<Pagination>())).ReturnsAsync(people).Verifiable();
         }
 
         public static void VerifyGetAllPerson(this Mock<IPersonService> mock)
-            =>mock.Verify(x => x.GetAllPerson(), Times.Once);
+            => mock.Verify(x => x.GetAllPerson(), Times.Once);
         public static void VerifyGetAllPersonPaginated(this Mock<IPersonService> mock)
-            =>mock.Verify(x => x.GetAllPerson(It.IsAny<Pagination>()), Times.Once);
+            => mock.Verify(x => x.GetAllPerson(It.IsAny<Pagination>()), Times.Once);
 
 
         public static void SetGetPersonById(this Mock<IPersonService> mock)

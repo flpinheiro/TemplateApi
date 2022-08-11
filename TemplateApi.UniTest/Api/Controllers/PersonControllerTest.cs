@@ -11,7 +11,8 @@ using TemplateApi.Controllers;
 using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dto;
-using TemplateApi.UniTest.Utils;
+using TemplateApi.UniTest.Utils.Fixtures;
+using TemplateApi.UniTest.Utils.Mocks.Services;
 
 namespace TemplateApi.UniTest.Api.Controllers
 {

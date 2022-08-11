@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Models.Dto;
 

@@ -6,9 +6,10 @@ using TemplateApi.CrossCutting.Exceptions;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dto;
 using TemplateApi.Domain.Services;
-using TemplateApi.UniTest.Utils;
+using TemplateApi.UniTest.Utils.Fixtures;
+using TemplateApi.UniTest.Utils.Mocks.Repositories;
 
-namespace TemplateApi.UniTest.Api.Services
+namespace TemplateApi.UniTest.Domain.Services
 {
     public class PersonServiceTest
     {

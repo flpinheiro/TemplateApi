@@ -7,7 +7,9 @@ using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Domain.Models.Dal;
 using TemplateApi.Infra;
 using TemplateApi.Infra.Context;
-using TemplateApi.UniTest.Utils;
+using TemplateApi.UniTest.Utils.Fixtures;
+using TemplateApi.UniTest.Utils.Mocks;
+using TemplateApi.UniTest.Utils.Mocks.Repositories;
 
 namespace TemplateApi.UniTest.Infra.Repositories
 {

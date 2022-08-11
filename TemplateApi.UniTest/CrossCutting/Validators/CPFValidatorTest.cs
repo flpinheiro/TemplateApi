@@ -1,7 +1,7 @@
 ﻿using System;
 using TemplateApi.CrossCutting.Validators;
 
-namespace TemplateApi.UniTest.CrossCutting
+namespace TemplateApi.UniTest.CrossCutting.Validators
 {
     public class CPFValidatorTest
     {
@@ -17,7 +17,7 @@ namespace TemplateApi.UniTest.CrossCutting
 
         public void IsValid_should_check_if_is_a_valid_cpf(string cpf, bool isValid)
         {
-            var result = CPFValidator.IsValidCpf(cpf);
+            var result = cpf.IsValidCpf();
             Assert.Equal(isValid, result);
         }
 
@@ -29,7 +29,7 @@ namespace TemplateApi.UniTest.CrossCutting
         [InlineData("24575708089", "245.757.080-89")]
         public void ToCPFFormat_should_return_Formated_CPF(string cpf, string formated)
         {
-            var result = CPFValidator.ToCPFFormat(cpf);
+            var result = cpf.ToCPFFormat();
             Assert.Equal(formated, result);
         }
 
@@ -40,7 +40,7 @@ namespace TemplateApi.UniTest.CrossCutting
         [InlineData("teste")]
         public void ToCPFFormat_should_throw_ArgumentException(string invalidCpf)
         {
-            Assert.Throws<ArgumentException>(() => CPFValidator.ToCPFFormat(invalidCpf));
+            Assert.Throws<ArgumentException>(() => invalidCpf.ToCPFFormat());
         }
     }
 }
