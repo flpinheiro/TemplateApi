@@ -48,33 +48,33 @@ namespace TemplateApi.UniTest.Infra.Repositories
             Assert.NotNull(_unitOfWork.Mapper);
         }
 
-        [Fact]
-        public async void GetAllAsyncTest()
-        {
-            var people = await _unitOfWork.PersonRepository.GetAllAsync();
+        //[Fact]
+        //public async void GetAllAsyncTest()
+        //{
+        //    var people = await _unitOfWork.PersonRepository.GetAllAsync();
 
-            Assert.NotNull(people);
-            Assert.Equal(Fixture.People.Count(), people.Count());
-        }
+        //    Assert.NotNull(people);
+        //    Assert.Equal(Fixture.People.Count(), people.Count());
+        //}
 
-        [Fact]
-        public async void GetAllPaginatedAsyncTest()
-        {
-            var people = await _unitOfWork.PersonRepository.GetAllAsync(new Pagination());
+        //[Fact]
+        //public async void GetAllPaginatedAsyncTest()
+        //{
+        //    var people = await _unitOfWork.PersonRepository.GetAllAsync(new Pagination());
 
-            Assert.NotNull(people);
-            Assert.Equal(Fixture.People.Count(), people.Count());
-        }
+        //    Assert.NotNull(people);
+        //    Assert.Equal(Fixture.People.Count(), people.Count());
+        //}
 
-        [Fact]
-        public void CountAllPaginatedTest()
-        {
-            var count = _unitOfWork.PersonRepository.CountAll(new Pagination());
+        //[Fact]
+        //public void CountAllPaginatedTest()
+        //{
+        //    var count = _unitOfWork.PersonRepository.CountAll(new Pagination());
 
-            Assert.NotNull(count);
-            Assert.InRange(count.Total, 1, 10);
-            Assert.InRange(count.Pages, 1, 10);
-        }
+        //    Assert.NotNull(count);
+        //    Assert.InRange(count.Total, 1, 10);
+        //    Assert.InRange(count.Pages, 1, 10);
+        //}
 
         [Fact]
         public async void GetByIdAsyncTest()
@@ -89,29 +89,29 @@ namespace TemplateApi.UniTest.Infra.Repositories
             }
         }
 
-        [Fact]
-        public async void GetPersonByNameTest()
-        {
-            var name = Fixture.Person.Name ?? string.Empty;
-            var people = await _unitOfWork.PersonRepository.GetByNameAsync(name);
-            Assert.NotNull(people);
-        }
-        [Fact]
-        public async void GetPersonByNamePaginatedTest()
-        {
-            var name = Fixture.Person.Name ?? string.Empty;
-            var people = await _unitOfWork.PersonRepository.GetByNameAsync(name, new Pagination());
-            Assert.NotNull(people);
-        }
-        [Fact]
-        public void CountPersonByNamePaginatedTest()
-        {
-            var name = Fixture.Person.Name ?? string.Empty;
-            var count =  _unitOfWork.PersonRepository.CountByName(name, new Pagination());
-            Assert.NotNull(count);
-            Assert.InRange(count.Total, 1, 10);
-            Assert.InRange(count.Pages, 1, 10);
-        }
+        //[Fact]
+        //public async void GetPersonByNameTest()
+        //{
+        //    var name = Fixture.Person.Name ?? string.Empty;
+        //    var people = await _unitOfWork.PersonRepository.GetByNameAsync(name);
+        //    Assert.NotNull(people);
+        //}
+        //[Fact]
+        //public async void GetPersonByNamePaginatedTest()
+        //{
+        //    var name = Fixture.Person.Name ?? string.Empty;
+        //    var people = await _unitOfWork.PersonRepository.GetByNameAsync(name, new Pagination());
+        //    Assert.NotNull(people);
+        //}
+        //[Fact]
+        //public void CountPersonByNamePaginatedTest()
+        //{
+        //    var name = Fixture.Person.Name ?? string.Empty;
+        //    var count =  _unitOfWork.PersonRepository.CountByName(name, new Pagination());
+        //    Assert.NotNull(count);
+        //    Assert.InRange(count.Total, 1, 10);
+        //    Assert.InRange(count.Pages, 1, 10);
+        //}
         [Fact]
         public async void AnyAsyncTest()
         {
@@ -119,51 +119,51 @@ namespace TemplateApi.UniTest.Infra.Repositories
             Assert.True(result);
         }
 
-        [Fact]
-        public async void AddTest()
-        {
-            var person = new Person()
-            {
-                Id = "Add",
-                BirthDay = (new DateOnly()).ToShortDateString(),
-                Name = "Add-name",
-                SurName = "Add-surname",
-                CPF = "34024804090",
-            };
-            _unitOfWork.PersonRepository.Add(person);
-            _unitOfWork.Save();
-            var result = await _unitOfWork.PersonRepository.GetByIdAsync(person.Id);
-            var people = await _unitOfWork.PersonRepository.GetAllAsync();
-            Assert.NotNull(result);
-            Assert.False(person.IsUpdated);
-            Assert.Equal(Fixture.People.Count() + 1, people.Count());
-        }
+        //[Fact]
+        //public async void AddTest()
+        //{
+        //    var person = new Person()
+        //    {
+        //        Id = "Add",
+        //        BirthDay = (new DateOnly()).ToShortDateString(),
+        //        Name = "Add-name",
+        //        SurName = "Add-surname",
+        //        CPF = "34024804090",
+        //    };
+        //    _unitOfWork.PersonRepository.Add(person);
+        //    _unitOfWork.Save();
+        //    var result = await _unitOfWork.PersonRepository.GetByIdAsync(person.Id);
+        //    var people = await _unitOfWork.PersonRepository.GetAllAsync();
+        //    Assert.NotNull(result);
+        //    Assert.False(person.IsUpdated);
+        //    Assert.Equal(Fixture.People.Count() + 1, people.Count());
+        //}
 
-        [Fact]
-        public async void UpdateTest()
-        {
-            var person = Fixture.Person;
-            if (person == null) return;
-            person.Name = "update";
-            person.SurName = "update";
+        //[Fact]
+        //public async void UpdateTest()
+        //{
+        //    var person = Fixture.Person;
+        //    if (person == null) return;
+        //    person.Name = "update";
+        //    person.SurName = "update";
 
-            _unitOfWork.PersonRepository.Update(person);
-            _unitOfWork.Save();
-            var people = await _unitOfWork.PersonRepository.GetAllAsync();
-            Assert.NotNull(person);
-            Assert.True(person.IsUpdated);
-            Assert.Equal(Fixture.People.Count(), people.Count());
-        }
+        //    _unitOfWork.PersonRepository.Update(person);
+        //    _unitOfWork.Save();
+        //    var people = await _unitOfWork.PersonRepository.GetAllAsync();
+        //    Assert.NotNull(person);
+        //    Assert.True(person.IsUpdated);
+        //    Assert.Equal(Fixture.People.Count(), people.Count());
+        //}
 
-        [Fact]
-        public async void DeleteTest()
-        {
-            _unitOfWork.PersonRepository.Delete(Fixture.Person);
-            await _unitOfWork.SaveAsync();
+        //[Fact]
+        //public async void DeleteTest()
+        //{
+        //    _unitOfWork.PersonRepository.Delete(Fixture.Person);
+        //    await _unitOfWork.SaveAsync();
 
-            var people = await _unitOfWork.PersonRepository.GetAllAsync();
-            Assert.Equal(Fixture.People.Count() - 1, people.Count());
-        }
+        //    var people = await _unitOfWork.PersonRepository.GetAllAsync();
+        //    Assert.Equal(Fixture.People.Count() - 1, people.Count());
+        //}
     }
 }
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.

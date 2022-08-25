@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TemplateApi.CrossCutting.Validators;
+using TemplateApi.Domain.Models.Constants;
 using TemplateApi.Domain.Models.Dal;
 
 namespace TemplateApi.Infra.Context.Mappings
@@ -13,10 +14,10 @@ namespace TemplateApi.Infra.Context.Mappings
 
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Id).HasColumnName("id").IsUnicode(false).IsFixedLength().HasMaxLength(36);
-            builder.Property(x => x.Name).IsRequired().HasMaxLength(250).HasColumnName("name").IsUnicode();
-            builder.Property(x => x.SurName).IsRequired().HasMaxLength(250).HasColumnName("surname").IsUnicode();
-            builder.Property(x => x.BirthDay).IsRequired().HasColumnName("birth_day").IsUnicode(false).IsFixedLength().HasMaxLength(10);
+            builder.Property(x => x.Id).HasColumnName("id").IsUnicode(false).IsFixedLength().HasMaxLength(PersonContants.IdSize);
+            builder.Property(x => x.Name).IsRequired().HasMaxLength(PersonContants.NameSize).HasColumnName("name").IsUnicode();
+            builder.Property(x => x.SurName).IsRequired().HasMaxLength(PersonContants.SurnameSize).HasColumnName("surname").IsUnicode();
+            builder.Property(x => x.BirthDay).IsRequired().HasColumnName("birth_day").IsUnicode(false).IsFixedLength().HasMaxLength(PersonContants.BirthdaySize);
             builder.Property(x => x.CPF).IsRequired().HasColumnName("cpf").IsUnicode(false).IsFixedLength().HasMaxLength(CPFValidator.Size);
             builder.Property(x => x.LastUpdate).IsRequired().HasColumnName("last_update_date");
             builder.Property(x => x.IsUpdated).IsRequired().HasColumnName("is_updated").HasDefaultValue(false);

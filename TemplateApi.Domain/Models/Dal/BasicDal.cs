@@ -1,6 +1,8 @@
-﻿namespace TemplateApi.Domain.Models.Dal
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace TemplateApi.Domain.Models.Dal
 {
-    [ExcludeFromCodecoverage]
+    [ExcludeFromCodeCoverage]
     public abstract class BasicDal<Key>
         where Key : IEquatable<Key>
     {

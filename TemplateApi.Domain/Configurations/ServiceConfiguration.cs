@@ -14,6 +14,7 @@ namespace TemplateApi.Domain.Configurations
         {
             services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<IValidator<AddPersonDto>, PersonDtoValidation>();
+            services.AddScoped<IValidator<PersonQueryDto>, PersonQueryDtoValidation>();
         }
     }
 }

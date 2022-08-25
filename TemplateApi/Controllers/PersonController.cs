@@ -15,54 +15,86 @@ public class PersonController : Controller
 {
     private readonly IPersonService _service;
     private readonly IValidator<AddPersonDto> _validator;
+    private readonly IValidator<PersonQueryDto> _personQueryDtoValidator;
     public PersonController(IPersonService service, IValidator<AddPersonDto> validator)
     {
         _service = service ?? throw new ArgumentNullException("IPersonService");
         _validator = validator;
+        _personQueryDtoValidator = new PersonQueryDtoValidation();
     }
-
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<PersonDto>>> GetAll([FromQuery] Pagination pagination)
+    public async Task<ActionResult<IEnumerable<PersonDto>>> GetPeople([FromQuery] PersonQueryDto query, [FromQuery] Pagination pagination)
     {
-        return Ok(await _service.GetAllPerson(pagination));
+        var validate = _personQueryDtoValidator.Validate(query);
+        if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
+        var people = await _service.GetPeoplePaginatedAsync(query, pagination);
+        return Ok(people);
     }
+
     [HttpGet("Count")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public ActionResult<PaginationResponse> CountAll([FromQuery] Pagination pagination)
+    public ActionResult<PaginationResponse> CountPeople([FromQuery] PersonQueryDto query, [FromQuery] Pagination pagination)
     {
-        return Ok(_service.CountAllPerson(pagination));
+        var validate = _personQueryDtoValidator.Validate(query);
+        if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
+
+        return Ok(_service.CountPeople(query, pagination));
     }
+
     [HttpGet("ExportToExcel")]
     [Produces(ExcelExtensions.ContentType)]
-    public async Task<FileStreamResult> ExporttoExcelAll()
+    public async Task<FileStreamResult> ExportoExcelAll([FromQuery] PersonQueryDto query)
     {
-        var people = await _service.GetAllPerson();
+        var validate = _personQueryDtoValidator.Validate(query);
+        if (validate != null && !validate.IsValid) throw new ArgumentException("Some parameters are incorrect, please verify and try again");
+
+        var people = await _service.GetPeopleAsync(query);
         return _service.ExportToExcel(people);
     }
+
+    //[HttpGet]
+    //[ProducesResponseType(StatusCodes.Status200OK)]
+    //public async Task<ActionResult<IEnumerable<PersonDto>>> GetAll([FromQuery] Pagination pagination)
+    //{
+    //    return Ok(await _service.GetAllPerson(pagination));
+    //}
+    //[HttpGet("Count")]
+    //[ProducesResponseType(StatusCodes.Status200OK)]
+    //public ActionResult<PaginationResponse> CountAll([FromQuery] Pagination pagination)
+    //{
+    //    return Ok(_service.CountAllPerson(pagination));
+    //}
+    //[HttpGet("ExportToExcel")]
+    //[Produces(ExcelExtensions.ContentType)]
+    //public async Task<FileStreamResult> ExporttoExcelAll()
+    //{
+    //    var people = await _service.GetAllPerson();
+    //    return _service.ExportToExcel(people);
+    //}
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<PersonDto>> GetPerson([FromRoute] string id)
     {
         return Ok(await _service.GetPersonById(id));
     }
-    [HttpGet("Name/{name}/ExportToExcel")]
-    [Produces(ExcelExtensions.ContentType)]
-    public async Task<FileStreamResult> ExportoExcelByName([FromRoute] string name)
-    {
-        var people = await _service.GetPersonByName(name);
-        return _service.ExportToExcel(people);
-    }
-    [HttpGet("Name/{name}")]
-    public async Task<ActionResult<IEnumerable<PersonDto>>> GetPersonByName([FromRoute] string name, [FromQuery] Pagination pagination)
-    {
-        return Ok(await _service.GetPersonByName(name, pagination));
-    }
-    [HttpGet("Name/{name}/Count")]
-    public ActionResult<PaginationResponse> CountPersonByName([FromRoute] string name, [FromQuery] Pagination pagination)
-    {
-        return Ok(_service.CountPersonByName(name, pagination));
-    }
+    //[HttpGet("Name/{name}/ExportToExcel")]
+    //[Produces(ExcelExtensions.ContentType)]
+    //public async Task<FileStreamResult> ExportoExcelByName([FromRoute] string name)
+    //{
+    //    var people = await _service.GetPersonByName(name);
+    //    return _service.ExportToExcel(people);
+    //}
+    //[HttpGet("Name/{name}")]
+    //public async Task<ActionResult<IEnumerable<PersonDto>>> GetPersonByName([FromRoute] string name, [FromQuery] Pagination pagination)
+    //{
+    //    return Ok(await _service.GetPersonByName(name, pagination));
+    //}
+    //[HttpGet("Name/{name}/Count")]
+    //public ActionResult<PaginationResponse> CountPersonByName([FromRoute] string name, [FromQuery] Pagination pagination)
+    //{
+    //    return Ok(_service.CountPersonByName(name, pagination));
+    //}
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]

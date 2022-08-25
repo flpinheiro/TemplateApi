@@ -54,18 +54,18 @@ public class PersonService : IPersonService
         }
     }
 
-    public async Task<IEnumerable<PersonDto>> GetAllPerson()
-    {
-        _uow.Logger.Debug("get all person");
-        return _uow.Mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetAllAsync());
-    }
+    //public async Task<IEnumerable<PersonDto>> GetAllPerson()
+    //{
+    //    _uow.Logger.Debug("get all person");
+    //    return _uow.Mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetAllAsync());
+    //}
 
-    public async Task<IEnumerable<PersonDto>> GetAllPerson(Pagination pagination)
-    {
-        _uow.Logger.Debug("get all person");
-        return _uow.Mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetAllAsync(pagination));
-    }
-    public PaginationResponse CountAllPerson(Pagination pagination) => _uow.PersonRepository.CountAll(pagination);
+    //public async Task<IEnumerable<PersonDto>> GetAllPerson(Pagination pagination)
+    //{
+    //    _uow.Logger.Debug("get all person");
+    //    return _uow.Mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetAllAsync(pagination));
+    //}
+    //public PaginationResponse CountAllPerson(Pagination pagination) => _uow.PersonRepository.CountAll(pagination);
 
     public async Task<PersonDto> GetPersonById(string id)
     {
@@ -73,18 +73,27 @@ public class PersonService : IPersonService
         return _uow.Mapper.Map<PersonDto>(await _uow.PersonRepository.GetByIdAsync(id));
     }
 
-    public async Task<IEnumerable<PersonDto>> GetPersonByName(string name)
-    {
-        _uow.Logger.Debug("Get person by name");
-        return _uow.Mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetByNameAsync(name));
-    }
+    //public async Task<IEnumerable<PersonDto>> GetPersonByName(string name)
+    //{
+    //    _uow.Logger.Debug("Get person by name");
+    //    return _uow.Mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetByNameAsync(name));
+    //}
 
-    public async Task<IEnumerable<PersonDto>> GetPersonByName(string name, Pagination pagination)
-    {
-        _uow.Logger.Debug("Get person by name");
-        return _uow.Mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetByNameAsync(name, pagination));
-    }
-    public PaginationResponse CountPersonByName(string name, Pagination pagination) => _uow.PersonRepository.CountByName(name, pagination);
+    //public async Task<IEnumerable<PersonDto>> GetPersonByName(string name, Pagination pagination)
+    //{
+    //    _uow.Logger.Debug("Get person by name");
+    //    return _uow.Mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetByNameAsync(name, pagination));
+    //}
+    //public PaginationResponse CountPersonByName(string name, Pagination pagination) => _uow.PersonRepository.CountByName(name, pagination);
+
+    public PaginationResponse CountPeople(PersonQueryDto queryDto, Pagination pagination)
+        => _uow.PersonRepository.CountPeople(queryDto, pagination);
+
+    public async Task<IEnumerable<PersonDto>> GetPeopleAsync(PersonQueryDto queryDto)
+        => _uow.Mapper.Map<IEnumerable<PersonDto>>( await _uow.PersonRepository.GetPeopleAsync(queryDto));
+
+    public async Task<IEnumerable<PersonDto>> GetPeoplePaginatedAsync(PersonQueryDto queryDto, Pagination pagination)
+        => _uow.Mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetPeoplePaginatedAsync(queryDto, pagination));
 
     public async Task UpdatePerson(string id, PersonDto person)
     {

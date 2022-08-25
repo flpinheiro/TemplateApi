@@ -53,6 +53,9 @@ public class GlobalExceptionHandlerMIddleware : Controller
                 }
                 response.StatusCode = (int)HttpStatusCode.BadRequest;
                 break;
+            case ArgumentException:
+                response.StatusCode = (int)HttpStatusCode.BadRequest;
+                break;
             case KeyNotFoundException:
             case PersonNotFoundException:
                 response.StatusCode = (int)HttpStatusCode.NotFound;
