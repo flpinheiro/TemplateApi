@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Models.Dal;
 using TemplateApi.Domain.Models.Dto;
 
@@ -7,7 +8,7 @@ namespace TemplateApi.UniTest.Utils.Fixtures
 {
     internal static class Fixture
     {
-        public static Person Person = new Person
+        public static Person Person = new()
         {
             BirthDay = "1985-05-01",
             Name = "Tester",
@@ -18,7 +19,7 @@ namespace TemplateApi.UniTest.Utils.Fixtures
             CPF = "87246002022",
         };
 
-        private static Person _person = new Person
+        private static Person _person = new()
         {
             BirthDay = "1968-12-21",
             Name = "Testered",
@@ -31,7 +32,7 @@ namespace TemplateApi.UniTest.Utils.Fixtures
 
         public static IEnumerable<Person> People = new List<Person> { Person, _person };
 
-        public static PersonDto PersonDto = new PersonDto()
+        public static PersonDto PersonDto = new()
         {
             BirthDay = new DateOnly(1985, 5, 1),
             Name = "test",
@@ -40,7 +41,7 @@ namespace TemplateApi.UniTest.Utils.Fixtures
             CPF = "59143964095",
         };
 
-        public static AddPersonDto AddPersonDto = new AddPersonDto
+        public static AddPersonDto AddPersonDto = new()
         {
             BirthDay = new DateOnly(1985, 5, 1),
             Name = "test",
@@ -49,5 +50,7 @@ namespace TemplateApi.UniTest.Utils.Fixtures
         };
 
         public static IEnumerable<PersonDto> PeopleDto = new List<PersonDto> { PersonDto };
+
+        public static PaginationResponse PaginationResponse = new(1, 10);
     }
 }

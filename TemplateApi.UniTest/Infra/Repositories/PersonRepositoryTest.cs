@@ -3,6 +3,7 @@ using Moq;
 using Serilog;
 using System;
 using System.Linq;
+using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Domain.Models.Dal;
 using TemplateApi.Infra;
@@ -59,10 +60,20 @@ namespace TemplateApi.UniTest.Infra.Repositories
         [Fact]
         public async void GetAllPaginatedAsyncTest()
         {
-            var people = await _unitOfWork.PersonRepository.GetAllAsync(new TemplateApi.CrossCutting.Models.Pagination());
+            var people = await _unitOfWork.PersonRepository.GetAllAsync(new Pagination());
 
             Assert.NotNull(people);
             Assert.Equal(Fixture.People.Count(), people.Count());
+        }
+
+        [Fact]
+        public void CountAllPaginatedTest()
+        {
+            var count = _unitOfWork.PersonRepository.CountAll(new Pagination());
+
+            Assert.NotNull(count);
+            Assert.InRange(count.Total, 1, 10);
+            Assert.InRange(count.Pages, 1, 10);
         }
 
         [Fact]
@@ -89,10 +100,18 @@ namespace TemplateApi.UniTest.Infra.Repositories
         public async void GetPersonByNamePaginatedTest()
         {
             var name = Fixture.Person.Name ?? string.Empty;
-            var people = await _unitOfWork.PersonRepository.GetByNameAsync(name, new TemplateApi.CrossCutting.Models.Pagination());
+            var people = await _unitOfWork.PersonRepository.GetByNameAsync(name, new Pagination());
             Assert.NotNull(people);
         }
-
+        [Fact]
+        public void CountPersonByNamePaginatedTest()
+        {
+            var name = Fixture.Person.Name ?? string.Empty;
+            var count =  _unitOfWork.PersonRepository.CountByName(name, new Pagination());
+            Assert.NotNull(count);
+            Assert.InRange(count.Total, 1, 10);
+            Assert.InRange(count.Pages, 1, 10);
+        }
         [Fact]
         public async void AnyAsyncTest()
         {

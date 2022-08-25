@@ -12,6 +12,7 @@ namespace TemplateApi.UniTest.Utils.Mocks.Services
     internal static class MockedPersonServiceExtensions
     {
         //Mock<IPersonService>
+        #region Get
         public static void SetGetAllPeron(this Mock<IPersonService> mock)
         {
             mock.Setup(x => x.GetAllPerson()).ReturnsAsync(Fixture.PeopleDto).Verifiable();
@@ -55,30 +56,47 @@ namespace TemplateApi.UniTest.Utils.Mocks.Services
 
         public static void VerifyGetPersonByNamePaginated(this Mock<IPersonService> mock)
             => mock.Verify(x => x.GetPersonByName(It.IsAny<string>(), It.IsAny<Pagination>()), Times.Once);
+        #endregion
 
+        #region Count
+        public static void SetCount(this Mock<IPersonService> mock, PaginationResponse paginationResponse)
+        {
+            mock.Setup(x => x.CountAllPerson(It.IsAny<Pagination>())).Returns(paginationResponse).Verifiable();
+            mock.Setup(x => x.CountPersonByName(It.IsAny<string>(),It.IsAny<Pagination>())).Returns(paginationResponse).Verifiable();
+        }
+        public static void SetCount(this Mock<IPersonService> mock) => SetCount(mock, Fixture.PaginationResponse);
+        #endregion
 
+        #region Add
         public static void SetAddPerson(this Mock<IPersonService> mock)
             => mock.Setup(x => x.AddPerson(It.IsAny<PersonDto>())).ReturnsAsync(Fixture.PersonDto).Verifiable();
         public static void VerifyAddPerson(this Mock<IPersonService> mock)
             => mock.Verify(x => x.AddPerson(It.IsAny<PersonDto>()), Times.Once);
+        #endregion
 
+        #region update
         public static void SetUpdatePerson(this Mock<IPersonService> mock)
-            => mock.Setup(x => x.UpdatePerson(It.IsAny<string>(), It.IsAny<PersonDto>())).Verifiable();
+          => mock.Setup(x => x.UpdatePerson(It.IsAny<string>(), It.IsAny<PersonDto>())).Verifiable();
 
         public static void VerifyUpdatePerson(this Mock<IPersonService> mock)
             => mock.Verify(x => x.UpdatePerson(It.IsAny<string>(), It.IsAny<PersonDto>()), Times.Once);
+        #endregion
 
+        #region Delete
         public static void SetDeletePerson(this Mock<IPersonService> mock)
             => mock.Setup(x => x.DeletePerson(It.IsAny<string>())).ReturnsAsync(Fixture.PersonDto).Verifiable();
 
         public static void VerifyDeletePerson(this Mock<IPersonService> mock)
             => mock.Verify(x => x.DeletePerson(It.IsAny<string>()), Times.Once);
+        #endregion
 
+        #region ExportToExcel
         public static void SetExportToExcel(this Mock<IPersonService> mock)
-            => mock.Setup(x => x.ExportToExcel(It.IsAny<IEnumerable<PersonDto>>()))
-            .Returns(new FileStreamResult(new MemoryStream(), "text/csv")).Verifiable();
+    => mock.Setup(x => x.ExportToExcel(It.IsAny<IEnumerable<PersonDto>>()))
+    .Returns(new FileStreamResult(new MemoryStream(), "text/csv")).Verifiable();
 
         public static void VerifyExportToExcel(this Mock<IPersonService> mock)
             => mock.Verify(x => x.ExportToExcel(It.IsAny<IEnumerable<PersonDto>>()), Times.Once);
+        #endregion    
     }
 }

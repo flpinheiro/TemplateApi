@@ -3,6 +3,7 @@
 using System;
 using System.Linq;
 using TemplateApi.CrossCutting.Exceptions;
+using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dto;
 using TemplateApi.Domain.Services;
@@ -126,7 +127,7 @@ namespace TemplateApi.UniTest.Domain.Services
             _unitOfWork.MockPersonRepository.SetAnyAsync();
             _unitOfWork.MockPersonRepository.SetUpdate();
 
-            await _service.UpdatePerson("", new Domain.Models.Dto.PersonDto());
+            await _service.UpdatePerson("", new PersonDto());
 
             _unitOfWork.MockPersonRepository.VerifyUpdate();
             _unitOfWork.MockPersonRepository.VerifyAnyAsync();
@@ -190,6 +191,20 @@ namespace TemplateApi.UniTest.Domain.Services
         {
             var file = _service.ExportToExcel(Fixture.PeopleDto);
             Assert.NotNull(file);
+        }
+
+        [Fact]
+        public void Should_Count_return_Ok()
+        {
+            _unitOfWork.MockPersonRepository.SetCount();
+
+            var countAll = _service.CountAllPerson(new Pagination());
+
+            Assert.Equal(Fixture.PaginationResponse, countAll);
+
+            var countByName = _service.CountPersonByName("", new Pagination());
+
+            Assert.Equal(Fixture.PaginationResponse, countByName);
         }
 
     }

@@ -13,7 +13,6 @@ namespace TemplateApi.UniTest.Utils.Mocks.Repositories
         public static void SetGetAllAsync(this Mock<IPersonRepository> mock)
         {
             mock.Setup(x => x.GetAllAsync(It.IsAny<Pagination>())).ReturnsAsync(Fixture.People).Verifiable();
-
             mock.Setup(x => x.GetAllAsync()).ReturnsAsync(Fixture.People).Verifiable();
         }
         public static void VerifyGetAllAsync(this Mock<IPersonRepository> mock)
@@ -33,7 +32,6 @@ namespace TemplateApi.UniTest.Utils.Mocks.Repositories
         public static void SetGetByNameAsync(this Mock<IPersonRepository> mock)
         {
             mock.Setup(x => x.GetByNameAsync(It.IsAny<string>(), It.IsAny<Pagination>())).ReturnsAsync(Fixture.People).Verifiable();
-
             mock.Setup(x => x.GetByNameAsync(It.IsAny<string>())).ReturnsAsync(Fixture.People).Verifiable();
         }
         public static void VerifyGetByNameAsync(this Mock<IPersonRepository> mock)
@@ -41,6 +39,17 @@ namespace TemplateApi.UniTest.Utils.Mocks.Repositories
 
         public static void VerifyGetByNamePaginatedAsync(this Mock<IPersonRepository> mock)
             => mock.Verify(x => x.GetByNameAsync(It.IsAny<string>(), It.IsAny<Pagination>()), Times.Once);
+        #endregion
+
+        #region count
+        public static void SetCount(this Mock<IPersonRepository> mock, PaginationResponse paginationResponse)
+        {
+            mock.Setup(x => x.CountByName(It.IsAny<string>(),It.IsAny<Pagination>())).Returns(paginationResponse).Verifiable();
+            mock.Setup(x => x.CountAll(It.IsAny<Pagination>())).Returns(paginationResponse).Verifiable();
+        }
+        public static void SetCount(this Mock<IPersonRepository> mock)
+            => SetCount(mock, Fixture.PaginationResponse);
+        
         #endregion
 
         #region any

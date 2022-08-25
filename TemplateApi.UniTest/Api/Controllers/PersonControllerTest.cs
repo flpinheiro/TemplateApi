@@ -33,6 +33,7 @@ namespace TemplateApi.UniTest.Api.Controllers
             mock.SetUpdatePerson();
             mock.SetDeletePerson();
             mock.SetExportToExcel();
+            mock.SetCount();
         }
 
         [Fact]
@@ -176,6 +177,24 @@ namespace TemplateApi.UniTest.Api.Controllers
             Assert.NotNull(file);
             mock.VerifyGetPersonByName();
             mock.VerifyExportToExcel();
+        }
+
+        [Fact]
+        public void Count_Should_ReturnOk()
+        {
+            var resultAll = _controller.CountAll(new Pagination());
+
+            var okObjectResultAll = resultAll.Result as OkObjectResult;
+            Assert.NotNull(okObjectResultAll);
+            var countAll = okObjectResultAll?.Value;
+            Assert.Equal(Fixture.PaginationResponse, countAll);
+
+            var resultByName = _controller.CountPersonByName("", new Pagination());
+
+            var okObjectResultByName = resultByName.Result as OkObjectResult;
+            Assert.NotNull(okObjectResultByName);
+            var countByName = okObjectResultByName?.Value;
+            Assert.Equal(Fixture.PaginationResponse, countByName);
         }
     }
 }
