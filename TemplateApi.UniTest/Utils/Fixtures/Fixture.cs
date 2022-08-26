@@ -52,5 +52,9 @@ namespace TemplateApi.UniTest.Utils.Fixtures
         public static IEnumerable<PersonDto> PeopleDto = new List<PersonDto> { PersonDto };
 
         public static PaginationResponse PaginationResponse = new(1, 10);
+
+        public static PersonQueryDto QueryDto = new();
+
+        public static Pagination Pagination = new();
     }
 }

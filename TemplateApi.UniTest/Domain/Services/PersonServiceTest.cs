@@ -45,53 +45,29 @@ namespace TemplateApi.UniTest.Domain.Services
             _unitOfWork.MockPersonRepository.VerifyGetByIdAsync();
         }
 
-        //[Fact]
-        //public async void Should_GetAllPerson_Return_People_list()
-        //{
-        //    _unitOfWork.MockPersonRepository.SetGetAllAsync();
+        [Fact]
+        public async void Should_GetAllPerson_Return_People_list()
+        {
+            _unitOfWork.MockPersonRepository.SetGetAllAsync();
 
-        //    var people = await _service.GetAllPerson();
+            var people = await _service.GetPeopleAsync(Fixture.QueryDto);
 
-        //    Assert.NotNull(people);
-        //    Assert.Equal(people.Count(), Fixture.People.Count());
-        //    _unitOfWork.MockPersonRepository.VerifyGetAllAsync();
-        //}
+            Assert.NotNull(people);
+            Assert.Equal(people.Count(), Fixture.People.Count());
+            //_unitOfWork.MockPersonRepository.VerifyGetAllAsync();
+        }
 
-        //[Fact]
-        //public async void Should_GetAllPersonPaginated_Return_People_list()
-        //{
-        //    _unitOfWork.MockPersonRepository.SetGetAllAsync();
+        [Fact]
+        public async void Should_GetAllPersonPaginated_Return_People_list()
+        {
+            _unitOfWork.MockPersonRepository.SetGetAllAsync();
 
-        //    var people = await _service.GetAllPerson(new TemplateApi.CrossCutting.Models.Pagination());
+            var people = await _service.GetPeoplePaginatedAsync(Fixture.QueryDto, Fixture.Pagination);
 
-        //    Assert.NotNull(people);
-        //    Assert.Equal(people.Count(), Fixture.People.Count());
-        //    _unitOfWork.MockPersonRepository.VerifyGetAllAsyncPaginated();
-        //}
-
-        //[Fact]
-        //public async void Should_GetByNameAsync_Return_People_list()
-        //{
-        //    _unitOfWork.MockPersonRepository.SetGetByNameAsync();
-
-        //    var people = await _service.GetPersonByName("");
-
-        //    Assert.NotNull(people);
-        //    Assert.Equal(people.Count(), Fixture.People.Count());
-        //    _unitOfWork.MockPersonRepository.VerifyGetByNameAsync();
-        //}
-
-        //[Fact]
-        //public async void Should_GetByNamePaginatedAsync_Return_People_list()
-        //{
-        //    _unitOfWork.MockPersonRepository.SetGetByNameAsync();
-
-        //    var people = await _service.GetPersonByName("", new TemplateApi.CrossCutting.Models.Pagination());
-
-        //    Assert.NotNull(people);
-        //    Assert.Equal(people.Count(), Fixture.People.Count());
-        //    _unitOfWork.MockPersonRepository.VerifyGetByNamePaginatedAsync();
-        //}
+            Assert.NotNull(people);
+            Assert.Equal(people.Count(), Fixture.People.Count());
+            //_unitOfWork.MockPersonRepository.VerifyGetAllAsyncPaginated();
+        }
 
         [Fact]
         public async void Should_Add_return_ok()
@@ -193,19 +169,13 @@ namespace TemplateApi.UniTest.Domain.Services
             Assert.NotNull(file);
         }
 
-        //[Fact]
-        //public void Should_Count_return_Ok()
-        //{
-        //    _unitOfWork.MockPersonRepository.SetCount();
-
-        //    var countAll = _service.CountAllPerson(new Pagination());
-
-        //    Assert.Equal(Fixture.PaginationResponse, countAll);
-
-        //    var countByName = _service.CountPersonByName("", new Pagination());
-
-        //    Assert.Equal(Fixture.PaginationResponse, countByName);
-        //}
+        [Fact]
+        public void Should_Count_return_Ok()
+        {
+            _unitOfWork.MockPersonRepository.SetCount();
+            var countAll = _service.CountPeople(Fixture.QueryDto, Fixture.Pagination);
+            Assert.Equal(Fixture.PaginationResponse, countAll);
+        }
 
     }
 }

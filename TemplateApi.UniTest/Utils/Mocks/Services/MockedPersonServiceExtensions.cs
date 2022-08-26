@@ -13,11 +13,11 @@ namespace TemplateApi.UniTest.Utils.Mocks.Services
     {
         //Mock<IPersonService>
         #region Get
-        //public static void SetGetAllPeron(this Mock<IPersonService> mock)
-        //{
-        //    mock.Setup(x => x.GetAllPerson()).ReturnsAsync(Fixture.PeopleDto).Verifiable();
-        //    mock.Setup(x => x.GetAllPerson(It.IsAny<Pagination>())).ReturnsAsync(Fixture.PeopleDto).Verifiable();
-        //}
+        public static void SetGetPeople(this Mock<IPersonService> mock)
+        {
+            mock.Setup(x => x.GetPeopleAsync(It.IsAny<PersonQueryDto>())).ReturnsAsync(Fixture.PeopleDto).Verifiable();
+            mock.Setup(x => x.GetPeoplePaginatedAsync(It.IsAny<PersonQueryDto>(),It.IsAny<Pagination>())).ReturnsAsync(Fixture.PeopleDto).Verifiable();
+        }
 
         //public static void SetGetAllPeron(this Mock<IPersonService> mock, IEnumerable<PersonDto> people)
         //{
@@ -25,10 +25,10 @@ namespace TemplateApi.UniTest.Utils.Mocks.Services
         //    mock.Setup(x => x.GetAllPerson(It.IsAny<Pagination>())).ReturnsAsync(people).Verifiable();
         //}
 
-        //public static void VerifyGetAllPerson(this Mock<IPersonService> mock)
-        //    => mock.Verify(x => x.GetAllPerson(), Times.Once);
-        //public static void VerifyGetAllPersonPaginated(this Mock<IPersonService> mock)
-        //    => mock.Verify(x => x.GetAllPerson(It.IsAny<Pagination>()), Times.Once);
+        public static void VerifyGetAllPerson(this Mock<IPersonService> mock)
+            => mock.Verify(x => x.GetPeopleAsync(It.IsAny<PersonQueryDto>()), Times.Once);
+        public static void VerifyGetAllPersonPaginated(this Mock<IPersonService> mock)
+            => mock.Verify(x => x.GetPeoplePaginatedAsync(It.IsAny<PersonQueryDto>(), It.IsAny<Pagination>()), Times.Once);
 
 
         public static void SetGetPersonById(this Mock<IPersonService> mock)

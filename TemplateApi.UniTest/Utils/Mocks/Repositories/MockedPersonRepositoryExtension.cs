@@ -3,6 +3,7 @@ using System;
 using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Domain.Models.Dal;
+using TemplateApi.Domain.Models.Dto;
 using TemplateApi.UniTest.Utils.Fixtures;
 
 namespace TemplateApi.UniTest.Utils.Mocks.Repositories
@@ -10,11 +11,11 @@ namespace TemplateApi.UniTest.Utils.Mocks.Repositories
     internal static class MockedPersonRepositoryExtension
     {
         #region get
-        //public static void SetGetAllAsync(this Mock<IPersonRepository> mock)
-        //{
-        //    mock.Setup(x => x.GetAllAsync(It.IsAny<Pagination>())).ReturnsAsync(Fixture.People).Verifiable();
-        //    mock.Setup(x => x.GetAllAsync()).ReturnsAsync(Fixture.People).Verifiable();
-        //}
+        public static void SetGetAllAsync(this Mock<IPersonRepository> mock)
+        {
+            mock.Setup(x => x.GetPeoplePaginatedAsync(It.IsAny<PersonQueryDto>(),It.IsAny<Pagination>())).ReturnsAsync(Fixture.People).Verifiable();
+            mock.Setup(x => x.GetPeopleAsync(It.IsAny<PersonQueryDto>())).ReturnsAsync(Fixture.People).Verifiable();
+        }
         //public static void VerifyGetAllAsync(this Mock<IPersonRepository> mock)
         //    => mock.Verify(x => x.GetAllAsync(), Times.Once);
         //public static void VerifyGetAllAsyncPaginated(this Mock<IPersonRepository> mock)
@@ -42,14 +43,13 @@ namespace TemplateApi.UniTest.Utils.Mocks.Repositories
         #endregion
 
         #region count
-        //public static void SetCount(this Mock<IPersonRepository> mock, PaginationResponse paginationResponse)
-        //{
-        //    mock.Setup(x => x.CountByName(It.IsAny<string>(),It.IsAny<Pagination>())).Returns(paginationResponse).Verifiable();
-        //    mock.Setup(x => x.CountAll(It.IsAny<Pagination>())).Returns(paginationResponse).Verifiable();
-        //}
-        //public static void SetCount(this Mock<IPersonRepository> mock)
-        //    => SetCount(mock, Fixture.PaginationResponse);
-        
+        public static void SetCount(this Mock<IPersonRepository> mock, PaginationResponse paginationResponse)
+        {
+            mock.Setup(x => x.CountPeople(It.IsAny<PersonQueryDto>(),It.IsAny<Pagination>())).Returns(paginationResponse).Verifiable();
+        }
+        public static void SetCount(this Mock<IPersonRepository> mock)
+            => SetCount(mock, Fixture.PaginationResponse);
+
         #endregion
 
         #region any

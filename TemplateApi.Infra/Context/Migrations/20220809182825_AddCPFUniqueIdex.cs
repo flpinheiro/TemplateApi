@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System.Diagnostics.CodeAnalysis;
 
 #nullable disable
 
 namespace TemplateApi.Infra.Context.Migrations
 {
+    [ExcludeFromCodeCoverage]
     public partial class AddCPFUniqueIdex : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
