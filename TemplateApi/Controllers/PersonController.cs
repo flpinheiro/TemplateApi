@@ -14,13 +14,13 @@ namespace TemplateApi.Controllers;
 public class PersonController : Controller
 {
     private readonly IPersonService _service;
-    private readonly IValidator<AddPersonDto> _validator;
+    private readonly IValidator<AddPersonDto> _personDtoValidator;
     private readonly IValidator<PersonQueryDto> _personQueryDtoValidator;
-    public PersonController(IPersonService service, IValidator<AddPersonDto> validator)
+    public PersonController(IPersonService service, IValidator<AddPersonDto> validator, IValidator<PersonQueryDto> personQueryDtoValidator)
     {
         _service = service ?? throw new ArgumentNullException("IPersonService");
-        _validator = validator;
-        _personQueryDtoValidator = new PersonQueryDtoValidation();
+        _personDtoValidator = validator;
+        _personQueryDtoValidator = personQueryDtoValidator;
     }
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -44,63 +44,27 @@ public class PersonController : Controller
 
     [HttpGet("ExportToExcel")]
     [Produces(ExcelExtensions.ContentType)]
-    public async Task<FileStreamResult> ExportoExcelAll([FromQuery] PersonQueryDto query)
+    public async Task<ActionResult> ExportoExcelAll([FromQuery] PersonQueryDto query)
     {
         var validate = _personQueryDtoValidator.Validate(query);
-        if (validate != null && !validate.IsValid) throw new ArgumentException("Some parameters are incorrect, please verify and try again");
+        if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
 
         var people = await _service.GetPeopleAsync(query);
         return _service.ExportToExcel(people);
     }
 
-    //[HttpGet]
-    //[ProducesResponseType(StatusCodes.Status200OK)]
-    //public async Task<ActionResult<IEnumerable<PersonDto>>> GetAll([FromQuery] Pagination pagination)
-    //{
-    //    return Ok(await _service.GetAllPerson(pagination));
-    //}
-    //[HttpGet("Count")]
-    //[ProducesResponseType(StatusCodes.Status200OK)]
-    //public ActionResult<PaginationResponse> CountAll([FromQuery] Pagination pagination)
-    //{
-    //    return Ok(_service.CountAllPerson(pagination));
-    //}
-    //[HttpGet("ExportToExcel")]
-    //[Produces(ExcelExtensions.ContentType)]
-    //public async Task<FileStreamResult> ExporttoExcelAll()
-    //{
-    //    var people = await _service.GetAllPerson();
-    //    return _service.ExportToExcel(people);
-    //}
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<PersonDto>> GetPerson([FromRoute] string id)
     {
         return Ok(await _service.GetPersonById(id));
     }
-    //[HttpGet("Name/{name}/ExportToExcel")]
-    //[Produces(ExcelExtensions.ContentType)]
-    //public async Task<FileStreamResult> ExportoExcelByName([FromRoute] string name)
-    //{
-    //    var people = await _service.GetPersonByName(name);
-    //    return _service.ExportToExcel(people);
-    //}
-    //[HttpGet("Name/{name}")]
-    //public async Task<ActionResult<IEnumerable<PersonDto>>> GetPersonByName([FromRoute] string name, [FromQuery] Pagination pagination)
-    //{
-    //    return Ok(await _service.GetPersonByName(name, pagination));
-    //}
-    //[HttpGet("Name/{name}/Count")]
-    //public ActionResult<PaginationResponse> CountPersonByName([FromRoute] string name, [FromQuery] Pagination pagination)
-    //{
-    //    return Ok(_service.CountPersonByName(name, pagination));
-    //}
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult<PersonDto>> Create([FromBody] AddPersonDto addPerson)
     {
-        var validate = _validator.Validate(addPerson);
+        var validate = _personDtoValidator.Validate(addPerson);
         if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
 
         var personDto = await _service.AddPerson(addPerson);
@@ -111,7 +75,7 @@ public class PersonController : Controller
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<PersonDto>> Edit([FromRoute] string id, [FromBody] PersonDto person)
     {
-        var validate = _validator.Validate(person);
+        var validate = _personDtoValidator.Validate(person);
         if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
 
         await _service.UpdatePerson(id, person);

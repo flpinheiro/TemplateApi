@@ -3,8 +3,6 @@ using TemplateApi.CrossCutting.Validators;
 
 namespace TemplateApi.CrossCutting.Attributes
 {
-    //RegularExpressionAttribute
-    //ValidationAttribute
     [AttributeUsage(AttributeTargets.Property)]
     public class CPFAttribute : ValidationAttribute
     {

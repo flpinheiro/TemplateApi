@@ -8,12 +8,12 @@ using TemplateApi.CrossCutting.Models;
 
 namespace TemplateApi.Middlewares;
 
-public class GlobalExceptionHandlerMIddleware : Controller
+public class GlobalExceptionHandlerMiddleware : Controller
 {
     private readonly RequestDelegate _next;
-    private readonly ILogger<GlobalExceptionHandlerMIddleware> _logger;
+    private readonly ILogger<GlobalExceptionHandlerMiddleware> _logger;
 
-    public GlobalExceptionHandlerMIddleware(RequestDelegate next, ILogger<GlobalExceptionHandlerMIddleware> logger)
+    public GlobalExceptionHandlerMiddleware(RequestDelegate next, ILogger<GlobalExceptionHandlerMiddleware> logger)
     {
         _next = next;
         _logger = logger;

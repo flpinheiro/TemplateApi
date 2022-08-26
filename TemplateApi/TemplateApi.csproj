@@ -7,6 +7,11 @@
 		<UserSecretsId>88a73c86-e7c2-41a7-9319-3a1824a7299c</UserSecretsId>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn);1591</NoWarn>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<PackageReference Include="NSwag.AspNetCore" Version="13.16.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.5">

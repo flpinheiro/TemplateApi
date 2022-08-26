@@ -5,10 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TemplateApi.Controllers;
-using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dto;
 using TemplateApi.UniTest.Utils.Fixtures;
@@ -24,22 +22,21 @@ namespace TemplateApi.UniTest.Api.Controllers
         public PersonControllerTest()
         {
             var validator = new PersonDtoValidation();
+            var personQueryDtoValidator = new PersonQueryDtoValidation();
             mock = new Mock<IPersonService>();
-            _controller = new PersonController(mock.Object, validator);
+            _controller = new PersonController(mock.Object, validator, personQueryDtoValidator);
 
-            //mock.SetGetAllPeron();
             mock.SetGetPersonById();
             mock.SetAddPerson();
             mock.SetUpdatePerson();
             mock.SetDeletePerson();
             mock.SetExportToExcel();
-           // mock.SetCount();
         }
 
         [Fact]
         public void Constructor_shouldReturnException()
         {
-            Assert.Throws<ArgumentNullException>(() => new PersonController(null, null));
+            Assert.Throws<ArgumentNullException>(() => new PersonController(null, null, null));
         }
 
         //[Fact]

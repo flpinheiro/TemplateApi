@@ -57,10 +57,10 @@ namespace TemplateApi.CrossCutting.Extensions
                     if (!Convert.IsDBNull(item[i]))
                     {
                         var value = item[i].ToString();
-                        if (value.Contains(",")) value = String.Format("\"{0}\"", value);
+                        if (!string.IsNullOrEmpty(value) && value.Contains(',')) value = string.Format("\"{0}\"", value);
                         data.Append(value);
                     }
-                    if (i < table.Columns.Count - 1) data.Append(",");
+                    if (i < table.Columns.Count - 1) data.Append(',');
                 }
                 data.AppendLine();
             }

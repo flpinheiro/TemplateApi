@@ -26,4 +26,6 @@
         where T : class
             => query.Skip(pagination.PageSize * (pagination.Page - 1)).Take(pagination.PageSize).AsQueryable();
     }
+
+
 }

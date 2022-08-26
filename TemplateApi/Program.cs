@@ -21,17 +21,33 @@ try
         .ReadFrom.Configuration(ctx.Configuration));
 
     // Add services to the container.
-
     builder.Services.AddControllers()
         .AddJsonOptions(options =>
         {
             options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
             options.JsonSerializerOptions.PropertyNamingPolicy = null;
             options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         }); ;
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerDocument(x => x.Title = "Template Api");
+    builder.Services.AddSwaggerDocument(x => 
+    {
+        x.GenerateEnumMappingDescription = true;     
+        x.Title = "Template Api";
+        x.PostProcess = document =>
+        {
+            document.Info.Version = "v1";
+            document.Info.Title = "Template API";
+            document.Info.Description = "A simple ASP.NET Core web API Template for personal study and examples";
+
+            document.Info.Contact = new NSwag.OpenApiContact
+            {
+                Name = "Felipe Luís Pinheiro",
+                Email = "flpinheiro@gmail.com",
+            };
+        };
+    });
     builder.Services.AddAutoMapper(typeof(MappingProfile));
 
     builder.Services.AddInfraConfiguration(builder.Configuration);
@@ -41,6 +57,9 @@ try
 
     app.UseSerilogRequestLogging();
 
+    //configure global Exception Handler middleware
+    app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+    
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {
@@ -51,9 +70,7 @@ try
     app.UseHttpsRedirection();
 
     app.UseAuthorization();
-
-    app.UseMiddleware<GlobalExceptionHandlerMIddleware>();
-
+    
     app.MapControllers();
 
     app.Run();
