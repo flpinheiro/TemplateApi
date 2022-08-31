@@ -22,6 +22,16 @@ public class PersonController : Controller
         _personDtoValidator = validator;
         _personQueryDtoValidator = personQueryDtoValidator;
     }
+    /// <summary>
+    /// Get all person who satisfies the shearch criteria, separeted by pagination and sorted
+    /// </summary>
+    /// <remarks>
+    /// <para>Get all person who satisfies the shearch criteria, separeted by pagination and sorted</para>
+    /// <para><paramref name="query"/> CPF must be a valid Brazilian cpf </para>
+    /// </remarks>
+    /// <param name="query">search criteria</param>
+    /// <param name="pagination">pagination definition</param>
+    /// <returns>a list of <see cref="PersonDto"/> if search criteria is corrected or badRequest if not.</returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<PersonDto>>> GetPeople([FromQuery] PersonQueryDto query, [FromQuery] Pagination pagination)
@@ -44,6 +54,7 @@ public class PersonController : Controller
 
     [HttpGet("ExportToExcel")]
     [Produces(ExcelExtensions.ContentType)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult> ExportoExcelAll([FromQuery] PersonQueryDto query)
     {
         var validate = _personQueryDtoValidator.Validate(query);

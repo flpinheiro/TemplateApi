@@ -23,8 +23,6 @@ namespace TemplateApi.UniTest.Utils.Mocks.Repositories
 
             var context = new MockedTemplateApiContext(option);
             context.Database.EnsureCreated();
-            //context.Seed();
-
             return context;
         }
 
