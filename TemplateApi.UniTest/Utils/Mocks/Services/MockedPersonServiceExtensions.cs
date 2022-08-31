@@ -3,6 +3,7 @@ using Moq;
 using System.Collections.Generic;
 using System.IO;
 using TemplateApi.CrossCutting.Models;
+using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dto;
 using TemplateApi.UniTest.Utils.Fixtures;
@@ -46,6 +47,14 @@ namespace TemplateApi.UniTest.Utils.Mocks.Services
             => mock.Setup(x => x.AddPerson(It.IsAny<PersonDto>())).ReturnsAsync(Fixture.PersonDto).Verifiable();
         public static void VerifyAddPerson(this Mock<IPersonService> mock)
             => mock.Verify(x => x.AddPerson(It.IsAny<PersonDto>()), Times.Once);
+        #endregion
+
+        #region any
+        public static void SetAnyAsync(this Mock<IPersonService> mock, bool any = true)
+            => mock.Setup(x => x.AnyAsync(It.IsAny<string>())).ReturnsAsync(any).Verifiable();
+
+        public static void VerifyAnyAsync(this Mock<IPersonService> mock)
+            => mock.Verify(x => x.AnyAsync(It.IsAny<string>()), Times.Once);
         #endregion
 
         #region update

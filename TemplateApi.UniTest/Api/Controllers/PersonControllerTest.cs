@@ -33,6 +33,7 @@ namespace TemplateApi.UniTest.Api.Controllers
             mock.SetDeletePerson();
             mock.SetExportToExcel();
             mock.SetCount();
+            mock.SetAnyAsync();
         }
 
         [Fact]
@@ -72,7 +73,7 @@ namespace TemplateApi.UniTest.Api.Controllers
         {
             var result = await _controller.Create(Fixture.PersonDto);
 
-            var createdAtActionResult = result.Result as CreatedAtActionResult;
+            var createdAtActionResult = result.Result as CreatedResult;
             Assert.Equal(StatusCodes.Status201Created, createdAtActionResult?.StatusCode);
             var model = createdAtActionResult?.Value;
             Assert.IsAssignableFrom<PersonDto>(model);
@@ -99,15 +100,11 @@ namespace TemplateApi.UniTest.Api.Controllers
         }
 
         [Fact]
-        public async void UpdatePerson_ShouldReturn200()
+        public async void UpdatePerson_ShouldReturn204()
         {
             var result = await _controller.Edit("", Fixture.PersonDto);
-
-            var okObject = result.Result as OkObjectResult;
-            Assert.Equal(StatusCodes.Status200OK, okObject?.StatusCode);
-            var model = okObject?.Value;
-            Assert.IsAssignableFrom<PersonDto>(model);
-            Assert.Equal(Fixture.PersonDto, model);
+            var noContentResult = result as NoContentResult;
+            Assert.Equal(StatusCodes.Status204NoContent, noContentResult?.StatusCode);
             mock.VerifyUpdatePerson();
         }
 
@@ -123,7 +120,7 @@ namespace TemplateApi.UniTest.Api.Controllers
             };
 
             var result = await _controller.Edit("", person);
-            var badResponseResult = result.Result as BadRequestObjectResult;
+            var badResponseResult = result as BadRequestObjectResult;
             Assert.NotNull(badResponseResult);
             Assert.Equal(400, badResponseResult?.StatusCode);
             var values = badResponseResult?.Value as IEnumerable<object>;
@@ -135,11 +132,8 @@ namespace TemplateApi.UniTest.Api.Controllers
         {
             var result = await _controller.Delete("");
 
-            var okObject = result.Result as OkObjectResult;
-            Assert.Equal(StatusCodes.Status200OK, okObject?.StatusCode);
-            var model = okObject?.Value;
-            Assert.IsAssignableFrom<PersonDto>(model);
-            Assert.Equal(Fixture.PersonDto, model);
+            var okObject = result as NoContentResult;
+            Assert.Equal(StatusCodes.Status204NoContent, okObject?.StatusCode);
             mock.VerifyDeletePerson();
         }
 

@@ -24,7 +24,7 @@ public class PersonService : IPersonService
             var model = _uow.Mapper.Map<Person>(person);
             person.Id = _uow.PersonRepository.Add(model);
             await _uow.SaveAsync();
-            if (person.Name == "string") throw new Exception("String is not an acetabble name for a person");
+            if (person.Name == "string" || person.SurName == "string") throw new Exception("String is not an acetabble name for a person");
             return person;
         }
         catch (Exception ex)
@@ -64,7 +64,7 @@ public class PersonService : IPersonService
         => _uow.PersonRepository.CountPeople(queryDto, pagination);
 
     public async Task<IEnumerable<PersonDto>> GetPeopleAsync(PersonQueryDto queryDto)
-        => _uow.Mapper.Map<IEnumerable<PersonDto>>( await _uow.PersonRepository.GetPeopleAsync(queryDto));
+        => _uow.Mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetPeopleAsync(queryDto));
 
     public async Task<IEnumerable<PersonDto>> GetPeoplePaginatedAsync(PersonQueryDto queryDto, Pagination pagination)
         => _uow.Mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetPeoplePaginatedAsync(queryDto, pagination));
@@ -87,6 +87,8 @@ public class PersonService : IPersonService
             throw;
         }
     }
+
+    public async Task<bool> AnyAsync(string id) => await _uow.PersonRepository.AnyAsync(id);
 
     public Microsoft.AspNetCore.Mvc.FileStreamResult ExportToExcel(IEnumerable<PersonDto> people)
     {
