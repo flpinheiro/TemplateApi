@@ -9,7 +9,7 @@ using TemplateApi.Domain.Models.Dto;
 namespace TemplateApi.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 [Consumes(MediaTypeNames.Application.Json)]
 public class PersonController : Controller
 {
