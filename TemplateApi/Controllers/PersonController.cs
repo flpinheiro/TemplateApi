@@ -163,10 +163,18 @@ public class PersonController : Controller
         return NoContent();
     }
 
+
+#if DEBUG
+    /// <summary>
+    /// debug only endpoint.
+    /// </summary>
+    /// <remarks>
+    /// <para>Debug only endpoint</para>
+    /// <para>Produces a random valid Person to be used as debug model</para>
+    /// </remarks>
+    /// <returns>Return a valid person to be added or updated</returns>
     [HttpGet("random")]
-    public async Task<ActionResult<AddPersonDto>> GetRandom()
-    {
-        return Ok(await _service.GetRandomPerson());
-    }
+    public ActionResult<AddPersonDto> GetRandom() => Ok(_service.GetRandomPerson()); 
+#endif
 }
 

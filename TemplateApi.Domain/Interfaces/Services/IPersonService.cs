@@ -16,6 +16,6 @@ namespace TemplateApi.Domain.Interfaces.Services
         Task<IEnumerable<PersonDto>> GetPeopleAsync(PersonQuery queryDto);
         PaginationResponse CountPeople(PersonQuery queryDto, Pagination pagination);
         Task<bool> AnyAsync(string id);
-        Task<AddPersonDto> GetRandomPerson();
+        AddPersonDto GetRandomPerson();
     }
 }
