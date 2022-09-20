@@ -40,7 +40,6 @@ The Entity Framework is now being developed under an open-source license and EF6
 
 * Drop-Database -Context TemplateApiContext
 
-
         Generates a SQL script from the DbContext. Bypasses any migrations.
 
 * Script-Migration

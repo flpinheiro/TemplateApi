@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using TemplateApi.Controllers;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dto;
+using TemplateApi.Domain.Models.Validators;
 using TemplateApi.UniTest.Utils.Fixtures;
 using TemplateApi.UniTest.Utils.Mocks.Services;
 
@@ -22,7 +23,7 @@ namespace TemplateApi.UniTest.Api.Controllers
         public PersonControllerTest()
         {
             var validator = new PersonDtoValidation();
-            var personQueryDtoValidator = new PersonQueryDtoValidation();
+            var personQueryDtoValidator = new PersonQueryValidation();
             mock = new Mock<IPersonService>();
             _controller = new PersonController(mock.Object, validator, personQueryDtoValidator);
 

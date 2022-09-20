@@ -5,7 +5,7 @@ using TemplateApi.CrossCutting.Utils;
 using TemplateApi.Domain.Interfaces;
 using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Domain.Models.Dal;
-using TemplateApi.Domain.Models.Dto;
+using TemplateApi.Domain.Models.Queries;
 using TemplateApi.Infra.Context;
 
 namespace TemplateApi.Infra.Repositories;
@@ -37,18 +37,18 @@ internal class PersonRepository : IPersonRepository
         _context.People.Remove(model);
     }
 
-    public PaginationResponse CountPeople(PersonQueryDto queryDto, Pagination pagination)
+    public PaginationResponse CountPeople(PersonQuery queryDto, Pagination pagination)
         => GetAll().GetPeople(queryDto).Paginate(pagination);
-    public async Task<IEnumerable<Person>> GetPeopleAsync(PersonQueryDto queryDto)
+    public async Task<IEnumerable<Person>> GetPeopleAsync(PersonQuery queryDto)
         => await GetAll().GetPeople(queryDto).ToListAsync();
-    public async Task<IEnumerable<Person>> GetPeoplePaginatedAsync(PersonQueryDto queryDto, Pagination pagination)
+    public async Task<IEnumerable<Person>> GetPeoplePaginatedAsync(PersonQuery queryDto, Pagination pagination)
         => await GetAll().GetPeople(queryDto).GetPaginated(pagination).ToListAsync();
 }
 
 
 internal static class PersonRepositoryExtensions
 {
-    public static IQueryable<Person> GetPeople(this IQueryable<Person> query, PersonQueryDto queryDto)
+    public static IQueryable<Person> GetPeople(this IQueryable<Person> query, PersonQuery queryDto)
     {
         if (!string.IsNullOrWhiteSpace(queryDto.Name))
             query = query.GetByName(queryDto.Name);

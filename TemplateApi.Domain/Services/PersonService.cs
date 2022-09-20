@@ -1,19 +1,23 @@
 ﻿using System.Data;
+using System.Net.Http;
+using System.Text.Json;
 using TemplateApi.CrossCutting.Exceptions;
 using TemplateApi.CrossCutting.Extensions;
 using TemplateApi.CrossCutting.Models;
+using TemplateApi.CrossCutting.Utils;
+using TemplateApi.CrossCutting.Validators;
 using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dal;
 using TemplateApi.Domain.Models.Dto;
+using TemplateApi.Domain.Models.Queries;
 
 namespace TemplateApi.Domain.Services;
 public class PersonService : IPersonService
 {
     private readonly IUnitOfWork _uow;
 
-    public PersonService(IUnitOfWork uow)
-        => _uow = uow ?? throw new ArgumentNullException("IUnitOfWork");
+    public PersonService(IUnitOfWork uow) => _uow = uow ?? throw new ArgumentNullException("IUnitOfWork");
 
     public async Task<PersonDto> AddPerson(AddPersonDto addPErson)
     {
@@ -60,13 +64,13 @@ public class PersonService : IPersonService
         return _uow.Mapper.Map<PersonDto>(await _uow.PersonRepository.GetByIdAsync(id));
     }
 
-    public PaginationResponse CountPeople(PersonQueryDto queryDto, Pagination pagination)
+    public PaginationResponse CountPeople(PersonQuery queryDto, Pagination pagination)
         => _uow.PersonRepository.CountPeople(queryDto, pagination);
 
-    public async Task<IEnumerable<PersonDto>> GetPeopleAsync(PersonQueryDto queryDto)
+    public async Task<IEnumerable<PersonDto>> GetPeopleAsync(PersonQuery queryDto)
         => _uow.Mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetPeopleAsync(queryDto));
 
-    public async Task<IEnumerable<PersonDto>> GetPeoplePaginatedAsync(PersonQueryDto queryDto, Pagination pagination)
+    public async Task<IEnumerable<PersonDto>> GetPeoplePaginatedAsync(PersonQuery queryDto, Pagination pagination)
         => _uow.Mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetPeoplePaginatedAsync(queryDto, pagination));
 
     public async Task UpdatePerson(string id, PersonDto person)
@@ -117,5 +121,52 @@ public class PersonService : IPersonService
         }
 
         return table.DeliverExcelFile($"people {DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss")}");
+    }
+
+    public async Task<AddPersonDto> GetRandomPerson()
+    {
+        var randomName = new RandomPersonName();
+
+        var randomDate = new RandomDateTime();
+
+        var person = new AddPersonDto()
+        {
+            Name = randomName.GetName(),
+            SurName = randomName.GetName(),
+            CPF = CPFValidator.GerarCpf(),
+            BirthDay = randomDate.NextDateOnly(),
+        };
+
+
+        return person;
+    }
+
+    private class Root
+    {
+        public List<string> data { get; set; }
+    }
+    private class RandomDateTime
+    {
+        DateTime start;
+        Random gen;
+        int range;
+
+        public RandomDateTime()
+        {
+            start = new DateTime(1970, 1, 1);
+            gen = new Random();
+            range = (DateTime.Today - start).Days;
+        }
+
+        public DateTime Next()
+        {
+            return start.AddDays(gen.Next(range)).AddHours(gen.Next(0, 24)).AddMinutes(gen.Next(0, 60)).AddSeconds(gen.Next(0, 60));
+        }
+
+        public DateOnly NextDateOnly()
+        {
+            return DateOnly.FromDateTime(Next());
+        }
+
     }
 }

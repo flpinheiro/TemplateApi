@@ -42,5 +42,15 @@ namespace TemplateApi.UniTest.CrossCutting.Validators
         {
             Assert.Throws<ArgumentException>(() => invalidCpf.ToCPFFormat());
         }
+
+        [Fact]
+        public void CpfGerado_mustBeTrue()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                var cpf = CPFValidator.GerarCpf();
+                Assert.True(CPFValidator.IsValidCpf(cpf));
+            }
+        }
     }
 }

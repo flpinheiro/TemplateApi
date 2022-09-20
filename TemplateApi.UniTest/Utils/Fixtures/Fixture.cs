@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Models.Dal;
 using TemplateApi.Domain.Models.Dto;
+using TemplateApi.Domain.Models.Queries;
 
 namespace TemplateApi.UniTest.Utils.Fixtures
 {
@@ -53,7 +54,7 @@ namespace TemplateApi.UniTest.Utils.Fixtures
 
         public static PaginationResponse PaginationResponse = new(1, 10);
 
-        public static PersonQueryDto QueryDto = new();
+        public static PersonQuery QueryDto = new();
 
         public static Pagination Pagination = new();
     }

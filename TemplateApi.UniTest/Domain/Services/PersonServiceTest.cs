@@ -1,7 +1,9 @@
 ﻿#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 
+using Moq;
 using System;
 using System.Linq;
+using System.Net.Http;
 using TemplateApi.CrossCutting.Exceptions;
 using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Interfaces.Services;
@@ -21,6 +23,7 @@ namespace TemplateApi.UniTest.Domain.Services
         public PersonServiceTest()
         {
             _unitOfWork = new MockedUnitOfWork();
+
             _service = new PersonService(_unitOfWork);
         }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Models.Dto;
+using TemplateApi.Domain.Models.Queries;
 
 namespace TemplateApi.Domain.Interfaces.Services
 {
@@ -11,9 +12,10 @@ namespace TemplateApi.Domain.Interfaces.Services
         Task UpdatePerson(string id, PersonDto person);
         Task<PersonDto> DeletePerson(string id);
         FileStreamResult ExportToExcel(IEnumerable<PersonDto> people);
-        Task<IEnumerable<PersonDto>> GetPeoplePaginatedAsync(PersonQueryDto queryDto, Pagination pagination);
-        Task<IEnumerable<PersonDto>> GetPeopleAsync(PersonQueryDto queryDto);
-        PaginationResponse CountPeople(PersonQueryDto queryDto, Pagination pagination);
+        Task<IEnumerable<PersonDto>> GetPeoplePaginatedAsync(PersonQuery queryDto, Pagination pagination);
+        Task<IEnumerable<PersonDto>> GetPeopleAsync(PersonQuery queryDto);
+        PaginationResponse CountPeople(PersonQuery queryDto, Pagination pagination);
         Task<bool> AnyAsync(string id);
+        Task<AddPersonDto> GetRandomPerson();
     }
 }

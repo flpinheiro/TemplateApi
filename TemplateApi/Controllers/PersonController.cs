@@ -5,18 +5,20 @@ using TemplateApi.CrossCutting.Extensions;
 using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dto;
+using TemplateApi.Domain.Models.Queries;
 
 namespace TemplateApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 [Consumes(MediaTypeNames.Application.Json)]
+[Produces("application/json")]
 public class PersonController : Controller
 {
     private readonly IPersonService _service;
     private readonly IValidator<AddPersonDto> _personDtoValidator;
-    private readonly IValidator<PersonQueryDto> _personQueryDtoValidator;
-    public PersonController(IPersonService service, IValidator<AddPersonDto> validator, IValidator<PersonQueryDto> personQueryDtoValidator)
+    private readonly IValidator<PersonQuery> _personQueryDtoValidator;
+    public PersonController(IPersonService service, IValidator<AddPersonDto> validator, IValidator<PersonQuery> personQueryDtoValidator)
     {
         _service = service ?? throw new ArgumentNullException("IPersonService");
         _personDtoValidator = validator;
@@ -35,7 +37,7 @@ public class PersonController : Controller
     /// <returns>a list of <see cref="PersonDto"/> if search criteria is corrected or badRequest if not.</returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<PersonDto>>> GetPeople([FromQuery] PersonQueryDto query, [FromQuery] Pagination pagination)
+    public async Task<ActionResult<IEnumerable<PersonDto>>> GetPeople([FromQuery] PersonQuery query, [FromQuery] Pagination pagination)
     {
         var validate = _personQueryDtoValidator.Validate(query);
         if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
@@ -54,7 +56,7 @@ public class PersonController : Controller
     /// <returns> Return <see cref="PaginationResponse"/> with the number of pages and the total elements that exist at the search criteria</returns>
     [HttpGet("Count")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public ActionResult<PaginationResponse> CountPeople([FromQuery] PersonQueryDto query, [FromQuery] Pagination pagination)
+    public ActionResult<PaginationResponse> CountPeople([FromQuery] PersonQuery query, [FromQuery] Pagination pagination)
     {
         var validate = _personQueryDtoValidator.Validate(query);
         if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
@@ -73,7 +75,7 @@ public class PersonController : Controller
     [HttpGet("ExportToExcel")]
     [Produces(ExcelExtensions.ContentType)]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult> ExportoExcelAll([FromQuery] PersonQueryDto query)
+    public async Task<ActionResult> ExportoExcelAll([FromQuery] PersonQuery query)
     {
         var validate = _personQueryDtoValidator.Validate(query);
         if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
@@ -117,7 +119,7 @@ public class PersonController : Controller
         if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
 
         var personDto = await _service.AddPerson(addPerson);
-        return Created(personDto.Id??"", personDto);
+        return Created(personDto.Id ?? "", personDto);
     }
 
     /// <summary>
@@ -159,6 +161,12 @@ public class PersonController : Controller
         if (!await _service.AnyAsync(id)) return NotFound();
         await _service.DeletePerson(id);
         return NoContent();
+    }
+
+    [HttpGet("random")]
+    public async Task<ActionResult<AddPersonDto>> GetRandom()
+    {
+        return Ok(await _service.GetRandomPerson());
     }
 }
 

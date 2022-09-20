@@ -1,0 +1,68 @@
+@baseUrl = https://localhost:7189/api
+
+# @name randomPersonRequest
+GET {{baseUrl}}/person/random HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+
+### GET ALL PEOPLE
+
+GET {{baseUrl}}/person HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+### COUNT ALL PEOPLE
+
+GET {{baseUrl}}/person/count HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+### add new person
+### https://www.4devs.com.br/gerador_de_pessoas
+
+POST {{baseUrl}}/person HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "Name": "{{randomPersonRequest.response.body.Name}}",
+  "SurName": "{{randomPersonRequest.response.body.SurName}}",
+  "CPF": "{{randomPersonRequest.response.body.CPF}}",
+  "BirthDay": "{{randomPersonRequest.response.body.BirthDay}}"
+}
+
+### update person
+### https://www.4devs.com.br/gerador_de_pessoas
+
+
+
+PUT {{baseUrl}}/person/6977e019-0061-4d10-9f0b-08fd90e62a45 HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "Name": "Patrícia Raquel",
+  "SurName": "Lívia da Costa",
+  "CPF": "430.415.635-76",
+  "BirthDay": "{{$localDatetime 'YYYY-MM-DD'}}"
+}
+
+### get person by id
+
+GET {{baseUrl}}/person/6977e019-0061-4d10-9f0b-08fd90e62a45 HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+### export to excel
+
+GET {{baseUrl}}/person/exporttoexcel HTTP/1.1
+Accept: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+
+### DELETE person by id
+
+DELETE {{baseUrl}}/person/6977e019-0061-4d10-9f0b-08fd90e62a45 HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+###

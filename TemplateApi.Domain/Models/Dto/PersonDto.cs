@@ -1,9 +1,6 @@
-﻿using FluentValidation;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using TemplateApi.CrossCutting.Attributes;
-using TemplateApi.CrossCutting.Enums;
 using TemplateApi.CrossCutting.Validators;
-using TemplateApi.Domain.Interfaces;
 using TemplateApi.Domain.Models.Constants;
 
 namespace TemplateApi.Domain.Models.Dto
@@ -23,33 +20,5 @@ namespace TemplateApi.Domain.Models.Dto
         public string? CPF { get; set; }
         [Required]
         public DateOnly BirthDay { get; set; } = new DateOnly();
-    }
-
-    public class PersonQueryDto : ISortablePeopleQuery
-    {
-        public string? Name { get; set; }
-        public string? Cpf { get; set; }
-        public SortAsEnum SortAs { get; set; } = SortAsEnum.Asc;
-        public PersonEnum SortBy { get; set; } = PersonEnum.Name;
-    }
-
-    public class PersonDtoValidation : AbstractValidator<AddPersonDto>
-    {
-        public PersonDtoValidation()
-        {
-            RuleFor(a => a.Name).NotNull().NotEmpty().MaximumLength(PersonContants.NameSize);
-            RuleFor(a => a.SurName).NotNull().NotEmpty().MaximumLength(PersonContants.SurnameSize);
-            RuleFor(a => a.CPF).NotNull().NotEmpty().Must(cpf => !string.IsNullOrEmpty(cpf) && cpf.IsValidCpf()).MinimumLength(CPFValidator.Size).MaximumLength(CPFValidator.Size + 3);
-            RuleFor(a => a.BirthDay).NotNull().NotEmpty();
-        }
-    }
-
-    public class PersonQueryDtoValidation : AbstractValidator<PersonQueryDto>
-    {
-        public PersonQueryDtoValidation()
-        {
-            RuleFor(a => a.Cpf).Must(cpf => !string.IsNullOrEmpty(cpf) && cpf.IsValidCpf()).When(a => !string.IsNullOrEmpty(a.Cpf)).MinimumLength(CPFValidator.Size).MaximumLength(CPFValidator.Size + 3);
-            RuleFor(a => a.Name).MaximumLength(PersonContants.NameSize);
-        }
     }
 }

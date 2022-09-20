@@ -3,7 +3,7 @@ using System;
 using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Domain.Models.Dal;
-using TemplateApi.Domain.Models.Dto;
+using TemplateApi.Domain.Models.Queries;
 using TemplateApi.UniTest.Utils.Fixtures;
 
 namespace TemplateApi.UniTest.Utils.Mocks.Repositories
@@ -13,8 +13,8 @@ namespace TemplateApi.UniTest.Utils.Mocks.Repositories
         #region get
         public static void SetGetAllAsync(this Mock<IPersonRepository> mock)
         {
-            mock.Setup(x => x.GetPeoplePaginatedAsync(It.IsAny<PersonQueryDto>(),It.IsAny<Pagination>())).ReturnsAsync(Fixture.People).Verifiable();
-            mock.Setup(x => x.GetPeopleAsync(It.IsAny<PersonQueryDto>())).ReturnsAsync(Fixture.People).Verifiable();
+            mock.Setup(x => x.GetPeoplePaginatedAsync(It.IsAny<PersonQuery>(),It.IsAny<Pagination>())).ReturnsAsync(Fixture.People).Verifiable();
+            mock.Setup(x => x.GetPeopleAsync(It.IsAny<PersonQuery>())).ReturnsAsync(Fixture.People).Verifiable();
         }
         public static void SetGetByIdAsync(this Mock<IPersonRepository> mock)
             => mock.Setup(x => x.GetByIdAsync(It.IsAny<string>())).ReturnsAsync(Fixture.Person).Verifiable();
@@ -29,7 +29,7 @@ namespace TemplateApi.UniTest.Utils.Mocks.Repositories
         #region count
         public static void SetCount(this Mock<IPersonRepository> mock, PaginationResponse paginationResponse)
         {
-            mock.Setup(x => x.CountPeople(It.IsAny<PersonQueryDto>(),It.IsAny<Pagination>())).Returns(paginationResponse).Verifiable();
+            mock.Setup(x => x.CountPeople(It.IsAny<PersonQuery>(),It.IsAny<Pagination>())).Returns(paginationResponse).Verifiable();
         }
         public static void SetCount(this Mock<IPersonRepository> mock)
             => SetCount(mock, Fixture.PaginationResponse);

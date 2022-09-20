@@ -3,6 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dto;
+using TemplateApi.Domain.Models.Queries;
+using TemplateApi.Domain.Models.Validators;
 using TemplateApi.Domain.Services;
 
 namespace TemplateApi.Domain.Configurations
@@ -14,7 +16,7 @@ namespace TemplateApi.Domain.Configurations
         {
             services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<IValidator<AddPersonDto>, PersonDtoValidation>();
-            services.AddScoped<IValidator<PersonQueryDto>, PersonQueryDtoValidation>();
+            services.AddScoped<IValidator<PersonQuery>, PersonQueryValidation>();
         }
     }
 }

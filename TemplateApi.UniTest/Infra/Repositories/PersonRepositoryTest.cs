@@ -8,6 +8,7 @@ using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Domain.Models.Dal;
 using TemplateApi.Domain.Models.Dto;
+using TemplateApi.Domain.Models.Queries;
 using TemplateApi.Infra;
 using TemplateApi.Infra.Context;
 using TemplateApi.UniTest.Utils.Fixtures;
@@ -87,7 +88,7 @@ namespace TemplateApi.UniTest.Infra.Repositories
         public async void GetPersonByNameTest()
         {
             var name = Fixture.Person.Name ?? string.Empty;
-            var query = new PersonQueryDto { Name = name };
+            var query = new PersonQuery { Name = name };
             var people = await _unitOfWork.PersonRepository.GetPeopleAsync(query);
             Assert.NotNull(people);
         }
@@ -95,7 +96,7 @@ namespace TemplateApi.UniTest.Infra.Repositories
         public async void GetPersonByNamePaginatedTest()
         {
             var name = Fixture.Person.Name ?? string.Empty;
-            var query = new PersonQueryDto { Name = name , Cpf = "34441689004" };
+            var query = new PersonQuery { Name = name , Cpf = "34441689004" };
             var people = await _unitOfWork.PersonRepository.GetPeoplePaginatedAsync(query, Fixture.Pagination);
             Assert.NotNull(people);
         }
@@ -119,7 +120,7 @@ namespace TemplateApi.UniTest.Infra.Repositories
         [InlineData(SortAsEnum.Desc, PersonEnum.Birthday)]
         public async void GetPersonSortedTest(SortAsEnum sortAs, PersonEnum sortBy)
         {
-            var query = new PersonQueryDto
+            var query = new PersonQuery
             {
                 SortAs = sortAs,
                 SortBy = sortBy,
