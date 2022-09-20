@@ -1,10 +1,20 @@
 @baseUrl = https://localhost:7189/api
 
+### debug only
+###  generate random person
+
 # @name randomPersonRequest
 GET {{baseUrl}}/person/random HTTP/1.1
 Accept: application/json
 Content-Type: application/json
 
+### debug only
+###  get random person id
+
+# @name randomPersonIdRequest
+GET {{baseUrl}}/person/random/id HTTP/1.1
+Accept: application/json
+Content-Type: application/json
 
 ### GET ALL PEOPLE
 
@@ -19,7 +29,6 @@ Accept: application/json
 Content-Type: application/json
 
 ### add new person
-### https://www.4devs.com.br/gerador_de_pessoas
 
 POST {{baseUrl}}/person HTTP/1.1
 Accept: application/json
@@ -33,19 +42,16 @@ Content-Type: application/json
 }
 
 ### update person
-### https://www.4devs.com.br/gerador_de_pessoas
-
-
 
 PUT {{baseUrl}}/person/6977e019-0061-4d10-9f0b-08fd90e62a45 HTTP/1.1
 Accept: application/json
 Content-Type: application/json
 
 {
-  "Name": "Patrícia Raquel",
-  "SurName": "Lívia da Costa",
-  "CPF": "430.415.635-76",
-  "BirthDay": "{{$localDatetime 'YYYY-MM-DD'}}"
+  "Name": "{{randomPersonRequest.response.body.Name}}",
+  "SurName": "{{randomPersonRequest.response.body.SurName}}",
+  "CPF": "{{randomPersonRequest.response.body.CPF}}",
+  "BirthDay": "{{randomPersonRequest.response.body.BirthDay}}"
 }
 
 ### get person by id
