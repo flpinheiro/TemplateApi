@@ -31,9 +31,9 @@ try
         }); ;
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerDocument(x => 
+    builder.Services.AddSwaggerDocument(x =>
     {
-        x.GenerateEnumMappingDescription = true;     
+        x.GenerateEnumMappingDescription = true;
         x.Title = "Template Api";
         x.PostProcess = document =>
         {
@@ -59,7 +59,7 @@ try
 
     //configure global Exception Handler middleware
     app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
-    
+
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {
@@ -70,7 +70,7 @@ try
     app.UseHttpsRedirection();
 
     app.UseAuthorization();
-    
+
     app.MapControllers();
 
     app.Run();

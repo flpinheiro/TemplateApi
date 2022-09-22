@@ -1,11 +1,11 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using TemplateApi.CrossCutting.Extensions;
 using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dto;
 using TemplateApi.Domain.Models.Queries;
+using TemplateApi.Domain.Models.Validators;
 
 namespace TemplateApi.Controllers;
 
@@ -16,13 +16,11 @@ namespace TemplateApi.Controllers;
 public class PersonController : Controller
 {
     private readonly IPersonService _service;
-    private readonly IValidator<AddPersonDto> _personDtoValidator;
-    private readonly IValidator<PersonQuery> _personQueryDtoValidator;
-    public PersonController(IPersonService service, IValidator<AddPersonDto> validator, IValidator<PersonQuery> personQueryDtoValidator)
+    private readonly PersonValidation _personValidation;
+    public PersonController(IPersonService service, PersonValidation personValidation)
     {
         _service = service ?? throw new ArgumentNullException("IPersonService");
-        _personDtoValidator = validator;
-        _personQueryDtoValidator = personQueryDtoValidator;
+        _personValidation = personValidation;
     }
 
     /// <summary>
@@ -39,7 +37,7 @@ public class PersonController : Controller
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<PersonDto>>> GetPeople([FromQuery] PersonQuery query, [FromQuery] Pagination pagination)
     {
-        var validate = _personQueryDtoValidator.Validate(query);
+        var validate = _personValidation.PersonQueryvalidator.Validate(query);
         if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
         var people = await _service.GetPeoplePaginatedAsync(query, pagination);
         return Ok(people);
@@ -58,7 +56,7 @@ public class PersonController : Controller
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<PaginationResponse> CountPeople([FromQuery] PersonQuery query, [FromQuery] Pagination pagination)
     {
-        var validate = _personQueryDtoValidator.Validate(query);
+        var validate = _personValidation.PersonQueryvalidator.Validate(query);
         if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
 
         return Ok(_service.CountPeople(query, pagination));
@@ -77,7 +75,7 @@ public class PersonController : Controller
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult> ExportoExcelAll([FromQuery] PersonQuery query)
     {
-        var validate = _personQueryDtoValidator.Validate(query);
+        var validate = _personValidation.PersonQueryvalidator.Validate(query);
         if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
 
         var people = await _service.GetPeopleAsync(query);
@@ -115,7 +113,7 @@ public class PersonController : Controller
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<PersonDto>> Create([FromBody] AddPersonDto addPerson)
     {
-        var validate = _personDtoValidator.Validate(addPerson);
+        var validate = _personValidation.AddPersonValidator.Validate(addPerson);
         if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
 
         var personDto = await _service.AddPerson(addPerson);
@@ -135,9 +133,9 @@ public class PersonController : Controller
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> Edit([FromRoute] string id, [FromBody] PersonDto person)
+    public async Task<ActionResult> Edit([FromRoute] string id, [FromBody] UpdatePersonDto person)
     {
-        var validate = _personDtoValidator.Validate(person);
+        var validate = _personValidation.UpdatePersonValidator.Validate(person);
         if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
         if (!await _service.AnyAsync(id)) return NotFound();
 
@@ -174,7 +172,18 @@ public class PersonController : Controller
     /// </remarks>
     /// <returns>Return a valid person to be added or updated</returns>
     [HttpGet("random")]
-    public ActionResult<AddPersonDto> GetRandom() => Ok(_service.GetRandomPerson()); 
+    public ActionResult<AddPersonDto> GetRandom() => Ok(_service.GetRandomPerson());
+
+    /// <summary>
+    /// debug only endpoint.
+    /// </summary>
+    /// <remarks>
+    /// <para>Debug only endpoint</para>
+    /// <para>Produces a random valid Person to be used as debug model</para>
+    /// </remarks>
+    /// <returns>Return a valid person to be added or updated</returns>
+    [HttpGet("random/id")]
+    public async Task<ActionResult<string>> GetRandomIdAsync() => Ok(new { id = await _service.GetRandomPersonId() });
 #endif
 }
 

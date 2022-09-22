@@ -4,8 +4,9 @@ using Serilog;
 using System.Threading.Tasks;
 using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Infra;
+using TemplateApi.UniTest.Utils.Mocks;
 
-namespace TemplateApi.UniTest.Utils.Mocks.Repositories
+namespace TemplateApi.UniTest.TestUtils.Mocks.Repositories
 {
     internal class MockedUnitOfWork : IUnitOfWork
     {

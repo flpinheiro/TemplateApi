@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Globalization;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace TemplateApi.CrossCutting.Utils
 {
@@ -83,6 +85,23 @@ namespace TemplateApi.CrossCutting.Utils
         /// <returns></returns>
         public static string RemoveAllWhiteSpace(this string str)
             => Regex.Replace(str, @"\s+", "");
+
+        /// <summary>
+        /// Removedor de acentos
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string RemoveAccents(this string text)
+        {
+            StringBuilder sbReturn = new StringBuilder();
+            var arrayText = text.Normalize(NormalizationForm.FormD).ToCharArray();
+            foreach (char letter in arrayText)
+            {
+                if (CharUnicodeInfo.GetUnicodeCategory(letter) != UnicodeCategory.NonSpacingMark)
+                    sbReturn.Append(letter);
+            }
+            return sbReturn.ToString();
+        }
 
     }
 }

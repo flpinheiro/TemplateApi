@@ -1,16 +1,13 @@
 ﻿#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 
-using Moq;
 using System;
 using System.Linq;
-using System.Net.Http;
 using TemplateApi.CrossCutting.Exceptions;
-using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dto;
 using TemplateApi.Domain.Services;
-using TemplateApi.UniTest.Utils.Fixtures;
-using TemplateApi.UniTest.Utils.Mocks.Repositories;
+using TemplateApi.UniTest.TestUtils.Fixtures;
+using TemplateApi.UniTest.TestUtils.Mocks.Repositories;
 
 namespace TemplateApi.UniTest.Domain.Services
 {
@@ -103,32 +100,32 @@ namespace TemplateApi.UniTest.Domain.Services
         [Fact]
         public async void Should_Update_return_ok()
         {
-            _unitOfWork.MockPersonRepository.SetAnyAsync();
             _unitOfWork.MockPersonRepository.SetUpdate();
+            _unitOfWork.MockPersonRepository.SetGetByIdAsync();
 
-            await _service.UpdatePerson("", new PersonDto());
+            await _service.UpdatePerson("", Fixture.UpdatePersonDto);
 
             _unitOfWork.MockPersonRepository.VerifyUpdate();
-            _unitOfWork.MockPersonRepository.VerifyAnyAsync();
+            _unitOfWork.MockPersonRepository.VerifyGetByIdAsync();
 
         }
 
         [Fact]
         public async void Should_Update_throw_exception()
         {
-            _unitOfWork.MockPersonRepository.SetAnyAsync();
+            _unitOfWork.MockPersonRepository.SetGetByIdAsync();
             _unitOfWork.MockPersonRepository.SetUpdateThrowException<Exception>();
-            await Assert.ThrowsAsync<Exception>(async () => await _service.UpdatePerson("", new PersonDto()));
+            await Assert.ThrowsAsync<Exception>(async () => await _service.UpdatePerson("", Fixture.UpdatePersonDto));
             _unitOfWork.MockPersonRepository.VerifyUpdate();
-            _unitOfWork.MockPersonRepository.VerifyAnyAsync();
+            _unitOfWork.MockPersonRepository.VerifyGetByIdAsync();
         }
 
         [Fact]
         public async void Should_Update_throw_PersonNotFoundexception()
         {
-            _unitOfWork.MockPersonRepository.SetAnyAsync(false);
-            await Assert.ThrowsAsync<PersonNotFoundException>(async () => await _service.UpdatePerson("", new PersonDto()));
-            _unitOfWork.MockPersonRepository.VerifyAnyAsync();
+            _unitOfWork.MockPersonRepository.SetGetByIdAsync(null);
+            await Assert.ThrowsAsync<PersonNotFoundException>(async () => await _service.UpdatePerson("", Fixture.UpdatePersonDto));
+            _unitOfWork.MockPersonRepository.VerifyGetByIdAsync();
         }
 
         [Fact]

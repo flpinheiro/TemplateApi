@@ -3,13 +3,12 @@ using Moq;
 using System.Collections.Generic;
 using System.IO;
 using TemplateApi.CrossCutting.Models;
-using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dto;
 using TemplateApi.Domain.Models.Queries;
-using TemplateApi.UniTest.Utils.Fixtures;
+using TemplateApi.UniTest.TestUtils.Fixtures;
 
-namespace TemplateApi.UniTest.Utils.Mocks.Services
+namespace TemplateApi.UniTest.TestUtils.Mocks.Services
 {
     internal static class MockedPersonServiceExtensions
     {
@@ -17,7 +16,7 @@ namespace TemplateApi.UniTest.Utils.Mocks.Services
         public static void SetGetPeople(this Mock<IPersonService> mock)
         {
             mock.Setup(x => x.GetPeopleAsync(It.IsAny<PersonQuery>())).ReturnsAsync(Fixture.PeopleDto).Verifiable();
-            mock.Setup(x => x.GetPeoplePaginatedAsync(It.IsAny<PersonQuery>(),It.IsAny<Pagination>())).ReturnsAsync(Fixture.PeopleDto).Verifiable();
+            mock.Setup(x => x.GetPeoplePaginatedAsync(It.IsAny<PersonQuery>(), It.IsAny<Pagination>())).ReturnsAsync(Fixture.PeopleDto).Verifiable();
         }
 
         public static void VerifyGetAllPerson(this Mock<IPersonService> mock)
@@ -38,9 +37,9 @@ namespace TemplateApi.UniTest.Utils.Mocks.Services
         #region Count
         public static void SetCount(this Mock<IPersonService> mock, PaginationResponse paginationResponse)
         {
-            mock.Setup(x => x.CountPeople(It.IsAny<PersonQuery>(),It.IsAny<Pagination>())).Returns(paginationResponse).Verifiable();
+            mock.Setup(x => x.CountPeople(It.IsAny<PersonQuery>(), It.IsAny<Pagination>())).Returns(paginationResponse).Verifiable();
         }
-        public static void SetCount(this Mock<IPersonService> mock) => SetCount(mock, Fixture.PaginationResponse);
+        public static void SetCount(this Mock<IPersonService> mock) => mock.SetCount(Fixture.PaginationResponse);
         #endregion
 
         #region Add
@@ -60,10 +59,10 @@ namespace TemplateApi.UniTest.Utils.Mocks.Services
 
         #region update
         public static void SetUpdatePerson(this Mock<IPersonService> mock)
-          => mock.Setup(x => x.UpdatePerson(It.IsAny<string>(), It.IsAny<PersonDto>())).Verifiable();
+          => mock.Setup(x => x.UpdatePerson(It.IsAny<string>(), It.IsAny<UpdatePersonDto>())).Verifiable();
 
         public static void VerifyUpdatePerson(this Mock<IPersonService> mock)
-            => mock.Verify(x => x.UpdatePerson(It.IsAny<string>(), It.IsAny<PersonDto>()), Times.Once);
+            => mock.Verify(x => x.UpdatePerson(It.IsAny<string>(), It.IsAny<UpdatePersonDto>()), Times.Once);
         #endregion
 
         #region Delete

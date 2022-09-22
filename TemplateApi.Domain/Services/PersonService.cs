@@ -1,6 +1,4 @@
 ﻿using System.Data;
-using System.Net.Http;
-using System.Text.Json;
 using TemplateApi.CrossCutting.Exceptions;
 using TemplateApi.CrossCutting.Extensions;
 using TemplateApi.CrossCutting.Models;
@@ -17,7 +15,7 @@ public class PersonService : IPersonService
 {
     private readonly IUnitOfWork _uow;
 
-    public PersonService(IUnitOfWork uow) => _uow = uow ?? throw new ArgumentNullException("IUnitOfWork");
+    public PersonService(IUnitOfWork uow) => _uow = uow ?? throw new ArgumentNullException(nameof(uow));
 
     public async Task<PersonDto> AddPerson(AddPersonDto addPErson)
     {
@@ -73,15 +71,22 @@ public class PersonService : IPersonService
     public async Task<IEnumerable<PersonDto>> GetPeoplePaginatedAsync(PersonQuery queryDto, Pagination pagination)
         => _uow.Mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetPeoplePaginatedAsync(queryDto, pagination));
 
-    public async Task UpdatePerson(string id, PersonDto person)
+    public async Task UpdatePerson(string id, UpdatePersonDto dto)
     {
         try
         {
-            _uow.Logger.Debug("update Person", id, person);
-            if (!await _uow.PersonRepository.AnyAsync(id)) throw new PersonNotFoundException();
-            var model = _uow.Mapper.Map<Person>(person);
-            model.Id = id;
-            _uow.PersonRepository.Update(model);
+            _uow.Logger.Debug("update Person", id, dto);
+            var person = await _uow.PersonRepository.GetByIdAsync(id);
+            if (person == null) throw new PersonNotFoundException();
+
+            if (!string.IsNullOrWhiteSpace(dto.Name))
+                person.Name = dto.Name;
+            if (!string.IsNullOrWhiteSpace(dto.SurName))
+                person.SurName = dto.SurName;
+            if (dto.BirthDay != null)
+                person.BirthDay = dto.BirthDay?.ToShortDateString();
+
+            _uow.PersonRepository.Update(person);
             await _uow.SaveAsync();
         }
         catch (Exception ex)
@@ -120,24 +125,27 @@ public class PersonService : IPersonService
             table.Rows.Add(row);
         }
 
-        return table.DeliverExcelFile($"people {DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss")}");
+        return table.DeliverExcelFile($"people {DateTime.Now:yyyy_MM_dd_HH_mm_ss}");
     }
 
-    public AddPersonDto GetRandomPerson()
+#if DEBUG
+    public AddPersonDto GetRandomPerson() => new()
     {
-        var randomName = new RandomPersonName();
+        Name = RandomPersonName.GetName(),
+        SurName = RandomPersonName.GetSurname(),
+        CPF = CPFValidator.GerarCpf(),
+        BirthDay = RandomDateTime.NextDateOnly(),
+    };
 
-        var randomDate = new RandomDateTime();
+    public async Task<string> GetRandomPersonId()
+    {
+        var people = (await _uow.PersonRepository.GetPeopleAsync(new PersonQuery())) ?? new List<Person>();
+        var peopleIds = people.Select(a => a.Id).ToList();
 
-        var person = new AddPersonDto()
-        {
-            Name = randomName.GetName(),
-            SurName = randomName.GetName(),
-            CPF = CPFValidator.GerarCpf(),
-            BirthDay = randomDate.NextDateOnly(),
-        };
+        var random = new Random();
 
-        return person;
+        return peopleIds[random.Next(peopleIds.Count)] ?? string.Empty;
     }
+#endif
 
 }

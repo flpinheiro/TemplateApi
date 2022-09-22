@@ -1,24 +1,17 @@
 ﻿namespace TemplateApi.CrossCutting.Utils
 {
-    public class RandomDateTime
+    public static class RandomDateTime
     {
-        DateTime start;
-        Random gen;
-        int range;
+        private static readonly DateTime start = new(1970, 1, 1);
+        private static readonly Random gen = new();
+        private static readonly int range = (DateTime.Today - start).Days;
 
-        public RandomDateTime()
-        {
-            start = new DateTime(1970, 1, 1);
-            gen = new Random();
-            range = (DateTime.Today - start).Days;
-        }
-
-        public DateTime Next()
+        public static DateTime Next()
         {
             return start.AddDays(gen.Next(range)).AddHours(gen.Next(0, 24)).AddMinutes(gen.Next(0, 60)).AddSeconds(gen.Next(0, 60));
         }
 
-        public DateOnly NextDateOnly()
+        public static DateOnly NextDateOnly()
         {
             return DateOnly.FromDateTime(Next());
         }

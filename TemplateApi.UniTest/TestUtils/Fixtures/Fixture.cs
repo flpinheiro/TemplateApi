@@ -5,7 +5,7 @@ using TemplateApi.Domain.Models.Dal;
 using TemplateApi.Domain.Models.Dto;
 using TemplateApi.Domain.Models.Queries;
 
-namespace TemplateApi.UniTest.Utils.Fixtures
+namespace TemplateApi.UniTest.TestUtils.Fixtures
 {
     internal static class Fixture
     {
@@ -48,6 +48,13 @@ namespace TemplateApi.UniTest.Utils.Fixtures
             Name = "test",
             SurName = "tested",
             CPF = "59143964095",
+        };
+
+        public static UpdatePersonDto UpdatePersonDto = new()
+        {
+            BirthDay = new DateOnly(1985, 5, 1),
+            Name = "test",
+            SurName = "tested",
         };
 
         public static IEnumerable<PersonDto> PeopleDto = new List<PersonDto> { PersonDto };

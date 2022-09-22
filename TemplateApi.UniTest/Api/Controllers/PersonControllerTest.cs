@@ -10,8 +10,8 @@ using TemplateApi.Controllers;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dto;
 using TemplateApi.Domain.Models.Validators;
-using TemplateApi.UniTest.Utils.Fixtures;
-using TemplateApi.UniTest.Utils.Mocks.Services;
+using TemplateApi.UniTest.TestUtils.Fixtures;
+using TemplateApi.UniTest.TestUtils.Mocks.Services;
 
 namespace TemplateApi.UniTest.Api.Controllers
 {
@@ -22,10 +22,9 @@ namespace TemplateApi.UniTest.Api.Controllers
 
         public PersonControllerTest()
         {
-            var validator = new PersonDtoValidation();
-            var personQueryDtoValidator = new PersonQueryValidation();
+            var validator = new PersonValidation();
             mock = new Mock<IPersonService>();
-            _controller = new PersonController(mock.Object, validator, personQueryDtoValidator);
+            _controller = new PersonController(mock.Object, validator);
 
             mock.SetGetPeople();
             mock.SetGetPersonById();
@@ -40,7 +39,7 @@ namespace TemplateApi.UniTest.Api.Controllers
         [Fact]
         public void Constructor_shouldReturnException()
         {
-            Assert.Throws<ArgumentNullException>(() => new PersonController(null, null, null));
+            Assert.Throws<ArgumentNullException>(() => new PersonController(null, null));
         }
 
         [Fact]
@@ -103,30 +102,22 @@ namespace TemplateApi.UniTest.Api.Controllers
         [Fact]
         public async void UpdatePerson_ShouldReturn204()
         {
-            var result = await _controller.Edit("", Fixture.PersonDto);
+            var result = await _controller.Edit("", Fixture.UpdatePersonDto);
             var noContentResult = result as NoContentResult;
             Assert.Equal(StatusCodes.Status204NoContent, noContentResult?.StatusCode);
             mock.VerifyUpdatePerson();
         }
 
-        [Fact]
-        public async void UpdatePerson_ShouldReturn400()
-        {
-            var person = new PersonDto()
-            {
-                Name = null,
-                SurName = null,
-                // BirthDay = null,
-                CPF = null,
-            };
-
-            var result = await _controller.Edit("", person);
-            var badResponseResult = result as BadRequestObjectResult;
-            Assert.NotNull(badResponseResult);
-            Assert.Equal(400, badResponseResult?.StatusCode);
-            var values = badResponseResult?.Value as IEnumerable<object>;
-            Assert.NotEmpty(values);
-        }
+        //[Fact]
+        //public async void UpdatePerson_ShouldReturn400()
+        //{
+        //    var result = await _controller.Edit("", Fixture.UpdatePersonDto);
+        //    var badResponseResult = result as BadRequestObjectResult;
+        //    Assert.NotNull(badResponseResult);
+        //    Assert.Equal(400, badResponseResult?.StatusCode);
+        //    var values = badResponseResult?.Value as IEnumerable<object>;
+        //    Assert.NotEmpty(values);
+        //}
 
         [Fact]
         public async void DeletePerson_ShouldReturn200()

@@ -21,4 +21,12 @@ namespace TemplateApi.Domain.Models.Dto
         [Required]
         public DateOnly BirthDay { get; set; } = new DateOnly();
     }
+    public class UpdatePersonDto
+    {
+        [MaxLength(PersonContants.NameSize)]
+        public string? Name { get; set; }
+        [MaxLength(PersonContants.SurnameSize)]
+        public string? SurName { get; set; }
+        public DateOnly? BirthDay { get; set; }
+    }
 }

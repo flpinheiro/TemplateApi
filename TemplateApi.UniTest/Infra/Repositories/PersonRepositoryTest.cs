@@ -4,16 +4,15 @@ using Serilog;
 using System;
 using System.Linq;
 using TemplateApi.CrossCutting.Enums;
-using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Domain.Models.Dal;
-using TemplateApi.Domain.Models.Dto;
 using TemplateApi.Domain.Models.Queries;
 using TemplateApi.Infra;
 using TemplateApi.Infra.Context;
-using TemplateApi.UniTest.Utils.Fixtures;
+using TemplateApi.UniTest.TestUtils.Fixtures;
+using TemplateApi.UniTest.TestUtils.Mocks;
+using TemplateApi.UniTest.TestUtils.Mocks.Repositories;
 using TemplateApi.UniTest.Utils.Mocks;
-using TemplateApi.UniTest.Utils.Mocks.Repositories;
 
 namespace TemplateApi.UniTest.Infra.Repositories
 {
@@ -96,7 +95,7 @@ namespace TemplateApi.UniTest.Infra.Repositories
         public async void GetPersonByNamePaginatedTest()
         {
             var name = Fixture.Person.Name ?? string.Empty;
-            var query = new PersonQuery { Name = name , Cpf = "34441689004" };
+            var query = new PersonQuery { Name = name, Cpf = "34441689004" };
             var people = await _unitOfWork.PersonRepository.GetPeoplePaginatedAsync(query, Fixture.Pagination);
             Assert.NotNull(people);
         }

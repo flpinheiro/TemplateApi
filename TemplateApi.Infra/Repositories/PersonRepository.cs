@@ -52,12 +52,12 @@ internal static class PersonRepositoryExtensions
     {
         if (!string.IsNullOrWhiteSpace(queryDto.Name))
             query = query.GetByName(queryDto.Name);
-        if (!string.IsNullOrWhiteSpace(queryDto.Cpf))
+        if (!string.IsNullOrWhiteSpace(queryDto.Cpf) && queryDto.Cpf.OnlyNumber().Length > 0)
             query = query.GetByCpf(queryDto.Cpf);
 
         var sort = queryDto as ISortablePeopleQuery;
 
-        query = query.Sort(sort);
+        query = query.SortPeople(sort);
 
         return query;
     }
@@ -66,9 +66,9 @@ internal static class PersonRepositoryExtensions
         => query.Where(p => p.Name != null && p.Name.ToUpper().Contains(name.ToUpper()) || p.SurName != null && p.SurName.ToUpper().Contains(name.ToUpper()));
 
     private static IQueryable<Person> GetByCpf(this IQueryable<Person> query, string cpf)
-        => query.Where(p => p.CPF != null && p.CPF.Equals(cpf.OnlyNumber()));
+        => query.Where(p => p.CPF != null && p.CPF.Contains(cpf.OnlyNumber()));
 
-    private static IQueryable<Person> Sort(this IQueryable<Person> query, ISortablePeopleQuery sort)
+    private static IQueryable<Person> SortPeople(this IQueryable<Person> query, ISortablePeopleQuery sort)
     => sort.SortBy switch
     {
         PersonEnum.Surname => sort.SortAs switch
