@@ -17,7 +17,7 @@ public class PersonService : IPersonService
 
     public PersonService(IUnitOfWork uow) => _uow = uow ?? throw new ArgumentNullException(nameof(uow));
 
-    public async Task<PersonDto> AddPerson(AddPersonDto addPErson)
+    public async Task<PersonDto> Add(AddPersonDto addPErson)
     {
         try
         {
@@ -37,7 +37,7 @@ public class PersonService : IPersonService
         }
     }
 
-    public async Task<PersonDto> DeletePerson(string id)
+    public async Task<PersonDto> Delete(string id)
     {
         try
         {
@@ -56,22 +56,22 @@ public class PersonService : IPersonService
         }
     }
 
-    public async Task<PersonDto> GetPersonById(string id)
+    public async Task<PersonDto> Get(string id)
     {
         _uow.Logger.Debug("Get person by id");
         return _uow.Mapper.Map<PersonDto>(await _uow.PersonRepository.GetByIdAsync(id));
     }
 
-    public PaginationResponse CountPeople(PersonQuery queryDto, Pagination pagination)
+    public PaginationResponse Count(PersonQuery queryDto, Pagination pagination)
         => _uow.PersonRepository.CountPeople(queryDto, pagination);
 
-    public async Task<IEnumerable<PersonDto>> GetPeopleAsync(PersonQuery queryDto)
+    public async Task<IEnumerable<PersonDto>> Get(PersonQuery queryDto)
         => _uow.Mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetPeopleAsync(queryDto));
 
-    public async Task<IEnumerable<PersonDto>> GetPeoplePaginatedAsync(PersonQuery queryDto, Pagination pagination)
+    public async Task<IEnumerable<PersonDto>> Get(PersonQuery queryDto, Pagination pagination)
         => _uow.Mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetPeoplePaginatedAsync(queryDto, pagination));
 
-    public async Task UpdatePerson(string id, UpdatePersonDto dto)
+    public async Task Update(string id, UpdatePersonDto dto)
     {
         try
         {
@@ -97,7 +97,7 @@ public class PersonService : IPersonService
         }
     }
 
-    public async Task<bool> AnyAsync(string id) => await _uow.PersonRepository.AnyAsync(id);
+    public async Task<bool> Any(string id) => await _uow.PersonRepository.AnyAsync(id);
 
     public Microsoft.AspNetCore.Mvc.FileStreamResult ExportToExcel(IEnumerable<PersonDto> people)
     {

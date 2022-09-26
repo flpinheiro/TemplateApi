@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.9'
 
 services:
   templateapi:
@@ -6,3 +6,7 @@ services:
     build:
       context: .
       dockerfile: TemplateApi/Dockerfile
+    depends_on:
+      - db
+  mssql-server:
+    image: "mcr.microsoft.com/mssql/server"

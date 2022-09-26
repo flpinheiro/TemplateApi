@@ -53,6 +53,8 @@ try
     builder.Services.AddInfraConfiguration(builder.Configuration);
     builder.Services.AddServiceConfiguration();
 
+    builder.Services.AddHttpClient();
+
     var app = builder.Build();
 
     app.UseSerilogRequestLogging();

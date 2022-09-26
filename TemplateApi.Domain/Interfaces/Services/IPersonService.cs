@@ -7,15 +7,15 @@ namespace TemplateApi.Domain.Interfaces.Services
 {
     public interface IPersonService
     {
-        Task<PersonDto> GetPersonById(string id);
-        Task<PersonDto> AddPerson(AddPersonDto person);
-        Task UpdatePerson(string id, UpdatePersonDto person);
-        Task<PersonDto> DeletePerson(string id);
+        Task<PersonDto> Get(string id);
+        Task<PersonDto> Add(AddPersonDto person);
+        Task Update(string id, UpdatePersonDto person);
+        Task<PersonDto> Delete(string id);
         FileStreamResult ExportToExcel(IEnumerable<PersonDto> people);
-        Task<IEnumerable<PersonDto>> GetPeoplePaginatedAsync(PersonQuery queryDto, Pagination pagination);
-        Task<IEnumerable<PersonDto>> GetPeopleAsync(PersonQuery queryDto);
-        PaginationResponse CountPeople(PersonQuery queryDto, Pagination pagination);
-        Task<bool> AnyAsync(string id);
+        Task<IEnumerable<PersonDto>> Get(PersonQuery queryDto, Pagination pagination);
+        Task<IEnumerable<PersonDto>> Get(PersonQuery queryDto);
+        PaginationResponse Count(PersonQuery queryDto, Pagination pagination);
+        Task<bool> Any(string id);
 
 #if DEBUG
         /// <summary>

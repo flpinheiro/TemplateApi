@@ -39,7 +39,7 @@ public class PersonController : Controller
     {
         var validate = _personValidation.PersonQueryvalidator.Validate(query);
         if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
-        var people = await _service.GetPeoplePaginatedAsync(query, pagination);
+        var people = await _service.Get(query, pagination);
         return Ok(people);
     }
 
@@ -59,7 +59,7 @@ public class PersonController : Controller
         var validate = _personValidation.PersonQueryvalidator.Validate(query);
         if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
 
-        return Ok(_service.CountPeople(query, pagination));
+        return Ok(_service.Count(query, pagination));
     }
 
     /// <summary>
@@ -78,7 +78,7 @@ public class PersonController : Controller
         var validate = _personValidation.PersonQueryvalidator.Validate(query);
         if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
 
-        var people = await _service.GetPeopleAsync(query);
+        var people = await _service.Get(query);
         return _service.ExportToExcel(people);
     }
 
@@ -95,7 +95,7 @@ public class PersonController : Controller
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<PersonDto>> GetPerson([FromRoute] string id)
     {
-        var person = await _service.GetPersonById(id);
+        var person = await _service.Get(id);
         if (person == null) return NotFound();
         return Ok(person);
     }
@@ -116,7 +116,7 @@ public class PersonController : Controller
         var validate = _personValidation.AddPersonValidator.Validate(addPerson);
         if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
 
-        var personDto = await _service.AddPerson(addPerson);
+        var personDto = await _service.Add(addPerson);
         return Created(personDto.Id ?? "", personDto);
     }
 
@@ -137,9 +137,9 @@ public class PersonController : Controller
     {
         var validate = _personValidation.UpdatePersonValidator.Validate(person);
         if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
-        if (!await _service.AnyAsync(id)) return NotFound();
+        if (!await _service.Any(id)) return NotFound();
 
-        await _service.UpdatePerson(id, person);
+        await _service.Update(id, person);
         return NoContent();
     }
 
@@ -156,8 +156,8 @@ public class PersonController : Controller
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> Delete([FromRoute] string id)
     {
-        if (!await _service.AnyAsync(id)) return NotFound();
-        await _service.DeletePerson(id);
+        if (!await _service.Any(id)) return NotFound();
+        await _service.Delete(id);
         return NoContent();
     }
 

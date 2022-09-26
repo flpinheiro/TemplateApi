@@ -15,6 +15,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="entrypoint.sh" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
 		<PackageReference Include="NSwag.AspNetCore" Version="13.16.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.5">
@@ -30,6 +34,10 @@
 		<ProjectReference Include="..\TemplateApi.CrossCutting\TemplateApi.CrossCutting.csproj" />
 		<ProjectReference Include="..\TemplateApi.Domain\TemplateApi.Domain.csproj" />
 		<ProjectReference Include="..\TemplateApi.Infra\TemplateApi.Infra.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <TypeScriptCompile Include="entrypoint.sh" />
 	</ItemGroup>
 
 </Project>

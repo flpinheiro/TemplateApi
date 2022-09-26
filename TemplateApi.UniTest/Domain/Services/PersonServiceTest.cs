@@ -35,7 +35,7 @@ namespace TemplateApi.UniTest.Domain.Services
         {
             _unitOfWork.MockPersonRepository.SetGetByIdAsync();
 
-            var person = await _service.GetPersonById("");
+            var person = await _service.Get("");
 
             Assert.NotNull(person);
             Assert.Equal(Fixture.Person.Name, person.Name);
@@ -50,7 +50,7 @@ namespace TemplateApi.UniTest.Domain.Services
         {
             _unitOfWork.MockPersonRepository.SetGetAllAsync();
 
-            var people = await _service.GetPeopleAsync(Fixture.QueryDto);
+            var people = await _service.Get(Fixture.QueryDto);
 
             Assert.NotNull(people);
             Assert.Equal(people.Count(), Fixture.People.Count());
@@ -62,7 +62,7 @@ namespace TemplateApi.UniTest.Domain.Services
         {
             _unitOfWork.MockPersonRepository.SetGetAllAsync();
 
-            var people = await _service.GetPeoplePaginatedAsync(Fixture.QueryDto, Fixture.Pagination);
+            var people = await _service.Get(Fixture.QueryDto, Fixture.Pagination);
 
             Assert.NotNull(people);
             Assert.Equal(people.Count(), Fixture.People.Count());
@@ -74,7 +74,7 @@ namespace TemplateApi.UniTest.Domain.Services
         {
             _unitOfWork.MockPersonRepository.SetAdd();
 
-            var person = await _service.AddPerson(Fixture.AddPersonDto);
+            var person = await _service.Add(Fixture.AddPersonDto);
 
             Assert.NotNull(person);
             Assert.Equal(Fixture.Person.Id, person.Id);
@@ -85,7 +85,7 @@ namespace TemplateApi.UniTest.Domain.Services
         public async void Should_Add_throw_exception_stringName()
         {
             _unitOfWork.MockPersonRepository.SetAdd();
-            await Assert.ThrowsAsync<Exception>(async () => await _service.AddPerson(new PersonDto { Name = "string" }));
+            await Assert.ThrowsAsync<Exception>(async () => await _service.Add(new PersonDto { Name = "string" }));
             _unitOfWork.MockPersonRepository.VerifyAdd();
         }
 
@@ -93,7 +93,7 @@ namespace TemplateApi.UniTest.Domain.Services
         public async void Should_Add_throw_exception()
         {
             _unitOfWork.MockPersonRepository.SetAddThrowException<Exception>();
-            await Assert.ThrowsAsync<Exception>(async () => await _service.AddPerson(new PersonDto()));
+            await Assert.ThrowsAsync<Exception>(async () => await _service.Add(new PersonDto()));
             _unitOfWork.MockPersonRepository.VerifyAdd();
         }
 
@@ -103,7 +103,7 @@ namespace TemplateApi.UniTest.Domain.Services
             _unitOfWork.MockPersonRepository.SetUpdate();
             _unitOfWork.MockPersonRepository.SetGetByIdAsync();
 
-            await _service.UpdatePerson("", Fixture.UpdatePersonDto);
+            await _service.Update("", Fixture.UpdatePersonDto);
 
             _unitOfWork.MockPersonRepository.VerifyUpdate();
             _unitOfWork.MockPersonRepository.VerifyGetByIdAsync();
@@ -115,7 +115,7 @@ namespace TemplateApi.UniTest.Domain.Services
         {
             _unitOfWork.MockPersonRepository.SetGetByIdAsync();
             _unitOfWork.MockPersonRepository.SetUpdateThrowException<Exception>();
-            await Assert.ThrowsAsync<Exception>(async () => await _service.UpdatePerson("", Fixture.UpdatePersonDto));
+            await Assert.ThrowsAsync<Exception>(async () => await _service.Update("", Fixture.UpdatePersonDto));
             _unitOfWork.MockPersonRepository.VerifyUpdate();
             _unitOfWork.MockPersonRepository.VerifyGetByIdAsync();
         }
@@ -124,7 +124,7 @@ namespace TemplateApi.UniTest.Domain.Services
         public async void Should_Update_throw_PersonNotFoundexception()
         {
             _unitOfWork.MockPersonRepository.SetGetByIdAsync(null);
-            await Assert.ThrowsAsync<PersonNotFoundException>(async () => await _service.UpdatePerson("", Fixture.UpdatePersonDto));
+            await Assert.ThrowsAsync<PersonNotFoundException>(async () => await _service.Update("", Fixture.UpdatePersonDto));
             _unitOfWork.MockPersonRepository.VerifyGetByIdAsync();
         }
 
@@ -135,7 +135,7 @@ namespace TemplateApi.UniTest.Domain.Services
             _unitOfWork.MockPersonRepository.SetDelete();
             _unitOfWork.MockPersonRepository.SetGetByIdAsync();
 
-            await _service.DeletePerson("");
+            await _service.Delete("");
 
             _unitOfWork.MockPersonRepository.VerifyDelete();
 
@@ -148,7 +148,7 @@ namespace TemplateApi.UniTest.Domain.Services
 
             _unitOfWork.MockPersonRepository.SetGetByIdAsync();
             _unitOfWork.MockPersonRepository.SetDeleteThrowException<Exception>();
-            await Assert.ThrowsAsync<Exception>(async () => await _service.DeletePerson(""));
+            await Assert.ThrowsAsync<Exception>(async () => await _service.Delete(""));
             _unitOfWork.MockPersonRepository.VerifyDelete();
             _unitOfWork.MockPersonRepository.VerifyGetByIdAsync();
         }
@@ -158,7 +158,7 @@ namespace TemplateApi.UniTest.Domain.Services
         {
 
             _unitOfWork.MockPersonRepository.SetGetByIdAsync(null);
-            await Assert.ThrowsAsync<PersonNotFoundException>(async () => await _service.DeletePerson(""));
+            await Assert.ThrowsAsync<PersonNotFoundException>(async () => await _service.Delete(""));
             _unitOfWork.MockPersonRepository.VerifyGetByIdAsync();
         }
 
@@ -173,7 +173,7 @@ namespace TemplateApi.UniTest.Domain.Services
         public void Should_Count_return_Ok()
         {
             _unitOfWork.MockPersonRepository.SetCount();
-            var countAll = _service.CountPeople(Fixture.QueryDto, Fixture.Pagination);
+            var countAll = _service.Count(Fixture.QueryDto, Fixture.Pagination);
             Assert.Equal(Fixture.PaginationResponse, countAll);
         }
 
