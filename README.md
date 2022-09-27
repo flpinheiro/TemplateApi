@@ -12,3 +12,4 @@ Template api example
 Regex Checcker
 * [4 Devs](https://www.4devs.com.br/)
 Useful BrazilianGenerator (CPF, CNPJ, Addres, Person, company, etc)
+* [Vs code rest client extension](https://github.com/Huachao/vscode-restclient)
