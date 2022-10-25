@@ -19,7 +19,7 @@ public class PersonController : Controller
     private readonly PersonValidation _personValidation;
     public PersonController(IPersonService service, PersonValidation personValidation)
     {
-        _service = service ?? throw new ArgumentNullException("IPersonService");
+        _service = service ?? throw new ArgumentNullException(nameof(IPersonService));
         _personValidation = personValidation;
     }
 
@@ -116,8 +116,8 @@ public class PersonController : Controller
         var validate = _personValidation.AddPersonValidator.Validate(addPerson);
         if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
 
-        var personDto = await _service.Add(addPerson);
-        return Created(personDto.Id ?? "", personDto);
+        var id = await _service.Add(addPerson);
+        return Created(id, addPerson);
     }
 
     /// <summary>

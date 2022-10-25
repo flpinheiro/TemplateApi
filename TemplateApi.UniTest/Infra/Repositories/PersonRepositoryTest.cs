@@ -137,14 +137,14 @@ namespace TemplateApi.UniTest.Infra.Repositories
         [Fact]
         public async void AddTest()
         {
-            var person = new Person()
-            {
-                Id = "Add",
-                BirthDay = (new DateOnly()).ToShortDateString(),
-                Name = "Add-name",
-                SurName = "Add-surname",
-                CPF = "34024804090",
-            };
+            var person = new Person("Add", "Add-name", "Add-surname", (new DateOnly()).ToShortDateString(), "34024804090");
+            //{
+            //    Id = "Add",
+            //    BirthDay = (new DateOnly()).ToShortDateString(),
+            //    Name = "Add-name",
+            //    SurName = "Add-surname",
+            //    CPF = "34024804090",
+            //};
             _unitOfWork.PersonRepository.Add(person);
             _unitOfWork.Save();
             var result = await _unitOfWork.PersonRepository.GetByIdAsync(person.Id);

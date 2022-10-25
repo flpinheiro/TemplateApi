@@ -17,17 +17,16 @@ public class PersonService : IPersonService
 
     public PersonService(IUnitOfWork uow) => _uow = uow ?? throw new ArgumentNullException(nameof(uow));
 
-    public async Task<PersonDto> Add(AddPersonDto addPErson)
+    public async Task<string> Add(AddPersonDto addPerson)
     {
         try
         {
-            _uow.Logger.Debug("Add Person", addPErson);
-            var person = _uow.Mapper.Map<PersonDto>(addPErson);
-            var model = _uow.Mapper.Map<Person>(person);
-            person.Id = _uow.PersonRepository.Add(model);
+            _uow.Logger.Debug("Add Person", addPerson);
+           // var person = _uow.Mapper.Map<PersonDto>(addPerson);
+            var model = _uow.Mapper.Map<Person>(addPerson);
+            var id = _uow.PersonRepository.Add(model);
             await _uow.SaveAsync();
-            if (person.Name == "string" || person.SurName == "string") throw new Exception("String is not an acetabble name for a person");
-            return person;
+            return id;
         }
         catch (Exception ex)
         {
@@ -37,7 +36,7 @@ public class PersonService : IPersonService
         }
     }
 
-    public async Task<PersonDto> Delete(string id)
+    public async Task Delete(string id)
     {
         try
         {
@@ -46,7 +45,6 @@ public class PersonService : IPersonService
             if (person == null) throw new PersonNotFoundException();
             _uow.PersonRepository.Delete(person);
             await _uow.SaveAsync();
-            return _uow.Mapper.Map<PersonDto>(person);
         }
         catch (Exception ex)
         {
@@ -84,7 +82,7 @@ public class PersonService : IPersonService
             if (!string.IsNullOrWhiteSpace(dto.SurName))
                 person.SurName = dto.SurName;
             if (dto.BirthDay != null)
-                person.BirthDay = dto.BirthDay?.ToShortDateString();
+                person.BirthDay = dto.BirthDay?.ToShortDateString() ?? string.Empty;
 
             _uow.PersonRepository.Update(person);
             await _uow.SaveAsync();
@@ -129,13 +127,7 @@ public class PersonService : IPersonService
     }
 
 #if DEBUG
-    public AddPersonDto GetRandomPerson() => new()
-    {
-        Name = RandomPersonName.GetName(),
-        SurName = RandomPersonName.GetSurname(),
-        CPF = CPFValidator.GerarCpf(),
-        BirthDay = RandomDateTime.NextDateOnly(),
-    };
+    public AddPersonDto GetRandomPerson() => new(RandomPersonName.GetName(), RandomPersonName.GetSurname(), CPFValidator.GerarCpf(), RandomDateTime.NextDateOnly());
 
     public async Task<string> GetRandomPersonId()
     {

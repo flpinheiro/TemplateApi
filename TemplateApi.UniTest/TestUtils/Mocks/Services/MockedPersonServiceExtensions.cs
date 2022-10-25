@@ -44,7 +44,7 @@ namespace TemplateApi.UniTest.TestUtils.Mocks.Services
 
         #region Add
         public static void SetAddPerson(this Mock<IPersonService> mock)
-            => mock.Setup(x => x.Add(It.IsAny<PersonDto>())).ReturnsAsync(Fixture.PersonDto).Verifiable();
+            => mock.Setup(x => x.Add(It.IsAny<PersonDto>())).ReturnsAsync(Fixture.Person.Id).Verifiable();
         public static void VerifyAddPerson(this Mock<IPersonService> mock)
             => mock.Verify(x => x.Add(It.IsAny<PersonDto>()), Times.Once);
         #endregion
@@ -67,7 +67,7 @@ namespace TemplateApi.UniTest.TestUtils.Mocks.Services
 
         #region Delete
         public static void SetDeletePerson(this Mock<IPersonService> mock)
-            => mock.Setup(x => x.Delete(It.IsAny<string>())).ReturnsAsync(Fixture.PersonDto).Verifiable();
+            => mock.Setup(x => x.Delete(It.IsAny<string>()));//.ReturnsAsync(Fixture.PersonDto).Verifiable();
 
         public static void VerifyDeletePerson(this Mock<IPersonService> mock)
             => mock.Verify(x => x.Delete(It.IsAny<string>()), Times.Once);

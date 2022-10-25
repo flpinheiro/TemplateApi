@@ -81,23 +81,23 @@ namespace TemplateApi.UniTest.Api.Controllers
             mock.VerifyAddPerson();
         }
 
-        [Fact]
-        public async void AddPerson_ShouldReturn400()
-        {
-            var person = new PersonDto()
-            {
-                Name = null,
-                SurName = null,
-                // BirthDay = null,
-                CPF = null,
-            };
-            var result = await _controller.Create(person);
-            var badResponseResult = result.Result as BadRequestObjectResult;
-            Assert.NotNull(badResponseResult);
-            Assert.Equal(400, badResponseResult?.StatusCode);
-            var values = badResponseResult?.Value as IEnumerable<object>;
-            Assert.NotEmpty(values);
-        }
+        //[Fact]
+        //public async void AddPerson_ShouldReturn400()
+        //{
+        //    var person = new PersonDto()
+        //    {
+        //        Name = null,
+        //        SurName = null,
+        //        // BirthDay = null,
+        //        CPF = null,
+        //    };
+        //    var result = await _controller.Create(person);
+        //    var badResponseResult = result.Result as BadRequestObjectResult;
+        //    Assert.NotNull(badResponseResult);
+        //    Assert.Equal(400, badResponseResult?.StatusCode);
+        //    var values = badResponseResult?.Value as IEnumerable<object>;
+        //    Assert.NotEmpty(values);
+        //}
 
         [Fact]
         public async void UpdatePerson_ShouldReturn204()
