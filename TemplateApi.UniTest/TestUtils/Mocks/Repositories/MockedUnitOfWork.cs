@@ -20,17 +20,13 @@ namespace TemplateApi.UniTest.TestUtils.Mocks.Repositories
             MockPersonRepository = new Mock<IPersonRepository>();
             MockLogger = new Mock<ILogger>();
 
-            if (_mapper == null) _mapper = MockedIMapperExtensions.CreateIMapper();
-
             MockLogger.SetLogger();
 
-            _unitOfWork = new UnitOfWork(context, _mapper, MockLogger.Object);
+            _unitOfWork = new UnitOfWork(context,  MockLogger.Object);
 
         }
         public IPersonRepository PersonRepository => MockPersonRepository.Object;
 
-        private IMapper _mapper;
-        public IMapper Mapper => _mapper;
 
         public ILogger Logger => MockLogger.Object;
 

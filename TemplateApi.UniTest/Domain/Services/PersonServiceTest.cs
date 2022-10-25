@@ -38,9 +38,9 @@ namespace TemplateApi.UniTest.Domain.Services
             var person = await _service.Get("");
 
             Assert.NotNull(person);
-            Assert.Equal(Fixture.Person.Name, person.Name);
-            Assert.Equal(Fixture.Person.SurName, person.SurName);
-            Assert.Equal(Fixture.Person.Id, person.Id);
+            Assert.Equal(Fixture.Person.Name, person?.Name);
+            Assert.Equal(Fixture.Person.SurName, person?.SurName);
+            Assert.Equal(Fixture.Person.Id, person?.Id);
 
             _unitOfWork.MockPersonRepository.VerifyGetByIdAsync();
         }

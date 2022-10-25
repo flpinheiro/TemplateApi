@@ -4,6 +4,7 @@ using TemplateApi.CrossCutting.Extensions;
 using TemplateApi.CrossCutting.Models;
 using TemplateApi.CrossCutting.Utils;
 using TemplateApi.CrossCutting.Validators;
+using TemplateApi.Domain.Configurations;
 using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Models.Dal;
@@ -22,8 +23,9 @@ public class PersonService : IPersonService
         try
         {
             _uow.Logger.Debug("Add Person", addPerson);
-           // var person = _uow.Mapper.Map<PersonDto>(addPerson);
-            var model = _uow.Mapper.Map<Person>(addPerson);
+            // var person = _uow.Mapper.Map<PersonDto>(addPerson);
+            //var model = _uow.Mapper.Map<Person>(addPerson);
+            var model = addPerson.ToModel();
             var id = _uow.PersonRepository.Add(model);
             await _uow.SaveAsync();
             return id;
@@ -54,20 +56,20 @@ public class PersonService : IPersonService
         }
     }
 
-    public async Task<PersonDto> Get(string id)
+    public async Task<PersonDto?> Get(string id)
     {
         _uow.Logger.Debug("Get person by id");
-        return _uow.Mapper.Map<PersonDto>(await _uow.PersonRepository.GetByIdAsync(id));
+        return (await _uow.PersonRepository.GetByIdAsync(id))?.ToDto();
     }
 
     public PaginationResponse Count(PersonQuery queryDto, Pagination pagination)
         => _uow.PersonRepository.CountPeople(queryDto, pagination);
 
     public async Task<IEnumerable<PersonDto>> Get(PersonQuery queryDto)
-        => _uow.Mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetPeopleAsync(queryDto));
+        => (await _uow.PersonRepository.GetPeopleAsync(queryDto)).ToDto();
 
     public async Task<IEnumerable<PersonDto>> Get(PersonQuery queryDto, Pagination pagination)
-        => _uow.Mapper.Map<IEnumerable<PersonDto>>(await _uow.PersonRepository.GetPeoplePaginatedAsync(queryDto, pagination));
+        => (await _uow.PersonRepository.GetPeoplePaginatedAsync(queryDto, pagination)).ToDto();
 
     public async Task Update(string id, UpdatePersonDto dto)
     {

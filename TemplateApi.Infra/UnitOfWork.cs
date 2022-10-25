@@ -13,10 +13,10 @@ public class UnitOfWork : IUnitOfWork
     private readonly IDbContextTransaction? _transaction;
     private bool _isRollBacked = false;
 
-    public UnitOfWork(TemplateApiContext context, IMapper mapper, ILogger logger)
+    public UnitOfWork(TemplateApiContext context,  ILogger logger)
     {
         _context = context ?? throw new ArgumentNullException(nameof(TemplateApiContext));
-        Mapper = mapper ?? throw new ArgumentNullException(nameof(IMapper));
+        
         Logger = logger ?? throw new ArgumentNullException(nameof(ILogger));
         _transaction = _context.Database.BeginTransaction();
         Logger.Debug($"Begin Trasaction: {_transaction.TransactionId}", _transaction);
@@ -35,7 +35,7 @@ public class UnitOfWork : IUnitOfWork
             return _personRepository;
         }
     }
-    public IMapper Mapper { get; }
+
     public ILogger Logger { get; }
 
     public void Dispose()

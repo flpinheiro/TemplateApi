@@ -10,7 +10,6 @@ using TemplateApi.Domain.Models.Queries;
 using TemplateApi.Infra;
 using TemplateApi.Infra.Context;
 using TemplateApi.UniTest.TestUtils.Fixtures;
-using TemplateApi.UniTest.TestUtils.Mocks;
 using TemplateApi.UniTest.TestUtils.Mocks.Repositories;
 using TemplateApi.UniTest.Utils.Mocks;
 
@@ -21,15 +20,13 @@ namespace TemplateApi.UniTest.Infra.Repositories
         private readonly IUnitOfWork _unitOfWork;
         private TemplateApiContext _context;
         private Mock<ILogger>? _mockLogger;
-        private AutoMapper.IMapper? _mapper;
         public PersonRepositoryTest()
         {
             _context = MockedTemplateApicontextExtension.CreateTempleateApiContextInMemory();
 
             _mockLogger = new Mock<ILogger>();
             _mockLogger.SetLogger();
-            _mapper = MockedIMapperExtensions.CreateIMapper();
-            _unitOfWork = new UnitOfWork(_context, _mapper, _mockLogger.Object);
+            _unitOfWork = new UnitOfWork(_context, _mockLogger.Object);
         }
 
         public void Dispose()
@@ -42,12 +39,8 @@ namespace TemplateApi.UniTest.Infra.Repositories
         public void UnitOfWorkConstructorTest()
         {
             Assert.Throws<ArgumentNullException>(() => new TemplateApiContext(null));
-            Assert.Throws<ArgumentNullException>(() => new UnitOfWork(null, null, null));
-            Assert.Throws<ArgumentNullException>(() => new UnitOfWork(_context, null, null));
-#pragma warning disable CS8604 // Possible null reference argument.
-            Assert.Throws<ArgumentNullException>(() => new UnitOfWork(_context, _mapper, null));
-#pragma warning restore CS8604 // Possible null reference argument.
-            Assert.NotNull(_unitOfWork.Mapper);
+            Assert.Throws<ArgumentNullException>(() => new UnitOfWork(null,  null));
+            Assert.Throws<ArgumentNullException>(() => new UnitOfWork(_context,  null));
         }
 
         [Fact]

@@ -7,7 +7,7 @@ namespace TemplateApi.Domain.Interfaces.Services
 {
     public interface IPersonService
     {
-        Task<PersonDto> Get(string id);
+        Task<PersonDto?> Get(string id);
         Task<string> Add(AddPersonDto person);
         Task Update(string id, UpdatePersonDto person);
         Task Delete(string id);
