@@ -11,22 +11,9 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
-    - name: Restore dependencies
-      run: dotnet restore TemplateApi.sln
-    - name: Build
-      run: dotnet build TemplateApi.sln --no-restore
-    - name: Test
-      run: dotnet test TemplateApi.sln --no-build --verbosity normal
-      
+
     - name: Bump versions
       uses: SiqiLu/dotnet-bump-version@master
       with:
@@ -40,4 +27,18 @@ jobs:
       with:
           proj-path: TemplateApi/TemplateApi.csproj
           
-    - run: echo "${{steps.get-version.outputs.version}}"        
+    - run: echo "${{steps.get-version.outputs.version}}"  
+
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore TemplateApi.sln
+    - name: Build
+      run: dotnet build TemplateApi.sln --no-restore
+    - name: Test
+      run: dotnet test TemplateApi.sln --no-build --verbosity normal
+      
+      
