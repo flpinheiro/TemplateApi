@@ -22,11 +22,6 @@ jobs:
         #version_overwrite: "*.*.*.*"
         github_token: ${{ secrets.GITHUB_TOKEN }}
         
-    - uses: kzrnm/get-net-sdk-project-versions-action@v1
-      id: get-version
-      with:
-          proj-path: TemplateApi/TemplateApi.csproj
-          
     - run: echo "${{steps.get-version.outputs.version}}"  
 
     - uses: actions/checkout@v3
@@ -41,4 +36,7 @@ jobs:
     - name: Test
       run: dotnet test TemplateApi.sln --no-build --verbosity normal
       
-      
+    - uses: kzrnm/get-net-sdk-project-versions-action@v1
+      id: get-version
+      with:
+          proj-path: TemplateApi/TemplateApi.csproj      
