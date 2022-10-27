@@ -22,6 +22,13 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
+    - name: add git credentials
+      run: |
+        export GIT_USER=${{secrets.GIT_USER}}
+        export GIT_EMAIL=${{secrets.GIT_EMAIL}}
+        git config --global user.name $GIT_USER
+        git config --global user.email $GIT_EMAIL
+
     - name: Add dotnet Versionize tool
       run: dotnet tool install --global Versionize
     - name: Versionize
