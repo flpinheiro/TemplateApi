@@ -21,7 +21,7 @@ jobs:
         dotnet-version: 6.0.x
 
     - name: Add dotnet Versionize tool
-      run: dotnet tool install --global Versioning.NET
+      run: dotnet tool install --global Versionize
     - name: Versionize
       run: versionize
 
