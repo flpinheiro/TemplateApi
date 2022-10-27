@@ -14,29 +14,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: Bump versions
-      uses: SiqiLu/dotnet-bump-version@master
-      with:
-        version_files: "**/*.csproj"
-        #version_mask: 0.0.1.0
-        #version_overwrite: "*.*.*.*"
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        
-    - run: echo "${{steps.get-version.outputs.version}}"  
-
     - uses: actions/checkout@v3
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
+
+    - name: Add dotnet Versionize tool
+      run: dotnet tool install Versionize
+    - name: Versionize
+      run: versionize
+      
     - name: Restore dependencies
       run: dotnet restore TemplateApi.sln
     - name: Build
       run: dotnet build TemplateApi.sln --no-restore
     - name: Test
       run: dotnet test TemplateApi.sln --no-build --verbosity normal
-      
-    - uses: kzrnm/get-net-sdk-project-versions-action@v1
-      id: get-version
-      with:
-          proj-path: TemplateApi/TemplateApi.csproj      
