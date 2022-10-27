@@ -24,8 +24,8 @@ jobs:
 
     - name: add git credentials
       run: |
-        export GIT_USER=${{secrets.GIT_USER}}
-        export GIT_EMAIL=${{secrets.GIT_EMAIL}}
+        export GIT_USER=${{secrets.GITHUB_USER}}
+        export GIT_EMAIL=${{secrets.GITHUB_EMAIL}}
         git config --global user.name $GIT_USER
         git config --global user.email $GIT_EMAIL
 
