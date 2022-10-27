@@ -21,10 +21,10 @@ jobs:
         dotnet-version: 6.0.x
 
     - name: Add dotnet Versionize tool
-      run: dotnet tool install Versionize
+      run: dotnet tool install --global Versioning.NET
     - name: Versionize
       run: versionize
-      
+
     - name: Restore dependencies
       run: dotnet restore TemplateApi.sln
     - name: Build
