@@ -27,14 +27,14 @@ jobs:
         git config --global user.name "flpinheiro"
         git config --global user.email "flpinheiro@gmail.com"
 
-    - name: Add dotnet Versionize tool
-      run: dotnet tool install --global Versionize
-    - name: Versionize
-      run: versionize
-
     - name: Restore dependencies
       run: dotnet restore TemplateApi.sln
     - name: Build
       run: dotnet build TemplateApi.sln --no-restore
     - name: Test
       run: dotnet test TemplateApi.sln --no-build --verbosity normal
+
+    - name: Add dotnet Versionize tool
+      run: dotnet tool install --global Versionize
+    - name: Versionize
+      run: versionize

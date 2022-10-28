@@ -20,6 +20,7 @@ try
         .WriteTo.Console()
         .ReadFrom.Configuration(ctx.Configuration));
 
+    #region Configure Service
     // Add services to the container.
     builder.Services.AddControllers()
         .AddJsonOptions(options =>
@@ -54,7 +55,9 @@ try
     builder.Services.AddServiceConfiguration();
 
     builder.Services.AddHttpClient();
+    #endregion
 
+    #region Configure Pipeline
     var app = builder.Build();
 
     app.UseSerilogRequestLogging();
@@ -75,7 +78,8 @@ try
 
     app.MapControllers();
 
-    app.Run();
+    app.Run(); 
+    #endregion
 
 }
 catch (Exception ex)

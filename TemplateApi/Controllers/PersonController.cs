@@ -3,6 +3,7 @@ using System.Net.Mime;
 using TemplateApi.CrossCutting.Extensions;
 using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Interfaces.Services;
+using TemplateApi.Domain.Interfaces.Validator;
 using TemplateApi.Domain.Models.Dto;
 using TemplateApi.Domain.Models.Queries;
 using TemplateApi.Domain.Models.Validators;
@@ -16,8 +17,8 @@ namespace TemplateApi.Controllers;
 public class PersonController : Controller
 {
     private readonly IPersonService _service;
-    private readonly PersonValidation _personValidation;
-    public PersonController(IPersonService service, PersonValidation personValidation)
+    private readonly IPersonValidation _personValidation;
+    public PersonController(IPersonService service, IPersonValidation personValidation)
     {
         _service = service ?? throw new ArgumentNullException(nameof(IPersonService));
         _personValidation = personValidation;
@@ -28,7 +29,7 @@ public class PersonController : Controller
     /// </summary>
     /// <remarks>
     /// <para>Get all person who satisfies the search criteria, separeted by pagination and sorted</para>
-    /// <para><paramref name="query"/> CPF must be a valid Brazilian cpf </para>
+    /// <para><paramref name="query"/> CPF must have at least 3 digits </para>
     /// </remarks>
     /// <param name="query">search criteria</param>
     /// <param name="pagination">pagination definition</param>
