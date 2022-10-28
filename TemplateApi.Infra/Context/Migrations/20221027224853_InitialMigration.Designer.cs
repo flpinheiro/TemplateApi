@@ -12,14 +12,14 @@ using TemplateApi.Infra.Context;
 namespace TemplateApi.Infra.Context.Migrations
 {
     [DbContext(typeof(TemplateApiContext))]
-    [Migration("20220523201114_AddIAuditableNullable")]
-    partial class AddIAuditableNullable
+    [Migration("20221027224853_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.5")
+                .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -41,10 +41,23 @@ namespace TemplateApi.Infra.Context.Migrations
                         .HasColumnName("birth_day")
                         .IsFixedLength();
 
-                    b.Property<DateTime?>("CreateDate")
+                    b.Property<string>("CPF")
                         .IsRequired()
+                        .HasMaxLength(11)
+                        .IsUnicode(false)
+                        .HasColumnType("char(11)")
+                        .HasColumnName("cpf")
+                        .IsFixedLength();
+
+                    b.Property<bool>("IsUpdated")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_updated");
+
+                    b.Property<DateTime>("LastUpdate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("create_date");
+                        .HasColumnName("last_update_date");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -58,13 +71,13 @@ namespace TemplateApi.Infra.Context.Migrations
                         .HasMaxLength(250)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(250)")
-                        .HasColumnName("sur_name");
-
-                    b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("update_date");
+                        .HasColumnName("surname");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CPF")
+                        .IsUnique()
+                        .HasDatabaseName("uk_person_cpf");
 
                     b.ToTable("Person", (string)null);
                 });

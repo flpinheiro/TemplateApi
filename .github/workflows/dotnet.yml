@@ -38,3 +38,6 @@ jobs:
       run: dotnet tool install --global Versionize
     - name: Versionize
       run: versionize
+
+    - name: git push changelog
+      run: git push --follow-tags origin master

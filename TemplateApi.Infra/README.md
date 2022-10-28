@@ -30,28 +30,71 @@ The Entity Framework is now being developed under an open-source license and EF6
 
 * [Entity Framework Tools](https://docs.microsoft.com/en-us/ef/core/cli/powershell)
 
-### Migration Commands used
+### Migration Commands used (Package Manager Console Tool)
 
-* Get-Help about_EntityFrameworkCore
-* Add-Migration MigrationName -Context TemplateApiContext -Output Context/Migrations
-* Update-Database -Context TemplateApiContext
-* Remove-Migration -Context TemplateApiContext
-* Script-DbContext -Context TemplateApiContext -Output  Scripts/InitialMIgration.sql
+* Install Microsoft.EntityFrameworkCore.Tools 
+```
+        Install-Package Microsoft.EntityFrameworkCore.Tools
+```
+  
+* Update Microsoft.EntityFrameworkCore.Tools 
+```
+        Update-Package Microsoft.EntityFrameworkCore.Tools
+```
+  
+* Get help about Microsoft.EntityFrameworkCore.Tools 
+```
+        Get-Help about_EntityFrameworkCore
+```
 
-* Drop-Database -Context TemplateApiContext
+* Add a new migration => Add-Migration `<Migration Name>` -Context `<Context Name>` -Output `<output path>`
+```Example
+        Add-Migration InitialMigration -Context TemplateApiContext -Output Context/Migrations
+```
 
-        Generates a SQL script from the DbContext. Bypasses any migrations.
+* Update the data base => Update-Database -Context `<Context Name>`
+```Example
+        Update-Database -Context TemplateApiContext
+```
 
-* Script-Migration
+* Remove a migration => Remove-Migration -Context `<Context Name>`
+```
+        Remove-Migration -Context TemplateApiContext
+```
 
-        Generates a SQL script that applies all of the changes from one selected migration to another selected migration.
+* Create Script sql to create the database =>  Script-DbContext -Context `<Context Name>` -Output  `<output path>`
+```
+        Script-DbContext -Context TemplateApiContext -Output  db/scripts/create_database.sql
+```
 
-For database first use
+* Drop the database =>  Drop-Database -Context `<Context Name>`
+```
+         Drop-Database -Context TemplateApiContext
+```
 
-* Scaffold-DbContext
+### Migration Commands used (Entity Framework Core tools reference - .NET Core CLI)
 
-For the production database is recommended to generate the migration script, so it can be revised manualy by an expert to avoid unecessary waste of ressorce from the database.
+* Installing the tool
+```
+        dotnet tool install --global dotnet-ef
+```
 
-Entity Framework is very good at the moment of development of the system, especialy because can produce and modificate the database extremely quickly, but can be a little slow when compared with another ORM framework like Dapper.
+* Updating the tool
+```
+        dotnet tool update --global dotnet-ef
+```
 
-So if your system start to behave s
+* Before you can use the tools on a specific project, you'll need to add the Microsoft.EntityFrameworkCore.Design package to it.
+```
+        dotnet add package Microsoft.EntityFrameworkCore.Design
+```
+
+* verify instalation
+  ```
+        dotnet ef
+  ```
+
+* Create the database sql script =>  dotnet ef `<context name>` script --output `<output path>`
+  ```
+        dotnet ef migrations script --no-transactions --output db/scripts/create_database.sql --project  .\TemplateApi\TemplateApi.csproj -- --environment Production
+  ```
