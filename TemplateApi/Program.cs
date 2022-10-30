@@ -55,6 +55,11 @@ try
     builder.Services.AddServiceConfiguration();
 
     builder.Services.AddHttpClient();
+
+    builder.Services.Configure<HostOptions>(hostOptions =>
+    {
+        hostOptions.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore;
+    });
     #endregion
 
     #region Configure Pipeline

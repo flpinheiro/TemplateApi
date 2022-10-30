@@ -64,7 +64,7 @@ The Entity Framework is now being developed under an open-source license and EF6
 
 * Create Script sql to create the database =>  Script-DbContext -Context `<Context Name>` -Output  `<output path>`
 ```
-        Script-DbContext -Context TemplateApiContext -Output  db/scripts/create_database.sql
+        Script-DbContext -Context TemplateApiContext -Output  db/setup.sql
 ```
 
 * Drop the database =>  Drop-Database -Context `<Context Name>`
