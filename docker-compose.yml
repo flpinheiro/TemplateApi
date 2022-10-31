@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  templateapi_db:
+    image: ${DOCKER_REGISTRY-}templateapi_db
+    build:
+      context: ./db/
+      dockerfile: Dockerfile
+
+  templateapi:
+    image: ${DOCKER_REGISTRY-}templateapi
+    build:
+      context: .
+      dockerfile: TemplateApi/Dockerfile
+      
