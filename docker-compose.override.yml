@@ -3,13 +3,16 @@ version: '3.4'
 services:
   templateapi_db:
     ports:
-      - "1433"
+      - "1433:1433"
 
   templateapi:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ConnectionStrings.TemplateString=""
+      - DATABASE_PASSWORD=abcDEF123#
+      - DATABASE_DATASOURCE=locahlhost:1433
+      - DATABASE_USERID=sa
+      - DATABASE_INITIALCATALOG=template
     ports:
       - "80"
       - "443"

@@ -5,6 +5,11 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
+ENV DATABASE_PASSWORD verydificultpassorwd
+ENV DATABASE_DATASOURCE localhost:1433
+ENV DATABASE_USERID sa
+ENV DATABASE_INITIALCATALOG template
+
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["TemplateApi/TemplateApi.csproj", "TemplateApi/"]
