@@ -9,13 +9,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - DATABASE_PASSWORD=abcDEF123#
-      - DATABASE_DATASOURCE=locahlhost:1433
-      - DATABASE_USERID=sa
-      - DATABASE_INITIALCATALOG=template
+      - DATABASE_CONNECTION_STRING=server=templateapi_db;Database=Master;User=sa;Password=abcDEF123#
     ports:
       - "80"
       - "443"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    depends_on:
+        - templateapi_db
