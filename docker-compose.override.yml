@@ -1,15 +1,19 @@
-version: '3.4'
+version: '3.7'
 
 services:
   templateapi_db:
     ports:
       - "1433:1433"
+    volumes:
+      - db:/var/opt/mssql
+    environment:
+      MSSQL_SA_PASSWORD: ${DB_PASSWORD}
 
   templateapi:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
-      - DATABASE_CONNECTION_STRING=server=templateapi_db;Database=Master;User=sa;Password=abcDEF123#
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      DATABASE_CONNECTION_STRING: server=templateapi_db;Database=Master;User=sa;Password=${DB_PASSWORD}
     ports:
       - "80"
       - "443"
@@ -18,3 +22,6 @@ services:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
     depends_on:
         - templateapi_db
+
+volumes:
+  db:
