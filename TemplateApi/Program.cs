@@ -69,6 +69,7 @@ try
 
     //configure global Exception Handler middleware
     app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+    app.UseMiddleware<GetVersionMiddleware>();
 
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
