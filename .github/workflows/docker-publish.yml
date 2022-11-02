@@ -1,0 +1,45 @@
+name: ci
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: kzrnm/get-net-sdk-project-versions-action@v1
+        id: get-version
+        with:
+          proj-path: YourProject/YourProject.csproj
+      - run: echo "${{steps.get-version.outputs.version}}"
+
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Api Image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./TemplateApi/Dockerfile
+          push: true
+          tags: flpinheiro/template_api:latest,flpinheiro/template_api:${{steps.get-version.outputs.version}}
+
+      - name: Build and push db Image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./db
+          push: true
+          tags: flpinheiro/template_db:latest,flpinheiro/template_db:${{steps.get-version.outputs.version}}
