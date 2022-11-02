@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.1.0"></a>
+## [0.1.0](https://www.github.com/flpinheiro/TemplateApi/releases/tag/v0.1.0) (2022-11-2)
+
+### Features
+
+* add docker ([1dc74e5](https://www.github.com/flpinheiro/TemplateApi/commit/1dc74e57ee7e4380839b8973ca93c35b30c97cd8))
+* add docker compose ([5b6c0ca](https://www.github.com/flpinheiro/TemplateApi/commit/5b6c0ca243f535356d510d19b4f45b9c62dd75a6))
+
+### Bug Fixes
+
+* database dockerfile ([89c4849](https://www.github.com/flpinheiro/TemplateApi/commit/89c4849790cbe88b88ec4fd9444c404e324b3c6e))
+* dockerfile ([e4bbbce](https://www.github.com/flpinheiro/TemplateApi/commit/e4bbbce4dac6485c8933479a4d085cc58d513622))
+* sql server connection string ([9dfa274](https://www.github.com/flpinheiro/TemplateApi/commit/9dfa274d56d62c15e0aed2e0485a71078077f2a1))
+* update data base connection strings ([8a0261d](https://www.github.com/flpinheiro/TemplateApi/commit/8a0261da14ebf810c8853951ea8eeb8774316ca3))
+
 <a name="0.0.3"></a>
 ## [0.0.3](https://www.github.com/flpinheiro/TemplateApi/releases/tag/v0.0.3) (2022-10-28)
 
