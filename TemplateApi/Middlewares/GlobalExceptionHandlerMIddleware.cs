@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Text.Json;
 using TemplateApi.CrossCutting.Constants;
@@ -8,7 +7,7 @@ using TemplateApi.CrossCutting.Models;
 
 namespace TemplateApi.Middlewares;
 
-public class GlobalExceptionHandlerMiddleware : Controller
+public class GlobalExceptionHandlerMiddleware 
 {
     private readonly RequestDelegate _next;
     private readonly ILogger<GlobalExceptionHandlerMiddleware> _logger;
