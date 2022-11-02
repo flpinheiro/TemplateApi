@@ -49,7 +49,7 @@ jobs:
       - uses: kzrnm/get-net-sdk-project-versions-action@v1
         id: get-version
         with:
-          proj-path: YourProject/YourProject.csproj
+          proj-path: TemplateApi/TemplateApi.csproj
       - run: echo "${{steps.get-version.outputs.version}}"
 
       - name: Checkout
