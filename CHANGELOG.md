@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.2.0"></a>
+## [0.2.0](https://www.github.com/flpinheiro/TemplateApi/releases/tag/v0.2.0) (2022-11-2)
+
+### Features
+
+* add docker-publish.yml ([68166e8](https://www.github.com/flpinheiro/TemplateApi/commit/68166e801b2c8ed0e454dc5d67b51627dbea471c))
+* add version middleware ([816366f](https://www.github.com/flpinheiro/TemplateApi/commit/816366f60790b0be0c3301c0241b2acf48df7f46))
+
+### Bug Fixes
+
+* global exception handler ([e026422](https://www.github.com/flpinheiro/TemplateApi/commit/e0264227a164eafa2d76c84a6f1879af838c8b5c))
+
 <a name="0.1.0"></a>
 ## [0.1.0](https://www.github.com/flpinheiro/TemplateApi/releases/tag/v0.1.0) (2022-11-2)
 
