@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.2.2"></a>
+## [0.2.2](https://www.github.com/flpinheiro/TemplateApi/releases/tag/v0.2.2) (2022-11-2)
+
+### Bug Fixes
+
+* get-version step at docker workflow ([8753877](https://www.github.com/flpinheiro/TemplateApi/commit/8753877f2025cf69d080b7b21ec5a14c2957024c))
+
 <a name="0.2.1"></a>
 ## [0.2.1](https://www.github.com/flpinheiro/TemplateApi/releases/tag/v0.2.1) (2022-11-2)
 
