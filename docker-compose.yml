@@ -1,11 +1,14 @@
-version: '3.4'
+version: '3.7'
 
 services:
   templateapi_db:
-    image: ${DOCKER_REGISTRY-}templateapi_db
-    build:
-      context: ./db/
-      dockerfile: Dockerfile
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: templateapi_db
+    #image: ${DOCKER_REGISTRY-}templateapi_db
+    #build:
+    #  context: ./db/
+    #  dockerfile: Dockerfile
+
 
   templateapi:
     image: ${DOCKER_REGISTRY-}templateapi
@@ -13,3 +16,5 @@ services:
       context: .
       dockerfile: TemplateApi/Dockerfile
       
+volumes:
+  db:

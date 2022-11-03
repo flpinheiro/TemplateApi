@@ -15,9 +15,13 @@ public class UnitOfWork : IUnitOfWork
 
     public UnitOfWork(TemplateApiContext context,  ILogger logger)
     {
-        _context = context ?? throw new ArgumentNullException(nameof(TemplateApiContext));
-        
-        Logger = logger ?? throw new ArgumentNullException(nameof(ILogger));
+        _context = context ?? throw new ArgumentNullException(nameof(context));
+
+#if DEBUG
+        context.Database.EnsureCreated();
+#endif
+
+        Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _transaction = _context.Database.BeginTransaction();
         Logger.Debug($"Begin Trasaction: {_transaction.TransactionId}", _transaction);
     }

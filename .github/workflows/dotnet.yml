@@ -76,9 +76,9 @@ jobs:
           push: true
           tags: flpinheiro/template_api:latest,flpinheiro/template_api:${{needs.build.outputs.version}}
 
-      - name: Build and push db Image
-        uses: docker/build-push-action@v3
-        with:
-          context: ./db
-          push: true
-          tags: flpinheiro/template_db:latest,flpinheiro/template_db:${{needs.build.outputs.version}}
+      #- name: Build and push db Image
+      #  uses: docker/build-push-action@v3
+      #  with:
+      #    context: ./db
+      #    push: true
+      #    tags: flpinheiro/template_db:latest,flpinheiro/template_db:${{needs.build.outputs.version}}

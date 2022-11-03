@@ -8,6 +8,8 @@ services:
       - db:/var/opt/mssql
     environment:
       MSSQL_SA_PASSWORD: ${DB_PASSWORD}
+      ACCEPT_EULA: Y
+      MSSQL_PID: Developer
 
   templateapi:
     environment:
@@ -23,5 +25,3 @@ services:
     depends_on:
         - templateapi_db
 
-volumes:
-  db:
