@@ -41,8 +41,7 @@ jobs:
       run: dotnet tool install --global Versionize
     - name: Versionize
       run: versionize
-    - name: get-version
-      id: get-version
+    - id: get-version
       run: versionize inspect
     
     - run: echo "${{steps.get-version.outputs.version}}"
