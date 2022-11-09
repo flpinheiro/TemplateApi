@@ -1,4 +1,4 @@
-name: .NET
+name: CI
 
 on:
   push:
@@ -51,11 +51,7 @@ jobs:
 
     - name: get-version
       id: get-version
-      #run: versionize inspect >> $GITHUB_OUTPUT
       run: echo "version=$(versionize inspect)" >> $GITHUB_OUTPUT
-    
-    #- run: echo $GITHUB_OUTPUT
-    #- run: cat $GITHUB_OUTPUT
 
     - name: git push changelog
       run: git push --follow-tags origin master
