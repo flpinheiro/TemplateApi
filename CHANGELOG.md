@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.3.3"></a>
+## [0.3.3](https://www.github.com/flpinheiro/TemplateApi/releases/tag/v0.3.3) (2022-11-9)
+
+### Bug Fixes
+
+* update dotnet cicd ([4ba84c9](https://www.github.com/flpinheiro/TemplateApi/commit/4ba84c9a4f0941dca54c52326576da0a0448d9c8))
+
 <a name="0.3.2"></a>
 ## [0.3.2](https://www.github.com/flpinheiro/TemplateApi/releases/tag/v0.3.2) (2022-11-9)
 
