@@ -44,6 +44,8 @@ jobs:
     - name: get-version
       id: get-version
       run: versionize inspect
+    
+    - run: echo "${{steps.get-version.outputs.version}}"
 
     - name: git push changelog
       run: git push --follow-tags origin master
