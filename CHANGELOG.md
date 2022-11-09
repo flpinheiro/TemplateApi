@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.4.0"></a>
+## [0.4.0](https://www.github.com/flpinheiro/TemplateApi/releases/tag/v0.4.0) (2022-11-9)
+
+### Features
+
+* add test reposrt ([49134c0](https://www.github.com/flpinheiro/TemplateApi/commit/49134c0284f85d0c7c0510eca42bb82bac341184))
+
 <a name="0.3.4"></a>
 ## [0.3.4](https://www.github.com/flpinheiro/TemplateApi/releases/tag/v0.3.4) (2022-11-9)
 
