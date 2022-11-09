@@ -51,9 +51,11 @@ jobs:
 
     - name: get-version
       id: get-version
-      run: echo ${{ versionize inspect }}
+      #run: versionize inspect >> $GITHUB_OUTPUT
+      run: echo "version=$(versionize inspect)" >> $GITHUB_OUTPUT
     
-    - run: echo "${{steps.get-version.outputs.version}}"
+    #- run: echo $GITHUB_OUTPUT
+    #- run: cat $GITHUB_OUTPUT
 
     - name: git push changelog
       run: git push --follow-tags origin master
