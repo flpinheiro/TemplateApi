@@ -12,6 +12,7 @@ services:
 
   templateapi:
     image: ${DOCKER_REGISTRY-}templateapi
+    container_name: templateapi
     build:
       context: .
       dockerfile: TemplateApi/Dockerfile

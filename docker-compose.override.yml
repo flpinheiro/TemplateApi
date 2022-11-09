@@ -17,8 +17,8 @@ services:
       ASPNETCORE_URLS: https://+:443;http://+:80
       DATABASE_CONNECTION_STRING: server=templateapi_db;Database=Master;User=sa;Password=${DB_PASSWORD}
     ports:
-      - "80"
-      - "443"
+      - "8080:80"
+      - "44300:443"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
