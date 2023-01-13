@@ -43,6 +43,9 @@ internal class PersonRepository : IPersonRepository
         => await GetAll().GetPeople(queryDto).ToListAsync();
     public async Task<IEnumerable<Person>> GetPeoplePaginatedAsync(PersonQuery queryDto, Pagination pagination)
         => await GetAll().GetPeople(queryDto).GetPaginated(pagination).ToListAsync();
+
+    public async Task<PagedList<Person>> GetPaginatedAsync(PersonQuery personQuery, PagedListQuery pageListQuery)
+        => await GetAll().GetPeople(personQuery).ToPagedListAsync(pageListQuery);
 }
 
 

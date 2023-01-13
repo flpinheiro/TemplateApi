@@ -56,20 +56,22 @@ public class PersonService : IPersonService
         }
     }
 
+    public PaginationResponse Count(PersonQuery queryDto, Pagination pagination)
+        => _uow.PersonRepository.CountPeople(queryDto, pagination);
+
     public async Task<PersonDto?> Get(string id)
     {
         _uow.Logger.Debug("Get person by id");
         return (await _uow.PersonRepository.GetByIdAsync(id))?.ToDto();
     }
-
-    public PaginationResponse Count(PersonQuery queryDto, Pagination pagination)
-        => _uow.PersonRepository.CountPeople(queryDto, pagination);
-
     public async Task<IEnumerable<PersonDto>> Get(PersonQuery queryDto)
         => (await _uow.PersonRepository.GetPeopleAsync(queryDto)).ToDto();
 
     public async Task<IEnumerable<PersonDto>> Get(PersonQuery queryDto, Pagination pagination)
         => (await _uow.PersonRepository.GetPeoplePaginatedAsync(queryDto, pagination)).ToDto();
+
+    public async Task<PagedList<Person>> GetPaginated(PersonQuery personQuery, PagedListQuery pageListQuery)
+        => (await _uow.PersonRepository.GetPaginatedAsync(personQuery, pageListQuery));
 
     public async Task Update(string id, UpdatePersonDto dto)
     {

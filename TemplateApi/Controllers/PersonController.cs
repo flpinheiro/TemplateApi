@@ -4,6 +4,7 @@ using TemplateApi.CrossCutting.Extensions;
 using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Interfaces.Validator;
+using TemplateApi.Domain.Models.Dal;
 using TemplateApi.Domain.Models.Dto;
 using TemplateApi.Domain.Models.Queries;
 using TemplateApi.Domain.Models.Validators;
@@ -41,6 +42,14 @@ public class PersonController : Controller
         var validate = _personValidation.PersonQueryvalidator.Validate(query);
         if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
         var people = await _service.Get(query, pagination);
+        return Ok(people);
+    }
+
+    [HttpGet("paginated")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<PagedList<Person>>> GetPeoplePaginated([FromQuery] PersonQuery personQuery, [FromQuery] PagedListQuery pageListQuery)
+    {
+        var people = await _service.GetPaginated(personQuery, pageListQuery);
         return Ok(people);
     }
 
