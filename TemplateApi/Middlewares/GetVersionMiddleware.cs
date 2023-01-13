@@ -17,7 +17,7 @@ public class GetVersionMiddleware
         if (version !=  null)
         {
             var IbVersion = string.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
-            _logger.LogDebug($"application version: {IbVersion}", version);
+            _logger.LogDebug("application version", version);
             context.Response.Headers.Add("Version", IbVersion); 
         }
         await _next(context);

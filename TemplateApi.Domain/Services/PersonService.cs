@@ -18,14 +18,12 @@ public class PersonService : IPersonService
 
     public PersonService(IUnitOfWork uow) => _uow = uow ?? throw new ArgumentNullException(nameof(uow));
 
-    public async Task<string> Add(AddPersonDto addPerson)
+    public async Task<string> Add(AddPersonDto person)
     {
         try
         {
-            _uow.Logger.Debug("Add Person", addPerson);
-            // var person = _uow.Mapper.Map<PersonDto>(addPerson);
-            //var model = _uow.Mapper.Map<Person>(addPerson);
-            var model = addPerson.ToModel();
+            _uow.Logger.Debug("Add Person", person);
+            var model = person.ToModel();
             var id = _uow.PersonRepository.Add(model);
             await _uow.SaveAsync();
             return id;
@@ -73,22 +71,22 @@ public class PersonService : IPersonService
     public async Task<PagedList<Person>> GetPaginated(PersonQuery personQuery, PagedListQuery pageListQuery)
         => (await _uow.PersonRepository.GetPaginatedAsync(personQuery, pageListQuery));
 
-    public async Task Update(string id, UpdatePersonDto dto)
+    public async Task Update(string id, UpdatePersonDto person)
     {
         try
         {
-            _uow.Logger.Debug("update Person", id, dto);
-            var person = await _uow.PersonRepository.GetByIdAsync(id);
-            if (person == null) throw new PersonNotFoundException();
+            _uow.Logger.Debug("update Person", id, person);
+            var model = await _uow.PersonRepository.GetByIdAsync(id);
+            if (model == null) throw new PersonNotFoundException();
 
-            if (!string.IsNullOrWhiteSpace(dto.Name))
-                person.Name = dto.Name;
-            if (!string.IsNullOrWhiteSpace(dto.SurName))
-                person.SurName = dto.SurName;
-            if (dto.BirthDay != null)
-                person.BirthDay = dto.BirthDay?.ToShortDateString() ?? string.Empty;
+            if (!string.IsNullOrWhiteSpace(person.Name))
+                model.Name = person.Name;
+            if (!string.IsNullOrWhiteSpace(person.SurName))
+                model.SurName = person.SurName;
+            if (person.BirthDay != null)
+                model.BirthDay = person.BirthDay?.ToShortDateString() ?? string.Empty;
 
-            _uow.PersonRepository.Update(person);
+            _uow.PersonRepository.Update(model);
             await _uow.SaveAsync();
         }
         catch (Exception ex)

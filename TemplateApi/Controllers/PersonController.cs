@@ -21,7 +21,7 @@ public class PersonController : Controller
     private readonly IPersonValidation _personValidation;
     public PersonController(IPersonService service, IPersonValidation personValidation)
     {
-        _service = service ?? throw new ArgumentNullException(nameof(IPersonService));
+        _service = service ?? throw new ArgumentNullException(nameof(service));
         _personValidation = personValidation;
     }
 
@@ -47,9 +47,9 @@ public class PersonController : Controller
 
     [HttpGet("paginated")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<PagedList<Person>>> GetPeoplePaginated([FromQuery] PersonQuery personQuery, [FromQuery] PagedListQuery pageListQuery)
+    public async Task<ActionResult<PagedListResult<Person>>> GetPeoplePaginated([FromQuery] PersonQuery personQuery, [FromQuery] PagedListQuery pageListQuery)
     {
-        var people = await _service.GetPaginated(personQuery, pageListQuery);
+        var people = (await _service.GetPaginated(personQuery, pageListQuery)).ToPaginatedResult();
         return Ok(people);
     }
 

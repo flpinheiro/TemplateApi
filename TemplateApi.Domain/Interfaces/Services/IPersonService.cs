@@ -9,12 +9,13 @@ namespace TemplateApi.Domain.Interfaces.Services
     public interface IPersonService
     {
         Task<PersonDto?> Get(string id);
+        Task<IEnumerable<PersonDto>> Get(PersonQuery queryDto, Pagination pagination);
+        Task<IEnumerable<PersonDto>> Get(PersonQuery queryDto);
         Task<string> Add(AddPersonDto person);
         Task Update(string id, UpdatePersonDto person);
         Task Delete(string id);
         FileStreamResult ExportToExcel(IEnumerable<PersonDto> people);
-        Task<IEnumerable<PersonDto>> Get(PersonQuery queryDto, Pagination pagination);
-        Task<IEnumerable<PersonDto>> Get(PersonQuery queryDto);
+
         PaginationResponse Count(PersonQuery queryDto, Pagination pagination);
         Task<bool> Any(string id);
         Task<PagedList<Person>> GetPaginated(PersonQuery personQuery, PagedListQuery pageListQuery);
