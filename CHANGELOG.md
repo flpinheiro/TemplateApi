@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.5.1"></a>
+## [0.5.1](https://www.github.com/flpinheiro/TemplateApi/releases/tag/v0.5.1) (2023-1-20)
+
+### Bug Fixes
+
+* change get version middle ware ([e8363df](https://www.github.com/flpinheiro/TemplateApi/commit/e8363dfc7796a010e4f5d7ed7d11770cd411c592))
+
 <a name="0.5.0"></a>
 ## [0.5.0](https://www.github.com/flpinheiro/TemplateApi/releases/tag/v0.5.0) (2023-1-13)
 
