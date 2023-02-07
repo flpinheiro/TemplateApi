@@ -18,7 +18,7 @@ public class PersonService : IPersonService
 
     public PersonService(IUnitOfWork uow) => _uow = uow ?? throw new ArgumentNullException(nameof(uow));
 
-    public async Task<string> Add(AddPersonDto person)
+    public async Task<Guid> Add(AddPersonDto person)
     {
         try
         {
@@ -57,7 +57,7 @@ public class PersonService : IPersonService
     public PaginationResponse Count(PersonQuery queryDto, Pagination pagination)
         => _uow.PersonRepository.CountPeople(queryDto, pagination);
 
-    public async Task<PersonDto?> Get(string id)
+    public async Task<PersonDto?> Get(Guid id)
     {
         _uow.Logger.Debug("Get person by id");
         return (await _uow.PersonRepository.GetByIdAsync(id))?.ToDto();
@@ -71,7 +71,7 @@ public class PersonService : IPersonService
     public async Task<PagedList<Person>> GetPaginated(PersonQuery personQuery, PagedListQuery pageListQuery)
         => (await _uow.PersonRepository.GetPaginatedAsync(personQuery, pageListQuery));
 
-    public async Task Update(string id, UpdatePersonDto person)
+    public async Task Update(Guid id, UpdatePersonDto person)
     {
         try
         {
@@ -81,10 +81,10 @@ public class PersonService : IPersonService
 
             if (!string.IsNullOrWhiteSpace(person.Name))
                 model.Name = person.Name;
-            if (!string.IsNullOrWhiteSpace(person.SurName))
-                model.SurName = person.SurName;
-            if (person.BirthDay != null)
-                model.BirthDay = person.BirthDay?.ToShortDateString() ?? string.Empty;
+            if (!string.IsNullOrWhiteSpace(person.Surname))
+                model.SurName = person.Surname;
+            if (person.Birthday != null)
+                model.BirthDay = person.Birthday?.ToShortDateString() ?? string.Empty;
 
             _uow.PersonRepository.Update(model);
             await _uow.SaveAsync();
@@ -126,11 +126,6 @@ public class PersonService : IPersonService
         }
 
         return table.DeliverExcelFile($"people {DateTime.Now:yyyy_MM_dd_HH_mm_ss}");
-    }
-
-    public PaginationResponse Count(PersonQuery queryDto, Pagination pagination)
-    {
-        throw new NotImplementedException();
     }
 
 #if DEBUG
