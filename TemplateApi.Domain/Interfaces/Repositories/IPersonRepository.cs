@@ -14,5 +14,6 @@ namespace TemplateApi.Domain.Interfaces.Repositories
         Task<IEnumerable<Person>> GetPeoplePaginatedAsync(PersonQuery queryDto, Pagination pagination);
         Task<IEnumerable<Person>> GetPeopleAsync(PersonQuery queryDto);
         PaginationResponse CountPeople(PersonQuery queryDto, Pagination pagination);
+        Task<PagedList<Person>> GetPaginatedAsync(PersonQuery personQuery, PagedListQuery pageListQuery);
     }
 }

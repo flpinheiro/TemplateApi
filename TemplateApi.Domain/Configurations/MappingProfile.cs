@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using TemplateApi.CrossCutting.Models;
 using TemplateApi.CrossCutting.Utils;
 using TemplateApi.CrossCutting.Validators;
 using TemplateApi.Domain.Models.Dal;
@@ -47,5 +48,6 @@ public static class MappingExtensions
 
     public static PersonDto ToDto(this Person person) => Mapper.Map<PersonDto>(person);
     public static IEnumerable<PersonDto> ToDto(this IEnumerable<Person> people) => Mapper.Map<IEnumerable<PersonDto>>(people);
+    public static PagedList<PersonDto> ToDto(this PagedList<Person> people) => Mapper.Map<PagedList<PersonDto>>(people);
     public static Person ToModel(this AddPersonDto addPersonDto) => Mapper.Map<Person>(addPersonDto);
 }

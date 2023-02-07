@@ -9,6 +9,7 @@ namespace TemplateApi.Middlewares;
 
 public class GlobalExceptionHandlerMiddleware 
 {
+    private const string Message = "global exepction handlers";
     private readonly RequestDelegate _next;
     private readonly ILogger<GlobalExceptionHandlerMiddleware> _logger;
 
@@ -64,8 +65,7 @@ public class GlobalExceptionHandlerMiddleware
                 errorResponse.Message = "Internal Server errors. Check Logs!";
                 break;
         }
-        var errorType = exception.GetType();
-        _logger.LogError(exception.Message, request, errorType.ToString());
+        _logger.LogError(Message, request);
         var result = JsonSerializer.Serialize(errorResponse);
         await context.Response.WriteAsync(result);
     }

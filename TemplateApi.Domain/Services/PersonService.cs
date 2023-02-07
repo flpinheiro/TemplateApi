@@ -18,14 +18,12 @@ public class PersonService : IPersonService
 
     public PersonService(IUnitOfWork uow) => _uow = uow ?? throw new ArgumentNullException(nameof(uow));
 
-    public async Task<Guid> Add(AddPersonDto addPerson)
+    public async Task<Guid> Add(AddPersonDto person)
     {
         try
         {
-            _uow.Logger.Debug("Add Person", addPerson);
-            // var person = _uow.Mapper.Map<PersonDto>(addPerson);
-            //var model = _uow.Mapper.Map<Person>(addPerson);
-            var model = addPerson.ToModel();
+            _uow.Logger.Debug("Add Person", person);
+            var model = person.ToModel();
             var id = _uow.PersonRepository.Add(model);
             await _uow.SaveAsync();
             return id;
@@ -61,10 +59,6 @@ public class PersonService : IPersonService
         _uow.Logger.Debug("Get person by id");
         return (await _uow.PersonRepository.GetByIdAsync(id))?.ToDto();
     }
-
-    public PaginationResponse Count(PersonQuery queryDto, Pagination pagination)
-        => _uow.PersonRepository.CountPeople(queryDto, pagination);
-
     public async Task<IEnumerable<PersonDto>> Get(PersonQuery queryDto)
         => (await _uow.PersonRepository.GetPeopleAsync(queryDto)).ToDto();
 
@@ -76,17 +70,17 @@ public class PersonService : IPersonService
         try
         {
             _uow.Logger.Debug("update Person", id, dto);
-            var person = await _uow.PersonRepository.GetByIdAsync(id);
-            if (person == null) throw new PersonNotFoundException();
+            var model = await _uow.PersonRepository.GetByIdAsync(id);
+            if (model == null) throw new PersonNotFoundException();
 
             if (!string.IsNullOrWhiteSpace(dto.Name))
-                person.Name = dto.Name;
+                model.Name = dto.Name;
             if (!string.IsNullOrWhiteSpace(dto.Surname))
-                person.SurName = dto.Surname;
+                model.SurName = dto.Surname;
             if (dto.Birthday != null)
-                person.BirthDay = dto.Birthday?.ToShortDateString() ?? string.Empty;
+                model.BirthDay = dto.Birthday?.ToShortDateString() ?? string.Empty;
 
-            _uow.PersonRepository.Update(person);
+            _uow.PersonRepository.Update(model);
             await _uow.SaveAsync();
         }
         catch (Exception ex)
@@ -128,6 +122,11 @@ public class PersonService : IPersonService
         return table.DeliverExcelFile($"people {DateTime.Now:yyyy_MM_dd_HH_mm_ss}");
     }
 
+    public PaginationResponse Count(PersonQuery queryDto, Pagination pagination)
+    {
+        throw new NotImplementedException();
+    }
+
 #if DEBUG
     public AddPersonDto GetRandomPerson()
     {
@@ -146,6 +145,8 @@ public class PersonService : IPersonService
 
         return peopleIds[random.Next(peopleIds.Count)];
     }
+
+
 #endif
 
 }

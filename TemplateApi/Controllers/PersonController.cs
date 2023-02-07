@@ -4,6 +4,7 @@ using TemplateApi.CrossCutting.Extensions;
 using TemplateApi.CrossCutting.Models;
 using TemplateApi.Domain.Interfaces.Services;
 using TemplateApi.Domain.Interfaces.Validator;
+using TemplateApi.Domain.Models.Dal;
 using TemplateApi.Domain.Models.Dto;
 using TemplateApi.Domain.Models.Queries;
 using TemplateApi.Domain.Models.Validators;
@@ -20,7 +21,7 @@ public class PersonController : Controller
     private readonly IPersonValidation _personValidation;
     public PersonController(IPersonService service, IPersonValidation personValidation)
     {
-        _service = service ?? throw new ArgumentNullException(nameof(IPersonService));
+        _service = service ?? throw new ArgumentNullException(nameof(service));
         _personValidation = personValidation;
     }
 

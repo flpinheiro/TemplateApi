@@ -21,6 +21,8 @@ try
 {
     var builder = WebApplication.CreateBuilder(args);
 
+    var version = System.Reflection.Assembly.GetEntryAssembly()?.GetName().Version;
+
     builder.Host.UseSerilog((ctx, lc) => lc
         .WriteTo.Console()
         .ReadFrom.Configuration(ctx.Configuration));
@@ -61,7 +63,7 @@ try
         {
             document.Info.Version = "v1";
             document.Info.Title = "Template API";
-            document.Info.Description = "A simple ASP.NET Core web API Template for personal study and examples";
+            document.Info.Description = $"A simple ASP.NET Core web API Template for personal study and examples.\n Version: {version}";
 
             document.Info.Contact = new NSwag.OpenApiContact
             {
