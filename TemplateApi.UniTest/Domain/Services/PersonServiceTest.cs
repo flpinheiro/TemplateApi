@@ -4,7 +4,6 @@ using System;
 using System.Linq;
 using TemplateApi.CrossCutting.Exceptions;
 using TemplateApi.Domain.Interfaces.Services;
-using TemplateApi.Domain.Models.Dto;
 using TemplateApi.Domain.Services;
 using TemplateApi.UniTest.TestUtils.Fixtures;
 using TemplateApi.UniTest.TestUtils.Mocks.Repositories;
@@ -54,7 +53,6 @@ namespace TemplateApi.UniTest.Domain.Services
 
             Assert.NotNull(people);
             Assert.Equal(people.Count(), Fixture.People.Count());
-            //_unitOfWork.MockPersonRepository.VerifyGetAllAsync();
         }
 
         [Fact]
@@ -66,7 +64,6 @@ namespace TemplateApi.UniTest.Domain.Services
 
             Assert.NotNull(people);
             Assert.Equal(people.Count(), Fixture.People.Count());
-            //_unitOfWork.MockPersonRepository.VerifyGetAllAsyncPaginated();
         }
 
         [Fact]
@@ -76,26 +73,9 @@ namespace TemplateApi.UniTest.Domain.Services
 
             var id = await _service.Add(Fixture.AddPersonDto);
 
-            Assert.NotNull(id);
             Assert.Equal(Fixture.Person.Id, id);
             _unitOfWork.MockPersonRepository.VerifyAdd();
         }
-
-        //[Fact]
-        //public async void Should_Add_throw_exception_stringName()
-        //{
-        //    _unitOfWork.MockPersonRepository.SetAdd();
-        //    await Assert.ThrowsAsync<Exception>(async () => await _service.Add(new PersonDto { Name = "string" }));
-        //    _unitOfWork.MockPersonRepository.VerifyAdd();
-        //}
-
-        //[Fact]
-        //public async void Should_Add_throw_exception()
-        //{
-        //    _unitOfWork.MockPersonRepository.SetAddThrowException<Exception>();
-        //    await Assert.ThrowsAsync<Exception>(async () => await _service.Add(new PersonDto()));
-        //    _unitOfWork.MockPersonRepository.VerifyAdd();
-        //}
 
         [Fact]
         public async void Should_Update_return_ok()
