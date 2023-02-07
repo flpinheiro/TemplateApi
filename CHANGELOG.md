@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="1.0.0"></a>
+## [1.0.0](https://www.github.com/flpinheiro/TemplateApi/releases/tag/v1.0.0) (2023-2-7)
+
+### Features
+
+* change id from string to guid ([6f7a46a](https://www.github.com/flpinheiro/TemplateApi/commit/6f7a46aa221119a4099157d63c79520d53145f7c))
+
+### Bug Fixes
+
+* person service ([01ae733](https://www.github.com/flpinheiro/TemplateApi/commit/01ae73317537d67c5f4ae6767b40d88274228086))
+* unit test ([39c6265](https://www.github.com/flpinheiro/TemplateApi/commit/39c626553b1028306ff33cd9748b14fbf8d7830d))
+
+### Breaking Changes
+
+* change id from string to guid ([6f7a46a](https://www.github.com/flpinheiro/TemplateApi/commit/6f7a46aa221119a4099157d63c79520d53145f7c))
+
 <a name="0.5.1"></a>
 ## [0.5.1](https://www.github.com/flpinheiro/TemplateApi/releases/tag/v0.5.1) (2023-1-20)
 
