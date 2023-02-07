@@ -24,12 +24,10 @@ namespace TemplateApi.Infra.Context.Migrations
 
             modelBuilder.Entity("TemplateApi.Domain.Models.Dal.Person", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("char(36)")
-                        .HasColumnName("id")
-                        .IsFixedLength();
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
 
                     b.Property<string>("BirthDay")
                         .IsRequired()
@@ -46,6 +44,13 @@ namespace TemplateApi.Infra.Context.Migrations
                         .HasColumnType("char(11)")
                         .HasColumnName("cpf")
                         .IsFixedLength();
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(300)")
+                        .HasColumnName("email");
 
                     b.Property<bool>("IsUpdated")
                         .ValueGeneratedOnAdd()

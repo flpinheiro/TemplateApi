@@ -103,7 +103,7 @@ public class PersonController : Controller
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<PersonDto>> GetPerson([FromRoute] string id)
+    public async Task<ActionResult<PersonDto>> GetPerson([FromRoute] Guid id)
     {
         var person = await _service.Get(id);
         if (person == null) return NotFound();
@@ -127,7 +127,7 @@ public class PersonController : Controller
         if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
 
         var id = await _service.Add(addPerson);
-        return Created(id, addPerson);
+        return Created(id.ToString(), addPerson);
     }
 
     /// <summary>
@@ -143,7 +143,7 @@ public class PersonController : Controller
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> Edit([FromRoute] string id, [FromBody] UpdatePersonDto person)
+    public async Task<ActionResult> Edit([FromRoute] Guid id, [FromBody] UpdatePersonDto person)
     {
         var validate = _personValidation.UpdatePersonValidator.Validate(person);
         if (validate != null && !validate.IsValid) return BadRequest(validate.Errors);
@@ -164,7 +164,7 @@ public class PersonController : Controller
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> Delete([FromRoute] string id)
+    public async Task<ActionResult> Delete([FromRoute] Guid id)
     {
         if (!await _service.Any(id)) return NotFound();
         await _service.Delete(id);

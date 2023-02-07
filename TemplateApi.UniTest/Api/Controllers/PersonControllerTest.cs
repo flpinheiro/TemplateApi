@@ -58,7 +58,7 @@ namespace TemplateApi.UniTest.Api.Controllers
         [Fact]
         public async Task GetPersonById_ShouldReturnOnePerson()
         {
-            var result = await _controller.GetPerson("");
+            var result = await _controller.GetPerson(Guid.Empty);
 
             var okObject = result.Result as OkObjectResult;
             Assert.Equal(StatusCodes.Status200OK, okObject?.StatusCode);
@@ -102,7 +102,7 @@ namespace TemplateApi.UniTest.Api.Controllers
         [Fact]
         public async void UpdatePerson_ShouldReturn204()
         {
-            var result = await _controller.Edit("", Fixture.UpdatePersonDto);
+            var result = await _controller.Edit(Guid.Empty, Fixture.UpdatePersonDto);
             var noContentResult = result as NoContentResult;
             Assert.Equal(StatusCodes.Status204NoContent, noContentResult?.StatusCode);
             mock.VerifyUpdatePerson();
@@ -122,7 +122,7 @@ namespace TemplateApi.UniTest.Api.Controllers
         [Fact]
         public async void DeletePerson_ShouldReturn200()
         {
-            var result = await _controller.Delete("");
+            var result = await _controller.Delete(Guid.Empty);
 
             var okObject = result as NoContentResult;
             Assert.Equal(StatusCodes.Status204NoContent, okObject?.StatusCode);

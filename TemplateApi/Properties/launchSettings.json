@@ -12,7 +12,7 @@
     },
     "TemplateApi Production": {
       "commandName": "Project",
-      "launchBrowser": false,
+      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production"
       },
@@ -28,7 +28,7 @@
       }
     },
     "WSL": {
-      "commandName": "WSL2",
+      "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "https://localhost:7189/swagger",
       "environmentVariables": {

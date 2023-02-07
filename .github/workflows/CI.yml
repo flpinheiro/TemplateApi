@@ -35,7 +35,7 @@ jobs:
     - name: Build
       run: dotnet build TemplateApi.sln --no-restore
     - name: Test
-      run: dotnet test TemplateApi.sln --no-build --verbosity normal --logger "trx" /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
+      run: dotnet test TemplateApi.sln --no-build --verbosity normal --logger "trx;LogFileName=test-results.trx" /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
 
     - name: Upload Test Results
       uses: actions/upload-artifact@v2

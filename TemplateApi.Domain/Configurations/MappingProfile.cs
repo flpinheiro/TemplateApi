@@ -14,16 +14,18 @@ public class MappingProfile : Profile
         CreateMap<Person, PersonDto>()
             .ForCtorParam(nameof(PersonDto.Id), opt => opt.MapFrom(src => src.Id))
             .ForCtorParam(nameof(PersonDto.Name), opt => opt.MapFrom(src => src.Name))
-            .ForCtorParam(nameof(PersonDto.SurName), opt => opt.MapFrom(src => src.SurName))
+            .ForCtorParam(nameof(PersonDto.Surname), opt => opt.MapFrom(src => src.SurName))
             .ForCtorParam(nameof(PersonDto.CPF), opt => opt.MapFrom(src => CPFValidator.ToCPFFormat(src.CPF)))
-            .ForCtorParam(nameof(PersonDto.BirthDay), opt => opt.MapFrom(src => DateOnly.Parse(src.BirthDay)));
+            .ForCtorParam(nameof(PersonDto.Birthday), opt => opt.MapFrom(src => DateOnly.Parse(src.BirthDay)))
+            .ForCtorParam(nameof(PersonDto.Email), opt => opt.MapFrom(src => src.Email));
 
         CreateMap<AddPersonDto, Person>()
-            .ForCtorParam(nameof(PersonDto.Id), opt => opt.MapFrom(src => Guid.NewGuid().ToString()))
+            .ForCtorParam(nameof(PersonDto.Id), opt => opt.MapFrom(src => Guid.NewGuid()))
             .ForCtorParam(nameof(PersonDto.Name), opt => opt.MapFrom(src => src.Name))
-            .ForCtorParam(nameof(PersonDto.SurName), opt => opt.MapFrom(src => src.SurName))
+            .ForCtorParam(nameof(PersonDto.Surname), opt => opt.MapFrom(src => src.Surname))
             .ForCtorParam(nameof(PersonDto.CPF), opt => opt.MapFrom(src => src.CPF.OnlyNumber()))
-            .ForCtorParam(nameof(PersonDto.BirthDay), opt => opt.MapFrom(src => src.BirthDay.ToShortDateString()));
+            .ForCtorParam(nameof(PersonDto.Birthday), opt => opt.MapFrom(src => src.Birthday.ToShortDateString()))
+            .ForCtorParam(nameof(PersonDto.Email), opt => opt.MapFrom(src => src.Email.ToLower()));
     }
 }
 

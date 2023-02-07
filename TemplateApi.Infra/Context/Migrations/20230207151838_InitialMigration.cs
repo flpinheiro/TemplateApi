@@ -13,11 +13,12 @@ namespace TemplateApi.Infra.Context.Migrations
                 name: "Person",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "char(36)", unicode: false, fixedLength: true, maxLength: 36, nullable: false),
+                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     surname = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     birth_day = table.Column<string>(type: "char(10)", unicode: false, fixedLength: true, maxLength: 10, nullable: false),
                     cpf = table.Column<string>(type: "char(11)", unicode: false, fixedLength: true, maxLength: 11, nullable: false),
+                    email = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     last_update_date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     is_updated = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
