@@ -45,6 +45,14 @@ public class PersonController : Controller
         return Ok(people);
     }
 
+    [HttpGet("paginated")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<PagedListResult<Person>>> GetPeoplePaginated([FromQuery] PersonQuery personQuery, [FromQuery] PagedListQuery pageListQuery)
+    {
+        var people = (await _service.GetPaginated(personQuery, pageListQuery)).ToPaginatedResult();
+        return Ok(people);
+    }
+
     /// <summary>
     /// Return the number of people that exist at the present query search, separating by pages
     /// </summary>
