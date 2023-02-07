@@ -17,13 +17,13 @@ namespace TemplateApi.UniTest.TestUtils.Mocks.Repositories
             mock.Setup(x => x.GetPeopleAsync(It.IsAny<PersonQuery>())).ReturnsAsync(Fixture.People).Verifiable();
         }
         public static void SetGetByIdAsync(this Mock<IPersonRepository> mock)
-            => mock.Setup(x => x.GetByIdAsync(It.IsAny<string>())).ReturnsAsync(Fixture.Person).Verifiable();
+            => mock.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(Fixture.Person).Verifiable();
 
         public static void SetGetByIdAsync(this Mock<IPersonRepository> mock, Person? person)
-            => mock.Setup(x => x.GetByIdAsync(It.IsAny<string>())).ReturnsAsync(person).Verifiable();
+            => mock.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(person).Verifiable();
 
         public static void VerifyGetByIdAsync(this Mock<IPersonRepository> mock)
-            => mock.Verify(x => x.GetByIdAsync(It.IsAny<string>()), Times.Once);
+            => mock.Verify(x => x.GetByIdAsync(It.IsAny<Guid>()), Times.Once);
         #endregion
 
         #region count
@@ -37,15 +37,15 @@ namespace TemplateApi.UniTest.TestUtils.Mocks.Repositories
 
         #region any
         public static void SetAnyAsync(this Mock<IPersonRepository> mock, bool any = true)
-            => mock.Setup(x => x.AnyAsync(It.IsAny<string>())).ReturnsAsync(any).Verifiable();
+            => mock.Setup(x => x.AnyAsync(It.IsAny<Guid>())).ReturnsAsync(any).Verifiable();
 
         public static void VerifyAnyAsync(this Mock<IPersonRepository> mock)
-            => mock.Verify(x => x.AnyAsync(It.IsAny<string>()), Times.Once);
+            => mock.Verify(x => x.AnyAsync(It.IsAny<Guid>()), Times.Once);
         #endregion
 
         #region add
         public static void SetAdd(this Mock<IPersonRepository> mock)
-            => mock.Setup(x => x.Add(It.IsAny<Person>())).Returns(Fixture.Person?.Id ?? "null-Id").Verifiable();
+            => mock.Setup(x => x.Add(It.IsAny<Person>())).Returns(Fixture.Person?.Id ?? Guid.Empty).Verifiable();
 
         public static void VerifyAdd(this Mock<IPersonRepository> mock)
             => mock.Verify(x => x.Add(It.IsAny<Person>()), Times.Once);

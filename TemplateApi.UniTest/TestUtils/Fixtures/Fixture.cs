@@ -11,7 +11,17 @@ namespace TemplateApi.UniTest.TestUtils.Fixtures
 {
     internal static class Fixture
     {
-        public static Person Person = new(Guid.NewGuid().ToString(), RandomPersonName.GetName(), RandomPersonName.GetSurname(), RandomDateTime.NextDateOnly().ToShortDateString(), CPFValidator.GerarCpf());
+        public static Person Person
+        {
+            get
+            {
+                var name = RandomPersonName.GetName();
+                var surname = RandomPersonName.GetSurname();
+                var email = $"{name.RemoveAccents()}.{surname.RemoveAccents()}@test.com";
+                return new(Guid.NewGuid(),name ,surname , RandomDateTime.NextDateOnly().ToShortDateString(), CPFValidator.GerarCpf(), email);
+            }
+
+        }
         //{
         //    BirthDay = "1985-05-01",
         //    Name = "Tester",
@@ -35,7 +45,7 @@ namespace TemplateApi.UniTest.TestUtils.Fixtures
 
         public static IEnumerable<Person> People = new List<Person> { Person };
 
-        public static PersonDto PersonDto = new(Person.Id, Person.Name, Person.SurName, Person.CPF, DateOnly.Parse(Person.BirthDay));
+        public static PersonDto PersonDto = new(Person.Id, Person.Name, Person.SurName, Person.CPF, DateOnly.Parse(Person.BirthDay), Person.Email);
         //{
         //    BirthDay = new DateOnly(1985, 5, 1),
         //    Name = "test",
@@ -44,7 +54,7 @@ namespace TemplateApi.UniTest.TestUtils.Fixtures
         //    CPF = "59143964095",
         //};
 
-        public static AddPersonDto AddPersonDto = new(Person.Name, Person.SurName, Person.CPF, DateOnly.Parse(Person.BirthDay));
+        public static AddPersonDto AddPersonDto = new(Person.Name, Person.SurName, Person.CPF, DateOnly.Parse(Person.BirthDay), Person.Email);
         //{
         //    BirthDay = new DateOnly(1985, 5, 1),
         //    Name = "test",
@@ -52,7 +62,7 @@ namespace TemplateApi.UniTest.TestUtils.Fixtures
         //    CPF = "59143964095",
         //};
 
-        public static UpdatePersonDto UpdatePersonDto = new(Person.Name, Person.SurName, DateOnly.Parse(Person.BirthDay));
+        public static UpdatePersonDto UpdatePersonDto = new(Person.Name, Person.SurName, DateOnly.Parse(Person.BirthDay), Person.Email);
         //{
         //    BirthDay = new DateOnly(1985, 5, 1),
         //    Name = "test",

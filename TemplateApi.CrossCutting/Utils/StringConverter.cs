@@ -93,7 +93,7 @@ namespace TemplateApi.CrossCutting.Utils
         /// <returns></returns>
         public static string RemoveAccents(this string text)
         {
-            StringBuilder sbReturn = new StringBuilder();
+            var sbReturn = new StringBuilder();
             var arrayText = text.Normalize(NormalizationForm.FormD).ToCharArray();
             foreach (char letter in arrayText)
             {

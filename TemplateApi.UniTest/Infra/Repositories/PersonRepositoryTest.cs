@@ -15,11 +15,11 @@ using TemplateApi.UniTest.Utils.Mocks;
 
 namespace TemplateApi.UniTest.Infra.Repositories
 {
-    public class PersonRepositoryTest : IDisposable
+    public sealed class PersonRepositoryTest : IDisposable
     {
         private readonly IUnitOfWork _unitOfWork;
-        private TemplateApiContext _context;
-        private Mock<ILogger>? _mockLogger;
+        private readonly TemplateApiContext _context;
+        private readonly Mock<ILogger>? _mockLogger;
         public PersonRepositoryTest()
         {
             _context = MockedTemplateApicontextExtension.CreateTempleateApiContextInMemory();
@@ -33,6 +33,7 @@ namespace TemplateApi.UniTest.Infra.Repositories
         {
             _context.Database.EnsureDeleted();
             _unitOfWork.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         [Fact]
@@ -66,7 +67,7 @@ namespace TemplateApi.UniTest.Infra.Repositories
         [Fact]
         public async void GetByIdAsyncTest()
         {
-            var person = await _unitOfWork.PersonRepository.GetByIdAsync(Fixture.Person?.Id ?? "");
+            var person = await _unitOfWork.PersonRepository.GetByIdAsync(Fixture.Person?.Id ?? Guid.Empty);
             Assert.NotNull(person);
             if (person != null && Fixture.Person != null)
             {
@@ -123,14 +124,14 @@ namespace TemplateApi.UniTest.Infra.Repositories
         [Fact]
         public async void AnyAsyncTest()
         {
-            var result = await _unitOfWork.PersonRepository.AnyAsync(Fixture.Person?.Id ?? "");
+            var result = await _unitOfWork.PersonRepository.AnyAsync(Fixture.Person?.Id ?? Guid.Empty);
             Assert.True(result);
         }
 
         [Fact]
         public async void AddTest()
         {
-            var person = new Person("Add", "Add-name", "Add-surname", (new DateOnly()).ToShortDateString(), "34024804090");
+            var person = new Person(Guid.NewGuid(), "Add-name", "Add-surname", (new DateOnly()).ToShortDateString(), "34024804090", "test@test.com");
             //{
             //    Id = "Add",
             //    BirthDay = (new DateOnly()).ToShortDateString(),

@@ -18,7 +18,7 @@ public class PersonService : IPersonService
 
     public PersonService(IUnitOfWork uow) => _uow = uow ?? throw new ArgumentNullException(nameof(uow));
 
-    public async Task<string> Add(AddPersonDto addPerson)
+    public async Task<Guid> Add(AddPersonDto addPerson)
     {
         try
         {
@@ -38,7 +38,7 @@ public class PersonService : IPersonService
         }
     }
 
-    public async Task Delete(string id)
+    public async Task Delete(Guid id)
     {
         try
         {
@@ -56,7 +56,7 @@ public class PersonService : IPersonService
         }
     }
 
-    public async Task<PersonDto?> Get(string id)
+    public async Task<PersonDto?> Get(Guid id)
     {
         _uow.Logger.Debug("Get person by id");
         return (await _uow.PersonRepository.GetByIdAsync(id))?.ToDto();
@@ -71,7 +71,7 @@ public class PersonService : IPersonService
     public async Task<IEnumerable<PersonDto>> Get(PersonQuery queryDto, Pagination pagination)
         => (await _uow.PersonRepository.GetPeoplePaginatedAsync(queryDto, pagination)).ToDto();
 
-    public async Task Update(string id, UpdatePersonDto dto)
+    public async Task Update(Guid id, UpdatePersonDto dto)
     {
         try
         {
@@ -81,10 +81,10 @@ public class PersonService : IPersonService
 
             if (!string.IsNullOrWhiteSpace(dto.Name))
                 person.Name = dto.Name;
-            if (!string.IsNullOrWhiteSpace(dto.SurName))
-                person.SurName = dto.SurName;
-            if (dto.BirthDay != null)
-                person.BirthDay = dto.BirthDay?.ToShortDateString() ?? string.Empty;
+            if (!string.IsNullOrWhiteSpace(dto.Surname))
+                person.SurName = dto.Surname;
+            if (dto.Birthday != null)
+                person.BirthDay = dto.Birthday?.ToShortDateString() ?? string.Empty;
 
             _uow.PersonRepository.Update(person);
             await _uow.SaveAsync();
@@ -97,7 +97,7 @@ public class PersonService : IPersonService
         }
     }
 
-    public async Task<bool> Any(string id) => await _uow.PersonRepository.AnyAsync(id);
+    public async Task<bool> Any(Guid id) => await _uow.PersonRepository.AnyAsync(id);
 
     public Microsoft.AspNetCore.Mvc.FileStreamResult ExportToExcel(IEnumerable<PersonDto> people)
     {
@@ -118,8 +118,8 @@ public class PersonService : IPersonService
             var row = table.NewRow();
 
             row[name] = person.Name;
-            row[surname] = person.SurName;
-            row[birthDay] = person.BirthDay;
+            row[surname] = person.Surname;
+            row[birthDay] = person.Birthday;
             row[cpf] = person.CPF;
 
             table.Rows.Add(row);
@@ -129,16 +129,22 @@ public class PersonService : IPersonService
     }
 
 #if DEBUG
-    public AddPersonDto GetRandomPerson() => new(RandomPersonName.GetName(), RandomPersonName.GetSurname(), CPFValidator.GerarCpf(), RandomDateTime.NextDateOnly());
+    public AddPersonDto GetRandomPerson()
+    {
+        var name = RandomPersonName.GetName();
+        var surname = RandomPersonName.GetSurname();
+        var email = $"{name.RemoveAccents()}.{surname.RemoveAccents()}@template.com";
+        return new(name,surname , CPFValidator.GerarCpf(), RandomDateTime.NextDateOnly(), email);
+    }
 
-    public async Task<string> GetRandomPersonId()
+    public async Task<Guid> GetRandomPersonId()
     {
         var people = (await _uow.PersonRepository.GetPeopleAsync(new PersonQuery())) ?? new List<Person>();
         var peopleIds = people.Select(a => a.Id).ToList();
 
         var random = new Random();
 
-        return peopleIds[random.Next(peopleIds.Count)] ?? string.Empty;
+        return peopleIds[random.Next(peopleIds.Count)];
     }
 #endif
 

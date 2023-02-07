@@ -17,11 +17,11 @@ internal class PersonRepository : IPersonRepository
         => _context = context;
 
     private IQueryable<Person> GetAll() => _context.People;
-    public async Task<Person?> GetByIdAsync(string id) => await _context.People.FirstOrDefaultAsync(x => x.Id == id);
-    public async Task<bool> AnyAsync(string id) => await _context.People.AnyAsync(p => p.Id != null && p.Id.Equals(id));
-    public string Add(Person model)
+    public async Task<Person?> GetByIdAsync(Guid id) => await _context.People.FirstOrDefaultAsync(x => x.Id == id);
+    public async Task<bool> AnyAsync(Guid id) => await _context.People.AnyAsync(p => p.Id.Equals(id));
+    public Guid Add(Person model)
     {
-        model.Id = Guid.NewGuid().ToString();
+        //model.Id = Guid.NewGuid().ToString();
         _context.Entry(model).State = EntityState.Added;
         _context.People.Add(model);
         return model.Id;

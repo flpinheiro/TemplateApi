@@ -22,7 +22,7 @@ namespace TemplateApi.Domain.Models.Validators
                     .NotNull()
                     .NotEmpty()
                     .MaximumLength(PersonContants.NameSize);
-                RuleFor(a => a.SurName)
+                RuleFor(a => a.Surname)
                     .NotNull()
                     .NotEmpty()
                     .MaximumLength(PersonContants.SurnameSize);
@@ -32,7 +32,7 @@ namespace TemplateApi.Domain.Models.Validators
                     .Must(cpf => !string.IsNullOrEmpty(cpf) && cpf.IsValidCpf())
                     .MinimumLength(CPFValidator.Size)
                     .MaximumLength(CPFValidator.Size + 3);
-                RuleFor(a => a.BirthDay)
+                RuleFor(a => a.Birthday)
                     .NotNull()
                     .NotEmpty();
             }
@@ -44,7 +44,7 @@ namespace TemplateApi.Domain.Models.Validators
             {
                 RuleFor(a => a.Name)
                     .MaximumLength(PersonContants.NameSize);
-                RuleFor(a => a.SurName)
+                RuleFor(a => a.Surname)
                     .MaximumLength(PersonContants.SurnameSize);
                 //RuleFor(a => a.BirthDay).NotNull().NotEmpty();
             }

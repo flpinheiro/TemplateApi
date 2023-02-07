@@ -1,8 +1,10 @@
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Text.Json.Serialization;
 using TemplateApi.CrossCutting.Utils;
 using TemplateApi.Domain.Configurations;
 using TemplateApi.Infra.Configurations;
+using TemplateApi.Infra.Context;
 using TemplateApi.Middlewares;
 
 [assembly: System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
@@ -11,6 +13,9 @@ Log.Logger = new LoggerConfiguration()
     .CreateBootstrapLogger();
 
 Log.Information("Starting up");
+
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+var AllowAllOrigins = "_allowAllOrigins";
 
 try
 {
@@ -21,6 +26,22 @@ try
         .ReadFrom.Configuration(ctx.Configuration));
 
     #region Configure Service
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy(name: AllowAllOrigins, policy =>
+            {
+                //policy.WithOrigins("http://localhost:3000/", "https://localhost:3000/");
+                policy.AllowAnyOrigin();
+                policy.AllowAnyMethod();
+                policy.AllowAnyHeader();
+            });
+        options.AddPolicy(name: MyAllowSpecificOrigins, policy =>
+        {
+            policy.WithOrigins("http://localhost:3000/", "https://localhost:3000/");
+            policy.WithMethods("GET", "POST", "PUT", "DELETE");
+            policy.AllowAnyHeader();
+        });
+    });
     // Add services to the container.
     builder.Services.AddControllers()
         .AddJsonOptions(options =>
@@ -65,6 +86,14 @@ try
     #region Configure Pipeline
     var app = builder.Build();
 
+    //ensure that the database exist
+    if (app.Environment.IsDevelopment())
+    {
+        using var serviceScope = app.Services.CreateScope();
+        var context = serviceScope.ServiceProvider.GetRequiredService<TemplateApiContext>();
+        context.Database.Migrate();
+    }
+
     app.UseSerilogRequestLogging();
 
     //configure global Exception Handler middleware
@@ -79,12 +108,20 @@ try
     }
 
     app.UseHttpsRedirection();
+    app.UseStaticFiles();
+    app.UseRouting();
+
+#if DEBUG
+    app.UseCors(AllowAllOrigins);
+#else 
+    app.UseCors(MyAllowSpecificOrigins);
+#endif
 
     app.UseAuthorization();
 
     app.MapControllers();
 
-    app.Run(); 
+    app.Run();
     #endregion
 
 }

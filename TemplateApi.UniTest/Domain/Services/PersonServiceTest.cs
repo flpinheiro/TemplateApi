@@ -35,11 +35,11 @@ namespace TemplateApi.UniTest.Domain.Services
         {
             _unitOfWork.MockPersonRepository.SetGetByIdAsync();
 
-            var person = await _service.Get("");
+            var person = await _service.Get(Guid.Empty);
 
             Assert.NotNull(person);
             Assert.Equal(Fixture.Person.Name, person?.Name);
-            Assert.Equal(Fixture.Person.SurName, person?.SurName);
+            Assert.Equal(Fixture.Person.SurName, person?.Surname);
             Assert.Equal(Fixture.Person.Id, person?.Id);
 
             _unitOfWork.MockPersonRepository.VerifyGetByIdAsync();
@@ -103,7 +103,7 @@ namespace TemplateApi.UniTest.Domain.Services
             _unitOfWork.MockPersonRepository.SetUpdate();
             _unitOfWork.MockPersonRepository.SetGetByIdAsync();
 
-            await _service.Update("", Fixture.UpdatePersonDto);
+            await _service.Update(Guid.Empty, Fixture.UpdatePersonDto);
 
             _unitOfWork.MockPersonRepository.VerifyUpdate();
             _unitOfWork.MockPersonRepository.VerifyGetByIdAsync();
@@ -115,7 +115,7 @@ namespace TemplateApi.UniTest.Domain.Services
         {
             _unitOfWork.MockPersonRepository.SetGetByIdAsync();
             _unitOfWork.MockPersonRepository.SetUpdateThrowException<Exception>();
-            await Assert.ThrowsAsync<Exception>(async () => await _service.Update("", Fixture.UpdatePersonDto));
+            await Assert.ThrowsAsync<Exception>(async () => await _service.Update(Guid.Empty, Fixture.UpdatePersonDto));
             _unitOfWork.MockPersonRepository.VerifyUpdate();
             _unitOfWork.MockPersonRepository.VerifyGetByIdAsync();
         }
@@ -124,7 +124,7 @@ namespace TemplateApi.UniTest.Domain.Services
         public async void Should_Update_throw_PersonNotFoundexception()
         {
             _unitOfWork.MockPersonRepository.SetGetByIdAsync(null);
-            await Assert.ThrowsAsync<PersonNotFoundException>(async () => await _service.Update("", Fixture.UpdatePersonDto));
+            await Assert.ThrowsAsync<PersonNotFoundException>(async () => await _service.Update(Guid.Empty, Fixture.UpdatePersonDto));
             _unitOfWork.MockPersonRepository.VerifyGetByIdAsync();
         }
 
@@ -135,7 +135,7 @@ namespace TemplateApi.UniTest.Domain.Services
             _unitOfWork.MockPersonRepository.SetDelete();
             _unitOfWork.MockPersonRepository.SetGetByIdAsync();
 
-            await _service.Delete("");
+            await _service.Delete(Guid.Empty);
 
             _unitOfWork.MockPersonRepository.VerifyDelete();
 
@@ -148,7 +148,7 @@ namespace TemplateApi.UniTest.Domain.Services
 
             _unitOfWork.MockPersonRepository.SetGetByIdAsync();
             _unitOfWork.MockPersonRepository.SetDeleteThrowException<Exception>();
-            await Assert.ThrowsAsync<Exception>(async () => await _service.Delete(""));
+            await Assert.ThrowsAsync<Exception>(async () => await _service.Delete(Guid.Empty));
             _unitOfWork.MockPersonRepository.VerifyDelete();
             _unitOfWork.MockPersonRepository.VerifyGetByIdAsync();
         }
@@ -158,7 +158,7 @@ namespace TemplateApi.UniTest.Domain.Services
         {
 
             _unitOfWork.MockPersonRepository.SetGetByIdAsync(null);
-            await Assert.ThrowsAsync<PersonNotFoundException>(async () => await _service.Delete(""));
+            await Assert.ThrowsAsync<PersonNotFoundException>(async () => await _service.Delete(Guid.Empty));
             _unitOfWork.MockPersonRepository.VerifyGetByIdAsync();
         }
 

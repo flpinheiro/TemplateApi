@@ -1,6 +1,6 @@
 ﻿namespace TemplateApi.Domain.Models.Dto;
 
-public record PersonDto(string Id, string Name, string SurName, string CPF, DateOnly BirthDay) : AddPersonDto(Name, SurName, CPF, BirthDay);
-public record AddPersonDto(string Name, string SurName, string CPF, DateOnly BirthDay);
-public record UpdatePersonDto(string? Name, string? SurName, DateOnly? BirthDay);
+public record PersonDto(Guid Id, string Name, string Surname, string CPF, DateOnly Birthday, string Email) : AddPersonDto(Name, Surname, CPF, Birthday, Email);
+public record AddPersonDto(string Name, string Surname, string CPF, DateOnly Birthday, string Email);
+public record UpdatePersonDto(string? Name, string? Surname, DateOnly? Birthday, string Email);
 

@@ -7,15 +7,15 @@ namespace TemplateApi.Domain.Interfaces.Services
 {
     public interface IPersonService
     {
-        Task<PersonDto?> Get(string id);
-        Task<string> Add(AddPersonDto person);
-        Task Update(string id, UpdatePersonDto person);
-        Task Delete(string id);
+        Task<PersonDto?> Get(Guid id);
+        Task<Guid> Add(AddPersonDto person);
+        Task Update(Guid id, UpdatePersonDto person);
+        Task Delete(Guid id);
         FileStreamResult ExportToExcel(IEnumerable<PersonDto> people);
         Task<IEnumerable<PersonDto>> Get(PersonQuery queryDto, Pagination pagination);
         Task<IEnumerable<PersonDto>> Get(PersonQuery queryDto);
         PaginationResponse Count(PersonQuery queryDto, Pagination pagination);
-        Task<bool> Any(string id);
+        Task<bool> Any(Guid id);
 
 #if DEBUG
         /// <summary>
@@ -23,7 +23,7 @@ namespace TemplateApi.Domain.Interfaces.Services
         /// </summary>
         /// <returns></returns>
         AddPersonDto GetRandomPerson();
-        Task<string> GetRandomPersonId();
+        Task<Guid> GetRandomPersonId();
 #endif
     }
 }
