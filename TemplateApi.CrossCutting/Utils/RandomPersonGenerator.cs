@@ -2,7 +2,7 @@
 
 namespace TemplateApi.CrossCutting.Utils
 {
-    public static class RandomPersonName
+    public static class RandomPersonGenerator
     {
         private static PersonList? personList = null;
         private static PersonList People
@@ -21,8 +21,16 @@ namespace TemplateApi.CrossCutting.Utils
         }
         private static readonly Random random = new();
 
-        public static string GetName() => People.Names[random.Next(People.Names.Count)];
-        public static string GetSurname() => People.Surnames[random.Next(People.Surnames.Count)];
+        private static string GetName() => People.Names[random.Next(People.Names.Count)].FirstCharToUpper();
+        private static string GetSurname() => People.Surnames[random.Next(People.Surnames.Count)].FirstCharToUpper();
+
+        public static (string name, string surname, string email) GetPerson()
+        {
+            var name = GetName();
+            var surname = GetSurname();
+            var email = $"{name.RemoveAccents()}.{surname.RemoveAccents()}@template.com".ToLowerInvariant();
+            return (name, surname, email);
+        }
 
         private class PersonList
         {

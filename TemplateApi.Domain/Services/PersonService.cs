@@ -103,15 +103,17 @@ public class PersonService : IPersonService
     {
         var table = new DataTable("People");
 
-        var name = new DataColumn("name");
+        var name = new DataColumn("Name");
         var surname = new DataColumn("Surname");
         var birthDay = new DataColumn("Birth Day");
         var cpf = new DataColumn("CPF");
+        var email = new DataColumn("Email");
 
         table.Columns.Add(name);
         table.Columns.Add(surname);
         table.Columns.Add(birthDay);
         table.Columns.Add(cpf);
+        table.Columns.Add(email);
 
         foreach (var person in people)
         {
@@ -121,6 +123,7 @@ public class PersonService : IPersonService
             row[surname] = person.Surname;
             row[birthDay] = person.Birthday;
             row[cpf] = person.CPF;
+            row[email] = person.Email;
 
             table.Rows.Add(row);
         }
@@ -131,9 +134,7 @@ public class PersonService : IPersonService
 #if DEBUG
     public AddPersonDto GetRandomPerson()
     {
-        var name = RandomPersonName.GetName();
-        var surname = RandomPersonName.GetSurname();
-        var email = $"{name.RemoveAccents()}.{surname.RemoveAccents()}@template.com";
+        var (name, surname, email) = RandomPersonGenerator.GetPerson();
         return new(name,surname , CPFValidator.GerarCpf(), RandomDateTime.NextDateOnly(), email);
     }
 

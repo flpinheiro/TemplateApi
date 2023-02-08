@@ -15,5 +15,15 @@ namespace TemplateApi.UniTest.CrossCutting.Utils
             Assert.Equal(expected, actual);
         }
 
+        [Theory]
+        [InlineData(null, null)]
+        [InlineData("test", "Test")]
+        [InlineData("test test", "Test Test")]
+        public void FirstToUpperTest(string test, string expected)
+        {
+            var actual = test.FirstCharToUpper();
+            Assert.Equal(expected, actual);
+        }
+
     }
 }

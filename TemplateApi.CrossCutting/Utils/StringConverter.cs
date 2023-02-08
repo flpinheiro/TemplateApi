@@ -103,6 +103,20 @@ namespace TemplateApi.CrossCutting.Utils
             return sbReturn.ToString();
         }
 
+
+        public static string FirstCharToUpper(this string text)
+        {
+            if (string.IsNullOrWhiteSpace(text)) return text;
+            var collection = text.Trim().ToLowerInvariant().Split(" ");
+            var result =  new List<string>();
+            foreach (var item in collection)
+            {
+                result.Add($"{char.ToUpper(item[0])}{item[1..]}");
+            }
+
+            return string.Join(" ", result);
+        }
+
     }
 }
 
