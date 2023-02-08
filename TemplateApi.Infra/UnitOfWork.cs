@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore.Storage;
+﻿using Microsoft.EntityFrameworkCore.Storage;
 using Serilog;
 using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Infra.Context;
@@ -13,7 +12,7 @@ public class UnitOfWork : IUnitOfWork
     private readonly IDbContextTransaction? _transaction;
     private bool _isRollBacked = false;
 
-    public UnitOfWork(TemplateApiContext context,  ILogger logger)
+    public UnitOfWork(TemplateApiContext context, ILogger logger)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
         Logger = logger ?? throw new ArgumentNullException(nameof(logger));

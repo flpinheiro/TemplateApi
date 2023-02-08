@@ -7,7 +7,7 @@ using TemplateApi.CrossCutting.Models;
 
 namespace TemplateApi.Middlewares;
 
-public class GlobalExceptionHandlerMiddleware 
+public class GlobalExceptionHandlerMiddleware
 {
     private const string Message = "global exepction handlers";
     private readonly RequestDelegate _next;

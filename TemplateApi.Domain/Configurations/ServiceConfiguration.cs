@@ -13,7 +13,7 @@ namespace TemplateApi.Domain.Configurations
         public static void AddServiceConfiguration(this IServiceCollection services)
         {
             services.AddScoped<IPersonService, PersonService>();
-            services.AddSingleton<IPersonValidation,PersonValidation>();
+            services.AddSingleton<IPersonValidation, PersonValidation>();
         }
     }
 }

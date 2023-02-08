@@ -14,10 +14,10 @@ public class GetVersionMiddleware
     public async Task Invoke(HttpContext context)
     {
         var version = System.Reflection.Assembly.GetEntryAssembly()?.GetName().Version?.ToString();
-        if (version !=  null)
+        if (version is not null)
         {
             _logger.LogDebug("application version", version);
-            context.Response.Headers.Add("Version", version); 
+            context.Response.Headers.Add("Version", version);
         }
         await _next(context);
     }

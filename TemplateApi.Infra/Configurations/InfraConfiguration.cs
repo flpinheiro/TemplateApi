@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
@@ -15,7 +14,7 @@ namespace TemplateApi.Infra.Configurations
         public static void AddInfraConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             var dbConnectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING");
-            var connectionString = dbConnectionString ??  configuration.GetConnectionString("PersonDb");
+            var connectionString = dbConnectionString ?? configuration.GetConnectionString("PersonDb");
             services.AddDbContext<TemplateApiContext>(context =>
             {
                 context.UseSqlServer(connectionString);

@@ -1,10 +1,8 @@
-﻿using AutoMapper;
-using Moq;
+﻿using Moq;
 using Serilog;
 using System.Threading.Tasks;
 using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Infra;
-using TemplateApi.UniTest.Utils.Mocks;
 
 namespace TemplateApi.UniTest.TestUtils.Mocks.Repositories
 {
@@ -22,7 +20,7 @@ namespace TemplateApi.UniTest.TestUtils.Mocks.Repositories
 
             MockLogger.SetLogger();
 
-            _unitOfWork = new UnitOfWork(context,  MockLogger.Object);
+            _unitOfWork = new UnitOfWork(context, MockLogger.Object);
 
         }
         public IPersonRepository PersonRepository => MockPersonRepository.Object;

@@ -7,7 +7,6 @@ using TemplateApi.Domain.Interfaces.Validator;
 using TemplateApi.Domain.Models.Dal;
 using TemplateApi.Domain.Models.Dto;
 using TemplateApi.Domain.Models.Queries;
-using TemplateApi.Domain.Models.Validators;
 
 namespace TemplateApi.Controllers;
 

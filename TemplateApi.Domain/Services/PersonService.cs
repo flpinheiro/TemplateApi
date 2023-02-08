@@ -135,7 +135,7 @@ public class PersonService : IPersonService
     public AddPersonDto GetRandomPerson()
     {
         var (name, surname, email) = RandomPersonGenerator.GetPerson();
-        return new(name,surname , CPFValidator.GerarCpf(), RandomDateTime.NextDateOnly(), email);
+        return new(name, surname, CPFValidator.GerarCpf(), RandomDateTime.NextDateOnly(), email);
     }
 
     public async Task<Guid> GetRandomPersonId()

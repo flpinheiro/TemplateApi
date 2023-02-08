@@ -4,7 +4,7 @@ namespace TemplateApi.Domain.Models.Dal
 {
     public class Person : BasicDal<Guid>, IAuditable
     {
-        
+
         public Person(Guid Id, string Name, string SurName, string BirthDay, string CPF, string Email) : base(Id)
         {
             this.Name = Name;

@@ -107,7 +107,7 @@ namespace TemplateApi.CrossCutting.Extensions
         {
             var wbook = new XLWorkbook();
             var ws = wbook.Worksheets.Add(table);
-           // ws.Columns().AdjustToContents();
+            // ws.Columns().AdjustToContents();
             ws.SheetView.FreezeRows(1);
             return wbook;
         }
@@ -123,7 +123,7 @@ namespace TemplateApi.CrossCutting.Extensions
             foreach (DataTable table in dataSet.Tables)
             {
                 var ws = wbook.Worksheets.Add(table, table.TableName);
-               // ws.Columns().AdjustToContents();
+                // ws.Columns().AdjustToContents();
                 ws.SheetView.FreezeRows(1);
             }
             return wbook;

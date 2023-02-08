@@ -2,7 +2,6 @@
 using Moq;
 using Serilog;
 using System;
-using System.Linq;
 using TemplateApi.CrossCutting.Enums;
 using TemplateApi.Domain.Interfaces.Repositories;
 using TemplateApi.Domain.Models.Dal;
@@ -10,8 +9,8 @@ using TemplateApi.Domain.Models.Queries;
 using TemplateApi.Infra;
 using TemplateApi.Infra.Context;
 using TemplateApi.UniTest.TestUtils.Fixtures;
+using TemplateApi.UniTest.TestUtils.Mocks;
 using TemplateApi.UniTest.TestUtils.Mocks.Repositories;
-using TemplateApi.UniTest.Utils.Mocks;
 
 namespace TemplateApi.UniTest.Infra.Repositories
 {
@@ -40,8 +39,8 @@ namespace TemplateApi.UniTest.Infra.Repositories
         public void UnitOfWorkConstructorTest()
         {
             Assert.Throws<ArgumentNullException>(() => new TemplateApiContext(null));
-            Assert.Throws<ArgumentNullException>(() => new UnitOfWork(null,  null));
-            Assert.Throws<ArgumentNullException>(() => new UnitOfWork(_context,  null));
+            Assert.Throws<ArgumentNullException>(() => new UnitOfWork(null, null));
+            Assert.Throws<ArgumentNullException>(() => new UnitOfWork(_context, null));
         }
 
         [Fact]

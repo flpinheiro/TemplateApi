@@ -108,7 +108,7 @@ namespace TemplateApi.CrossCutting.Utils
         {
             if (string.IsNullOrWhiteSpace(text)) return text;
             var collection = text.Trim().ToLowerInvariant().Split(" ");
-            var result =  new List<string>();
+            var result = new List<string>();
             foreach (var item in collection)
             {
                 result.Add($"{char.ToUpper(item[0])}{item[1..]}");

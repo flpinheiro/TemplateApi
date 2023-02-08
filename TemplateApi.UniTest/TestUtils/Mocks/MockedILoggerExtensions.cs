@@ -1,7 +1,7 @@
 ﻿using Moq;
 using Serilog;
 
-namespace TemplateApi.UniTest.Utils.Mocks;
+namespace TemplateApi.UniTest.TestUtils.Mocks;
 
 internal static class MockedILoggerExtensions
 {

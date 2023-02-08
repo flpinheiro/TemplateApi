@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Serilog;
+﻿using Serilog;
 
 namespace TemplateApi.Domain.Interfaces.Repositories;
 
