@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="1.1.0"></a>
+## [1.1.0](https://www.github.com/flpinheiro/TemplateApi/releases/tag/v1.1.0) (2023-2-8)
+
+### Features
+
+* add person seed ([52a9311](https://www.github.com/flpinheiro/TemplateApi/commit/52a93118f5ca9e7d8ffa17b6838b0784c4638fbb))
+* code clean up ([1b6e92b](https://www.github.com/flpinheiro/TemplateApi/commit/1b6e92bb6d8b8e7b7cf9144c926c7c78b8eedcab))
+
 <a name="1.0.0"></a>
 ## [1.0.0](https://www.github.com/flpinheiro/TemplateApi/releases/tag/v1.0.0) (2023-2-7)
 
