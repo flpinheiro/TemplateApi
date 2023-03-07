@@ -2,8 +2,13 @@
 {
     public class Pagination
     {
-        public int PageSize { get; set; } = 10;
-        public int Page { get; set; } = 1;
+        private int _pageSize;
+        public int PageSize
+        {
+            get => _pageSize > 0 ? _pageSize : 10;
+            init => _pageSize = value;
+        }
+        public int Page { get; init; } = 0;
     }
 
     public record PaginationResponse(int Pages, int Total);
@@ -24,7 +29,7 @@
     {
         public static IQueryable<T> GetPaginated<T>(this IQueryable<T> query, Pagination pagination)
         where T : class
-            => query.Skip(pagination.PageSize * (pagination.Page - 1)).Take(pagination.PageSize).AsQueryable();
+            => query.Skip(pagination.PageSize * (pagination.Page)).Take(pagination.PageSize).AsQueryable();
     }
 
 
