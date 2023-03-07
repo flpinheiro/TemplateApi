@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="1.1.2"></a>
+## [1.1.2](https://www.github.com/flpinheiro/TemplateApi/releases/tag/v1.1.2) (2023-3-7)
+
+### Bug Fixes
+
+* pagination class ([045a516](https://www.github.com/flpinheiro/TemplateApi/commit/045a5165778fafeca066f34b6ad56f8905396013))
+
 <a name="1.1.1"></a>
 ## [1.1.1](https://www.github.com/flpinheiro/TemplateApi/releases/tag/v1.1.1) (2023-2-21)
 
