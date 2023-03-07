@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="1.1.1"></a>
+## [1.1.1](https://www.github.com/flpinheiro/TemplateApi/releases/tag/v1.1.1) (2023-2-21)
+
+### Bug Fixes
+
+* string Converter First Chat to Upper ([c547a66](https://www.github.com/flpinheiro/TemplateApi/commit/c547a66f3687681a7d7906f72da8a994e1215967))
+
 <a name="1.1.0"></a>
 ## [1.1.0](https://www.github.com/flpinheiro/TemplateApi/releases/tag/v1.1.0) (2023-2-8)
 
